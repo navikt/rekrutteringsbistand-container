@@ -11,8 +11,8 @@ const startServer = () => {
         res.sendStatus(200)
     );
 
-    app.use(`/${basePath}/js`, express.static(`${buildPath}/static/js`));
-    app.use(`/${basePath}/css`, express.static(`${buildPath}/static/css`));
+    app.use(`/${basePath}/static/js`, express.static(`${buildPath}/static/js`));
+    app.use(`/${basePath}/static/css`, express.static(`${buildPath}/static/css`));
     app.get([`${basePath}/`, `${basePath}/*`], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });

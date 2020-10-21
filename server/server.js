@@ -7,7 +7,7 @@ const basePath = '/rekrutteringsbistand';
 const buildPath = path.join(__dirname, '../build');
 
 const startServer = () => {
-    app.get([`${basePath}/internal/isAlive``${basePath}/internal/isReady`], (_, res) =>
+    app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res) =>
         res.sendStatus(200)
     );
 

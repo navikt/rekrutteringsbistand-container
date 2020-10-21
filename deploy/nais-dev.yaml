@@ -1,0 +1,18 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+    name: rekrutteringsbistand-container
+    labels:
+        team: arbeidsgiver
+spec:
+    # prettier-ignore
+    image: {{ image }}
+    port: 3000
+    ingresses:
+        - https://rekrutteringsbistand.nais.preprod.local/rekrutteringsbistand
+    liveness:
+        initialDelay: 5
+        path: /rekrutteringsbistand/internal/isAlive
+    readiness:
+        initialDelay: 5
+        path: /rekrutteringsbistand/internal/isReady

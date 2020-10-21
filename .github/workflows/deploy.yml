@@ -1,0 +1,59 @@
+name: Bygg og deploy
+
+on: [push]
+
+env:
+    IMAGE: docker.pkg.github.com/${{ github.repository }}/rekrutteringsbistand-container:${{ github.sha }}
+
+jobs:
+    bygg-og-push-docker-image:
+        name: Bygg og push
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 10
+            - uses: actions/cache@v1
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+            - name: Installer avhengigheter
+              run: npm install
+            - name: Bygg applikasjon
+              run: npm run build
+            - name: Bygg og publiser Docker-image
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  docker build --tag ${IMAGE} .
+                  echo ${GITHUB_TOKEN} | docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} --password-stdin
+                  docker push ${IMAGE}
+
+    deploy-til-dev:
+        name: Deploy til dev
+        needs: bygg-og-push-docker-image
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/pipeline'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  CLUSTER: dev-fss
+                  RESOURCE: deploy/nais-dev.yaml
+
+    deploy-to-prod:
+        name: Deploy til prod
+        needs: deploy-til-dev
+        if: github.ref == 'refs/heads/fjern-meg-for-å-prodsette'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  CLUSTER: prod-fss
+                  RESOURCE: deploy/nais-prod.yaml

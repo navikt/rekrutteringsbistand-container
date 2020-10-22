@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import MocketStatistikk from './utvikling/MocketStatistikk';
-import { StatistikkMicrofrontend } from './StatistikkMicrofrontend';
+import StatistikkMicrofrontend from './StatistikkMicrofrontend';
+import KandidatMicrofrontend from './KandidatMicrofrontend';
 import './App.less';
-import { KandidatMicrofrontend } from './KandidatMicrofrontend';
 
 const Statistikk =
     window.location.hostname === 'localhost' ? MocketStatistikk : StatistikkMicrofrontend;

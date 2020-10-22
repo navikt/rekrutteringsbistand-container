@@ -1,7 +1,7 @@
 import React from 'react';
 import { Microfrontend } from './Microfrontend';
 
-export const StatistikkMicrofrontend = () => {
+const StatistikkMicrofrontend = () => {
     return (
         <Microfrontend
             applicationName="rekrutteringsbistand-statistikk"
@@ -9,3 +9,5 @@ export const StatistikkMicrofrontend = () => {
         />
     );
 };
+
+export default StatistikkMicrofrontend;

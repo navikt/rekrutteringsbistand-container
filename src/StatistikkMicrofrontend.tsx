@@ -3,9 +3,6 @@ import { Microfrontend } from './Microfrontend';
 
 export const StatistikkMicrofrontend = () => {
     return (
-        <Microfrontend
-            applicationName="rekrutteringsbistand-statistikk"
-            applicationBaseUrl="/statistikk"
-        />
+        <Microfrontend applicationName="rekrutteringsbistand-statistikk" applicationBaseUrl="" />
     );
 };

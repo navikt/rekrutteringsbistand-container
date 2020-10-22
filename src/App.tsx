@@ -10,7 +10,7 @@ const Kandidatsøk =
     window.location.hostname === 'localhost' ? MocketStatistikk : KandidatMicrofrontend;
 
 const App: FunctionComponent = () => {
-    const [visning, setVisning] = useState<number>(1);
+    const [visning, setVisning] = useState<number>(2);
 
     return (
         <div className="App">
@@ -18,8 +18,8 @@ const App: FunctionComponent = () => {
                 <h1>Rekrutteringsbistand-container</h1>
             </header>
             <nav>
-                <button onClick={() => setVisning(1)}>Kandidat</button>
-                <button onClick={() => setVisning(2)}>Statistikk</button>
+                <button onClick={() => setVisning(1)}>Statistikk</button>
+                <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
                 {visning === 1 && <Statistikk />}

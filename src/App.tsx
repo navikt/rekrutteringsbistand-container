@@ -1,16 +1,25 @@
 import React, { FunctionComponent, useState } from 'react';
-import MocketStatistikk from './utvikling/MocketStatistikk';
-import StatistikkMicrofrontend from './StatistikkMicrofrontend';
-import KandidatMicrofrontend from './KandidatMicrofrontend';
+import { Microfrontend } from './Microfrontend';
 
-const Statistikk =
-    window.location.hostname === 'localhost' ? MocketStatistikk : StatistikkMicrofrontend;
+const MockChildApp = ({
+    applicationName,
+    vis,
+}: {
+    applicationName: string;
+    applicationBaseUrl: string;
+    vis: boolean;
+}) => {
+    if (!vis) {
+        return null;
+    }
 
-const Kandidatsøk =
-    window.location.hostname === 'localhost' ? MocketStatistikk : KandidatMicrofrontend;
+    return <div>{applicationName}</div>;
+};
+
+const ChildApp = window.location.hostname === 'localhost' ? MockChildApp : Microfrontend;
 
 const App: FunctionComponent = () => {
-    const [visning, setVisning] = useState<number>(2);
+    const [visning, setVisning] = useState<number>(1);
 
     return (
         <div className="App">
@@ -22,8 +31,16 @@ const App: FunctionComponent = () => {
                 <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
-                {visning === 1 && <Statistikk />}
-                {visning === 2 && <Kandidatsøk />}
+                <ChildApp
+                    applicationName="rekrutteringsbistand-statistikk"
+                    applicationBaseUrl="/statistikk"
+                    vis={visning === 1}
+                />
+                <ChildApp
+                    applicationName="rekrutteringsbistand-kandidat"
+                    applicationBaseUrl="/kandidater"
+                    vis={visning === 2}
+                />
             </main>
         </div>
     );

@@ -20,6 +20,7 @@ interface AsyncNAVSPAProps<PROPS> {
     applicationName: string;
     applicationBaseUrl: string;
     spaProps?: PROPS;
+    vis: boolean;
 }
 
 function joinUrlWithPath(url: string, path: string): string {
@@ -82,7 +83,9 @@ export class Microfrontend<PROPS = {}> extends React.Component<
     }
 
     render() {
-        if (this.state.loadState === AssetLoadState.LOADING_ASSETS) {
+        if (!this.props.vis) {
+            return null;
+        } else if (this.state.loadState === AssetLoadState.LOADING_ASSETS) {
             return <div>{`Laster inn app "${this.props.applicationName}" ...`}</div>;
         } else if (this.state.loadState === AssetLoadState.FAILED_TO_LOAD_ASSETS) {
             return <div>{'Klarte ikke å laste inn ' + this.props.applicationName}</div>;

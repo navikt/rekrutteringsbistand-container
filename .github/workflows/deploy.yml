@@ -35,7 +35,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/integrer-med-statistikk'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/async-navspa'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -48,7 +48,7 @@ jobs:
     deploy-to-prod:
         name: Deploy til prod
         needs: deploy-til-dev
-        if: github.ref == 'refs/heads/async-navspa'
+        if: github.ref == 'refs/heads/fjern-meg-for-å-prodsette'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

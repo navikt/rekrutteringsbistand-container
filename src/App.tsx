@@ -1,12 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import Navspa from '@navikt/navspa';
 import MocketStatistikk from './utvikling/MocketStatistikk';
+import { StatistikkMicrofrontend } from './StatistikkMicrofrontend';
 import './App.less';
 
 const Statistikk =
-    window.location.hostname === 'localhost'
-        ? MocketStatistikk
-        : Navspa.importer('rekrutteringsbistand-statistikk');
+    window.location.hostname === 'localhost' ? MocketStatistikk : StatistikkMicrofrontend;
 
 const App: FunctionComponent = () => (
     <div className="App">

@@ -68,10 +68,7 @@ export class Microfrontend<PROPS = {}> extends React.Component<
             fetchAssetManifest(createAssetManifestUrl(props.applicationBaseUrl))
                 .then((manifest) => {
                     const pathsToLoad = extractPathsToLoadFromManifest(manifest);
-                    const urlsToLoad = pathsToLoad.map((path) =>
-                        joinUrlWithPath(props.applicationBaseUrl, path)
-                    );
-                    loadjs(urlsToLoad, props.applicationName);
+                    loadjs(pathsToLoad, props.applicationName);
                 })
                 .catch(() => this.setState({ loadState: AssetLoadState.FAILED_TO_LOAD_ASSETS }));
 

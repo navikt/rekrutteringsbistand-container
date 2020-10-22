@@ -1,8 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import Navspa from '@navikt/navspa';
+import MocketStatistikk from './utvikling/MocketStatistikk';
 import './App.less';
 
-const Statistikk = Navspa.importer('rekrutteringsbistand-statistikk');
+const Statistikk =
+    window.location.hostname === 'localhost'
+        ? MocketStatistikk
+        : Navspa.importer('rekrutteringsbistand-statistikk');
 
 const App: FunctionComponent = () => (
     <div className="App">

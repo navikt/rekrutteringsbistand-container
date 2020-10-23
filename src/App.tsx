@@ -9,7 +9,7 @@ const MockChildApp = ({
     applicationBaseUrl: string;
     vis: boolean;
 }) => {
-    return <div hidden={!vis}>{applicationName}</div>;
+    return <div style={vis ? {} : { display: 'none' }}>{applicationName}</div>;
 };
 
 const ChildApp = window.location.hostname === 'localhost' ? MockChildApp : Microfrontend;

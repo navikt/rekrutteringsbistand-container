@@ -93,6 +93,10 @@ export class Microfrontend<PROPS = {}> extends React.Component<
 
         const spaProps = this.props.spaProps || {};
 
-        return <this.AsyncApp {...spaProps} />;
+        return (
+            <div className="externalapp">
+                <this.AsyncApp {...spaProps} />
+            </div>
+        );
     }
 }

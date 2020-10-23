@@ -13,7 +13,7 @@ const MockChildApp = ({
     return <div hidden={!vis}>{applicationName}</div>;
 };
 
-const ChildApp = window.location.hostname === 'localhost' ? MockChildApp : Microfrontend;
+//const ChildApp = window.location.hostname === 'localhost' ? MockChildApp : Microfrontend;
 
 class App extends React.Component {
     state: {

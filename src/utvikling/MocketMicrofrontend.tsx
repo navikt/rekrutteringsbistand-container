@@ -2,13 +2,11 @@ import React from 'react';
 
 const MocketMicrofrontend = ({
     applicationName,
-    vis,
 }: {
     applicationName: string;
     applicationBaseUrl: string;
-    vis: boolean;
 }) => {
-    return <div hidden={!vis}>{applicationName}</div>;
+    return <div>{applicationName}</div>;
 };
 
 export default MocketMicrofrontend;

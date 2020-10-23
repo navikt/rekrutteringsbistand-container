@@ -83,16 +83,18 @@ export class Microfrontend<PROPS = {}> extends React.Component<
     }
 
     render() {
-        if (this.state.loadState === AssetLoadState.LOADING_ASSETS) {
-            return <div>{`Laster inn app "${this.props.applicationName}" ...`}</div>;
-        } else if (this.state.loadState === AssetLoadState.FAILED_TO_LOAD_ASSETS) {
-            return <div>{'Klarte ikke å laste inn ' + this.props.applicationName}</div>;
+        if (this.props.vis) {
+            if (this.state.loadState === AssetLoadState.LOADING_ASSETS) {
+                return <div>{`Laster inn app "${this.props.applicationName}" ...`}</div>;
+            } else if (this.state.loadState === AssetLoadState.FAILED_TO_LOAD_ASSETS) {
+                return <div>{'Klarte ikke å laste inn ' + this.props.applicationName}</div>;
+            }
         }
 
         const spaProps = this.props.spaProps || {};
 
         return (
-            <div className="externalapp" style={this.props.vis ? {} : { display: 'none' }}>
+            <div hidden={!this.props.vis} className="microfrontend">
                 <this.AsyncApp {...spaProps} />
             </div>
         );

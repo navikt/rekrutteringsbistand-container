@@ -17,20 +17,16 @@ const App: FunctionComponent = () => {
                 <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
-                <main>
-                    {visning === 1 && (
-                        <ChildApp
-                            applicationName="rekrutteringsbistand-statistikk"
-                            applicationBaseUrl="/statistikk"
-                        />
-                    )}
-                    {visning === 2 && (
-                        <ChildApp
-                            applicationName="rekrutteringsbistand-kandidat"
-                            applicationBaseUrl="/kandidater"
-                        />
-                    )}
-                </main>
+                <ChildApp
+                    applicationName="rekrutteringsbistand-statistikk"
+                    applicationBaseUrl="/statistikk"
+                    vis={visning === 1}
+                />
+                <ChildApp
+                    applicationName="rekrutteringsbistand-kandidat"
+                    applicationBaseUrl="/kandidater"
+                    vis={visning === 2}
+                />
             </main>
         </div>
     );

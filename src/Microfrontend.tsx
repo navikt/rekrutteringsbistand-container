@@ -20,6 +20,7 @@ interface AsyncNAVSPAProps<PROPS> {
     applicationName: string;
     applicationBaseUrl: string;
     spaProps?: PROPS;
+    vis: boolean;
 }
 
 function joinUrlWithPath(url: string, path: string): string {
@@ -91,7 +92,7 @@ export class Microfrontend<PROPS = {}> extends React.Component<
         const spaProps = this.props.spaProps || {};
 
         return (
-            <div className="externalapp">
+            <div className="externalapp" style={this.props.vis ? {} : { display: 'none' }}>
                 <this.AsyncApp {...spaProps} />
             </div>
         );

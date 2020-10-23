@@ -27,7 +27,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            visning: 1,
+            visning: 2,
         };
     }
 

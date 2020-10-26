@@ -1,8 +1,11 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Microfrontend } from './Microfrontend';
-import MocketMicrofrontend from './utvikling/MocketMicrofrontend';
+import { Microfrontend } from './microfrontend/Microfrontend';
+import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
-const ChildApp = window.location.hostname === 'localhost' ? MocketMicrofrontend : Microfrontend;
+const erProd = process.env.NODE_ENV === 'production';
+const importerMicrofrontends = process.env.REACT_APP_IMPORT || erProd;
+
+const ChildApp = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
 
 const App: FunctionComponent = () => {
     const [visning, setVisning] = useState<number>(1);
@@ -18,13 +21,13 @@ const App: FunctionComponent = () => {
             </nav>
             <main>
                 <ChildApp
-                    applicationName="rekrutteringsbistand-statistikk"
-                    applicationBaseUrl="/statistikk"
+                    appName="rekrutteringsbistand-statistikk"
+                    appPath="/statistikk"
                     vis={visning === 1}
                 />
                 <ChildApp
-                    applicationName="rekrutteringsbistand-kandidat"
-                    applicationBaseUrl="/kandidater"
+                    appName="rekrutteringsbistand-kandidat"
+                    appPath="/kandidater"
                     vis={visning === 2}
                 />
             </main>

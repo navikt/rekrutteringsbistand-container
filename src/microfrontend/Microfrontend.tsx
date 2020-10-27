@@ -1,15 +1,11 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
-import loadjs from 'loadjs';
-import {
-    createAssetManifestUrl,
-    extractPathsToLoadFromManifest,
-    fetchAssetManifest,
-} from './assetsUtils';
+import useAssetsFromManifest from './useAssetsFromManifest';
 
-enum Status {
+export enum AppStatus {
     LasterNedAssets,
     KlarTilVisning,
     FeilUnderNedlasting,
+    FeilMedAssets,
 }
 
 export type MicrofrontendProps<AppProps> = {
@@ -19,42 +15,43 @@ export type MicrofrontendProps<AppProps> = {
     vis?: boolean;
 };
 
+type RenderApp = (element: HTMLElement, props: Object) => void;
+type UnmountApp = (element: HTMLElement) => void;
+
 type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
 
-export const Microfrontend: Props = ({ vis = true, appName, appPath, appProps = {} }) => {
+const Microfrontend: Props = ({ vis = true, appName, appPath, appProps = {} }) => {
     const appRef = useRef<HTMLDivElement | null>(null);
-    const [status, setStatus] = useState<Status>(Status.LasterNedAssets);
+    const [status, setStatus] = useState<AppStatus>(AppStatus.LasterNedAssets);
+
+    useAssetsFromManifest(appName, appPath, vis, setStatus);
 
     useEffect(() => {
         const hentScope = () => (window as any)[appName];
 
         const renderApp = (element: HTMLElement) => {
-            const render: (element: HTMLElement, props: Object) => void = hentScope().render;
+            const render: RenderApp = hentScope().render;
 
             if (render) {
                 render(element, appProps);
             } else {
-                setStatus(Status.FeilUnderNedlasting);
-                console.error(
-                    `Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`
-                );
+                setStatus(AppStatus.FeilMedAssets);
+                loggFeilmeldingKunneIkkeRendre(appName);
             }
         };
 
         const unmountApp = (element: HTMLElement) => {
-            const unmount: (element: HTMLElement) => void = hentScope().unmount;
+            const unmount: UnmountApp = hentScope().unmount;
 
             if (unmount) {
                 unmount(element);
             } else {
-                setStatus(Status.FeilUnderNedlasting);
-                console.error(
-                    `Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].render`
-                );
+                setStatus(AppStatus.FeilMedAssets);
+                loggFeilmeldingKunneIkkeUnmounte(appName);
             }
         };
 
-        if (appRef.current && status === Status.KlarTilVisning) {
+        if (appRef.current && status === AppStatus.KlarTilVisning) {
             if (vis) {
                 renderApp(appRef.current);
             } else {
@@ -63,43 +60,29 @@ export const Microfrontend: Props = ({ vis = true, appName, appPath, appProps = 
         }
     }, [vis, status, appName, appProps]);
 
-    useEffect(() => {
-        if (vis) {
-            const loadAssets = async (appName: string, appPath: string) => {
-                if (!loadjs.isDefined(appName)) {
-                    try {
-                        const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
-                        const pathsToLoad = extractPathsToLoadFromManifest(manifest);
-
-                        loadjs(pathsToLoad, appName);
-                    } catch (e) {
-                        setStatus(Status.FeilUnderNedlasting);
-                    }
-
-                    loadjs.ready(appName, {
-                        success: () => setStatus(Status.KlarTilVisning),
-                        error: () => setStatus(Status.FeilUnderNedlasting),
-                    });
-                } else {
-                    setStatus(Status.KlarTilVisning);
-                }
-            };
-
-            loadAssets(appName, appPath);
-        }
-    }, [appName, appPath, vis]);
-
     if (vis) {
-        if (status === Status.LasterNedAssets) {
+        if (status === AppStatus.LasterNedAssets) {
             return <div>{`Laster inn app "${appName}" ...`}</div>;
-        } else if (status === Status.FeilUnderNedlasting) {
+        } else if (status === AppStatus.FeilUnderNedlasting) {
             return <div>{'Klarte ikke å laste inn ' + appName}</div>;
+        } else if (status === AppStatus.FeilMedAssets) {
+            return <div>{'Klarte ikke å vise ' + appName}</div>;
         }
     }
 
-    if (status === Status.KlarTilVisning) {
+    if (status === AppStatus.KlarTilVisning) {
         return <div id={appName} ref={appRef} />;
     }
 
     return null;
 };
+
+const loggFeilmeldingKunneIkkeRendre = (appName: string) => {
+    console.error(`Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`);
+};
+
+const loggFeilmeldingKunneIkkeUnmounte = (appName: string) => {
+    console.error(`Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].unmount`);
+};
+
+export default Microfrontend;

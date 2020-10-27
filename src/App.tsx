@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Microfrontend } from './microfrontend/Microfrontend';
+import Microfrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
 const erProd = process.env.NODE_ENV === 'production';

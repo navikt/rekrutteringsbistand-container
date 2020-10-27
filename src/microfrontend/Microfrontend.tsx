@@ -59,9 +59,7 @@ export const Microfrontend: Props = (props) => {
                         const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
                         const pathsToLoad = extractPathsToLoadFromManifest(manifest);
 
-                        loadjs(pathsToLoad, appName, {
-                            returnPromise: true,
-                        }).then(() => {});
+                        loadjs(pathsToLoad, appName);
                     } catch (e) {
                         setStatus(Status.FeilUnderNedlasting);
                     }

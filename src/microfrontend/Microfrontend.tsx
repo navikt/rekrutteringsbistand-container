@@ -22,9 +22,34 @@ export type MicrofrontendProps<AppProps> = {
 type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
 
 export const Microfrontend: Props = (props) => {
-    const { appName, appPath, vis } = props;
-    const [status, setStatus] = useState<Status>(Status.LasterNedAssets);
+    const { appName, appPath, appProps, vis } = props;
+
     const appRef = useRef(null);
+    const [status, setStatus] = useState<Status>(Status.LasterNedAssets);
+
+    useEffect(() => {
+        if (appRef.current && status === Status.KlarTilVisning) {
+            if (vis) {
+                const renderApp = (window as any)[appName].render;
+                if (renderApp) {
+                    renderApp(appRef.current, appProps);
+                } else {
+                    console.error(
+                        `Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`
+                    );
+                }
+            } else {
+                const unmountApp = (window as any)[appName].unmount;
+                if (unmountApp) {
+                    unmountApp(appRef.current);
+                } else {
+                    console.error(
+                        `Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].render`
+                    );
+                }
+            }
+        }
+    }, [vis, appName, appProps, status]);
 
     useEffect(() => {
         if (vis) {
@@ -53,16 +78,6 @@ export const Microfrontend: Props = (props) => {
             loadAssets(appName, appPath);
         }
     }, [appName, appPath, vis]);
-
-    useEffect(() => {
-        if (appRef.current && status === Status.KlarTilVisning) {
-            if (vis) {
-                (window as any)[appName].render(appRef.current, {});
-            } else {
-                (window as any)[appName].unmount(appRef.current);
-            }
-        }
-    }, [vis, appName, status]);
 
     if (vis) {
         if (status === Status.LasterNedAssets) {

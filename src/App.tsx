@@ -23,11 +23,17 @@ const App: FunctionComponent = () => {
                 <ChildApp
                     appName="rekrutteringsbistand-statistikk"
                     appPath="/statistikk"
+                    appProps={{
+                        hilsen: 'Hei fra statistikk!',
+                    }}
                     vis={visning === 1}
                 />
                 <ChildApp
                     appName="rekrutteringsbistand-kandidat"
                     appPath="/kandidater"
+                    appProps={{
+                        hilsen: 'Hei fra kandidat!',
+                    }}
                     vis={visning === 2}
                 />
             </main>

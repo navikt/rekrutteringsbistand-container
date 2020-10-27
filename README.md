@@ -10,9 +10,43 @@ npm install
 
 ## Utvikling 
 
-```
+Du kan selv velge om du vil jobbe isolert med container-appen, eller fyre opp appen sammen med microfrontendene lokalt.
+
+### Kun container-app
+
+```sh
 npm start
 ```
+
+### Med microfrontends
+
+I denne appen:
+```sh
+npm run start:import
+```
+
+I én eller flere microfrontends:
+```sh
+npm run start:export
+```
+
+Create-react-app vil lese `src/setupProxy.js` under oppstart og sette opp proxies til microfrontendene, slik at den får tak i ressursene (JS/CSS) den trenger.
+
+Si vi rendrer følgende komponent i `App.tsx`:
+
+```jsx
+<Microfrontend
+    vis
+    appName="rekrutteringsbistand-statistikk"
+    appPath="/statistikk"
+    appProps={{
+        hilsen: 'Hei fra statistikk!',
+    }}
+/>
+```
+
+Container-appen vil da forvente at statistikk-appen ligger tilgjengelig under `/statistikk`. Proxy-configen sørger for at all trafikk herifra routes videre til `http://localhost:3001/statistikk` der statistikk-appen hostes lokalt.
+
 
 ## For Nav-ansatte
 

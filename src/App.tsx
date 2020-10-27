@@ -21,20 +21,20 @@ const App: FunctionComponent = () => {
             </nav>
             <main>
                 <ChildApp
+                    vis={visning === 1}
                     appName="rekrutteringsbistand-statistikk"
                     appPath="/statistikk"
                     appProps={{
                         hilsen: 'Hei fra statistikk!',
                     }}
-                    vis={visning === 1}
                 />
                 <ChildApp
+                    vis={visning === 2}
                     appName="rekrutteringsbistand-kandidat"
                     appPath="/kandidater"
                     appProps={{
                         hilsen: 'Hei fra kandidat!',
                     }}
-                    vis={visning === 2}
                 />
             </main>
         </div>

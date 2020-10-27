@@ -16,42 +16,52 @@ export type MicrofrontendProps<AppProps> = {
     appName: string;
     appPath: string;
     appProps?: AppProps;
-    vis: boolean;
+    vis?: boolean;
 };
 
 type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
 
-export const Microfrontend: Props = (props) => {
-    const { appName, appPath, appProps, vis } = props;
-
-    const appRef = useRef(null);
+export const Microfrontend: Props = ({ vis = true, appName, appPath, appProps = {} }) => {
+    const appRef = useRef<HTMLDivElement | null>(null);
     const [status, setStatus] = useState<Status>(Status.LasterNedAssets);
 
     useEffect(() => {
-        if (appRef.current && status === Status.KlarTilVisning) {
-            const { render, unmount } = (window as any)[appName];
+        const hentScope = () => (window as any)[appName];
 
-            if (vis) {
-                if (render) {
-                    render(appRef.current, appProps);
-                } else {
-                    setStatus(Status.FeilUnderNedlasting);
-                    console.error(
-                        `Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`
-                    );
-                }
+        const renderApp = (element: HTMLElement) => {
+            const render: (element: HTMLElement, props: Object) => void = hentScope().render;
+
+            if (render) {
+                render(element, appProps);
             } else {
-                if (unmount) {
-                    unmount(appRef.current);
-                } else {
-                    setStatus(Status.FeilUnderNedlasting);
-                    console.error(
-                        `Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].render`
-                    );
-                }
+                setStatus(Status.FeilUnderNedlasting);
+                console.error(
+                    `Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`
+                );
+            }
+        };
+
+        const unmountApp = (element: HTMLElement) => {
+            const unmount: (element: HTMLElement) => void = hentScope().unmount;
+
+            if (unmount) {
+                unmount(element);
+            } else {
+                setStatus(Status.FeilUnderNedlasting);
+                console.error(
+                    `Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].render`
+                );
+            }
+        };
+
+        if (appRef.current && status === Status.KlarTilVisning) {
+            if (vis) {
+                renderApp(appRef.current);
+            } else {
+                unmountApp(appRef.current);
             }
         }
-    }, [vis, appName, appProps, status]);
+    }, [vis, status, appName, appProps]);
 
     useEffect(() => {
         if (vis) {

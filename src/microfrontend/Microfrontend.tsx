@@ -29,20 +29,22 @@ export const Microfrontend: Props = (props) => {
 
     useEffect(() => {
         if (appRef.current && status === Status.KlarTilVisning) {
+            const { render, unmount } = (window as any)[appName];
+
             if (vis) {
-                const renderApp = (window as any)[appName].render;
-                if (renderApp) {
-                    renderApp(appRef.current, appProps);
+                if (render) {
+                    render(appRef.current, appProps);
                 } else {
+                    setStatus(Status.FeilUnderNedlasting);
                     console.error(
                         `Kunne ikke rendre app, fant ingen funksjon på window['${appName}'].render`
                     );
                 }
             } else {
-                const unmountApp = (window as any)[appName].unmount;
-                if (unmountApp) {
-                    unmountApp(appRef.current);
+                if (unmount) {
+                    unmount(appRef.current);
                 } else {
+                    setStatus(Status.FeilUnderNedlasting);
                     console.error(
                         `Kunne ikke unmounte app, fant ingen funksjon på window['${appName}'].render`
                     );

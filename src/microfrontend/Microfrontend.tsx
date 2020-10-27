@@ -1,17 +1,15 @@
-import React, { FunctionComponent, MutableRefObject, useEffect, useRef, useState } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import loadjs from 'loadjs';
 import {
     createAssetManifestUrl,
     extractPathsToLoadFromManifest,
     fetchAssetManifest,
 } from './assetsUtils';
-import NAVSPA from '@navikt/navspa';
 
-enum Steg {
-    LasterNed,
-    Nedlastet,
-    Importert,
-    Feil,
+enum Status {
+    LasterNedAssets,
+    KlarTilVisning,
+    FeilUnderNedlasting,
 }
 
 export type MicrofrontendProps<AppProps> = {
@@ -24,19 +22,9 @@ export type MicrofrontendProps<AppProps> = {
 type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
 
 export const Microfrontend: Props = (props) => {
-    const { appName, appPath, appProps, vis } = props;
-    const [innlasting, setInnlasting] = useState<Steg>(Steg.LasterNed);
-
-    let appRef: MutableRefObject<React.ComponentType | undefined> = useRef(undefined);
-
-    useEffect(() => {
-        if (innlasting === Steg.Nedlastet) {
-            NAVSPA.eksporter(appName, (window as any)[appName]);
-            appRef.current = NAVSPA.importer(appName);
-
-            setInnlasting(Steg.Importert);
-        }
-    }, [appName, innlasting]);
+    const { appName, appPath, vis } = props;
+    const [status, setStatus] = useState<Status>(Status.LasterNedAssets);
+    const appRef = useRef(null);
 
     useEffect(() => {
         if (vis) {
@@ -46,17 +34,19 @@ export const Microfrontend: Props = (props) => {
                         const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
                         const pathsToLoad = extractPathsToLoadFromManifest(manifest);
 
-                        loadjs(pathsToLoad, appName);
+                        loadjs(pathsToLoad, appName, {
+                            returnPromise: true,
+                        }).then(() => {});
                     } catch (e) {
-                        setInnlasting(Steg.Feil);
+                        setStatus(Status.FeilUnderNedlasting);
                     }
 
                     loadjs.ready(appName, {
-                        success: () => setInnlasting(Steg.Nedlastet),
-                        error: () => setInnlasting(Steg.Feil),
+                        success: () => setStatus(Status.KlarTilVisning),
+                        error: () => setStatus(Status.FeilUnderNedlasting),
                     });
                 } else {
-                    setInnlasting(Steg.Nedlastet);
+                    setStatus(Status.KlarTilVisning);
                 }
             };
 
@@ -64,19 +54,27 @@ export const Microfrontend: Props = (props) => {
         }
     }, [appName, appPath, vis]);
 
-    if (!vis) {
-        return null;
+    useEffect(() => {
+        if (appRef.current && status === Status.KlarTilVisning) {
+            if (vis) {
+                (window as any)[appName].render(appRef.current, {});
+            } else {
+                (window as any)[appName].unmount(appRef.current);
+            }
+        }
+    }, [vis, appName, status]);
+
+    if (vis) {
+        if (status === Status.LasterNedAssets) {
+            return <div>{`Laster inn app "${appName}" ...`}</div>;
+        } else if (status === Status.FeilUnderNedlasting) {
+            return <div>{'Klarte ikke å laste inn ' + appName}</div>;
+        }
     }
 
-    const App = appRef.current;
-
-    if (innlasting === Steg.LasterNed) {
-        return <div>{`Laster inn app "${appName}" ...`}</div>;
-    } else if (innlasting === Steg.Feil) {
-        return <div>{'Klarte ikke å laste inn ' + appName}</div>;
-    } else if (innlasting === Steg.Importert && App) {
-        return <App {...appProps} />;
-    } else {
-        return null;
+    if (status === Status.KlarTilVisning) {
+        return <div id={appName} ref={appRef} />;
     }
+
+    return null;
 };

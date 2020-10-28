@@ -40,7 +40,6 @@ const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
 const useAssetsFromManifest = (
     appName: string,
     appPath: string,
-    visApp: boolean,
     setStatus: (status: AppStatus) => void
 ) => {
     useEffect(() => {
@@ -64,10 +63,8 @@ const useAssetsFromManifest = (
             }
         };
 
-        if (visApp) {
-            loadAssets(appName, appPath);
-        }
-    }, [appName, appPath, visApp, setStatus]);
+        loadAssets(appName, appPath);
+    }, [appName, appPath, setStatus]);
 };
 
 export default useAssetsFromManifest;

@@ -8,6 +8,7 @@
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
+        "http-proxy-middleware": "^1.0.6",
         "loadjs": "^4.2.0",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
@@ -16,6 +17,7 @@
     },
     "scripts": {
         "start": "craco start",
+        "start:import": "REACT_APP_IMPORT=true craco start",
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject"
@@ -50,6 +52,7 @@
         "@types/react-dom": "^16.9.8",
         "craco-less": "^1.17.0",
         "eslint-config-prettier": "^6.13.0",
+        "http-proxy": "^1.18.1",
         "prettier": "^2.1.2"
     }
 }

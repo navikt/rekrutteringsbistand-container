@@ -1,20 +1,44 @@
-import React, { FunctionComponent } from 'react';
-import MocketStatistikk from './utvikling/MocketStatistikk';
-import { StatistikkMicrofrontend } from './StatistikkMicrofrontend';
-import './App.less';
+import React, { FunctionComponent, useState } from 'react';
+import Microfrontend from './microfrontend/Microfrontend';
+import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
-const Statistikk =
-    window.location.hostname === 'localhost' ? MocketStatistikk : StatistikkMicrofrontend;
+const erProd = process.env.NODE_ENV === 'production';
+const importerMicrofrontends = process.env.REACT_APP_IMPORT || erProd;
 
-const App: FunctionComponent = () => (
-    <div className="App">
-        <header className="App-header">
-            <h1>Rekrutteringsbistand-container</h1>
-        </header>
-        <main>
-            <Statistikk />
-        </main>
-    </div>
-);
+const ChildApp = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
+
+const App: FunctionComponent = () => {
+    const [visning, setVisning] = useState<number>(1);
+
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Rekrutteringsbistand-container</h1>
+            </header>
+            <nav>
+                <button onClick={() => setVisning(1)}>Statistikk</button>
+                <button onClick={() => setVisning(2)}>Kandidat</button>
+            </nav>
+            <main>
+                <ChildApp
+                    vis={visning === 1}
+                    appName="rekrutteringsbistand-statistikk"
+                    appPath="/statistikk"
+                    appProps={{
+                        hilsen: 'Hei fra statistikk!',
+                    }}
+                />
+                <ChildApp
+                    vis={visning === 2}
+                    appName="rekrutteringsbistand-kandidat"
+                    appPath="/kandidater"
+                    appProps={{
+                        hilsen: 'Hei fra kandidat!',
+                    }}
+                />
+            </main>
+        </div>
+    );
+};
 
 export default App;

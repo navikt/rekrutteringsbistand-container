@@ -28,7 +28,7 @@ const App: FunctionComponent = () => {
                         appName="rekrutteringsbistand-statistikk"
                         appPath="/statistikk"
                         appProps={{
-                            hilsen: 'Teller er på ' + teller,
+                            hilsen: `Hei fra rekrutteringsbistand-statistikk! Teller er på ${teller}`,
                         }}
                     />
                 )}
@@ -37,7 +37,7 @@ const App: FunctionComponent = () => {
                         appName="rekrutteringsbistand-kandidat"
                         appPath="/kandidater"
                         appProps={{
-                            hilsen: 'Teller er på ' + teller,
+                            hilsen: `Hei fra rekrutteringsbistand-kandidat! Teller er på ${teller}`,
                         }}
                     />
                 )}

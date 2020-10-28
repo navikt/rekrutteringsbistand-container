@@ -20,22 +20,24 @@ const App: FunctionComponent = () => {
                 <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
-                <ChildApp
-                    vis={visning === 1}
-                    appName="rekrutteringsbistand-statistikk"
-                    appPath="/statistikk"
-                    appProps={{
-                        hilsen: 'Hei fra statistikk!',
-                    }}
-                />
-                <ChildApp
-                    vis={visning === 2}
-                    appName="rekrutteringsbistand-kandidat"
-                    appPath="/kandidater"
-                    appProps={{
-                        hilsen: 'Hei fra kandidat!',
-                    }}
-                />
+                {visning === 1 && (
+                    <ChildApp
+                        appName="rekrutteringsbistand-statistikk"
+                        appPath="/statistikk"
+                        appProps={{
+                            hilsen: 'Hei fra statistikk!',
+                        }}
+                    />
+                )}
+                {visning === 2 && (
+                    <ChildApp
+                        appName="rekrutteringsbistand-kandidat"
+                        appPath="/kandidater"
+                        appProps={{
+                            hilsen: 'Hei fra kandidat!',
+                        }}
+                    />
+                )}
             </main>
         </div>
     );

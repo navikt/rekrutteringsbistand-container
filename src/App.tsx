@@ -9,6 +9,7 @@ const ChildApp = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
 
 const App: FunctionComponent = () => {
     const [visning, setVisning] = useState<number>(1);
+    const [teller, setTeller] = useState<number>(0);
 
     return (
         <div className="App">
@@ -20,12 +21,14 @@ const App: FunctionComponent = () => {
                 <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
+                <button onClick={() => setTeller(teller - 1)}>Tell ned</button>
+                <button onClick={() => setTeller(teller + 1)}>Tell opp</button>
                 {visning === 1 && (
                     <ChildApp
                         appName="rekrutteringsbistand-statistikk"
                         appPath="/statistikk"
                         appProps={{
-                            hilsen: 'Hei fra statistikk!',
+                            hilsen: 'Teller er på ' + teller,
                         }}
                     />
                 )}
@@ -34,7 +37,7 @@ const App: FunctionComponent = () => {
                         appName="rekrutteringsbistand-kandidat"
                         appPath="/kandidater"
                         appProps={{
-                            hilsen: 'Hei fra kandidat!',
+                            hilsen: 'Teller er på ' + teller,
                         }}
                     />
                 )}

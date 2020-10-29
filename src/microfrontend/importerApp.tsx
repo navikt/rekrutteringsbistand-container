@@ -5,17 +5,22 @@ function importerApp<Props>(name: string): FunctionComponent<Props> {
         const ref = useRef<HTMLDivElement | null>(null);
 
         useEffect(() => {
-            const render = (window as any)[name].render;
-            const unmount = (window as any)[name].unmount;
+            const app = (window as any)[name];
+            const render = app ? app.render : undefined;
+            const unmount = app ? app.unmount : undefined;
 
             if (render) {
                 render(ref.current, props);
+            } else {
+                console.log('app ikke funnet', name);
             }
 
             const unmountedRef = ref.current;
 
             return () => {
-                unmount(unmountedRef);
+                if (unmount) {
+                    unmount(unmountedRef);
+                }
             };
         }, [props]);
 

@@ -5,13 +5,17 @@
     "homepage": "/rekrutteringsbistand",
     "dependencies": {
         "@navikt/navspa": "^1.0.3",
+        "@navikt/nytt-i-rekrutteringsbistand": "^1.2.8",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
+        "@types/react-router-dom": "^5.1.6",
         "http-proxy-middleware": "^1.0.6",
         "loadjs": "^4.2.0",
+        "nav-frontend-core": "^5.0.6",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
+        "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.4",
         "typescript": "^4.0.3"
     },

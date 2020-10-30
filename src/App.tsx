@@ -2,6 +2,8 @@ import React, { FunctionComponent, useState } from 'react';
 import Microfrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
+import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
+import { BrowserRouter } from 'react-router-dom';
 
 const erProduksjon = process.env.NODE_ENV === 'production';
 const importerMicrofrontends = process.env.REACT_APP_IMPORT || erProduksjon;
@@ -20,8 +22,10 @@ const App: FunctionComponent = () => {
     return (
         <>
             <header>
-                <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
-                {/* Meny */}
+                <BrowserRouter>
+                    <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
+                    <Navigeringsmeny />
+                </BrowserRouter>
             </header>
             <nav>
                 <button onClick={() => setVisning(1)}>Statistikk</button>

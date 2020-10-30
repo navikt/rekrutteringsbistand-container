@@ -1,13 +1,18 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
-function importerApp<Props>(name: string): FunctionComponent<Props> {
+function importerApp<Props>(name: string, brukNavspa?: boolean): FunctionComponent<Props> {
     const App: FunctionComponent<Props> = (props) => {
         const ref = useRef<HTMLDivElement | null>(null);
 
         useEffect(() => {
-            const app = (window as any)[name];
-            const render = app ? app.render : undefined;
-            const unmount = app ? app.unmount : undefined;
+            let render, unmount: any;
+            if (brukNavspa) {
+                render = (global as any).NAVSPA[name];
+            } else {
+                const app = (window as any)[name];
+                render = app ? app.render : undefined;
+                unmount = app ? app.unmount : undefined;
+            }
 
             if (render) {
                 render(ref.current, props);

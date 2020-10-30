@@ -39,19 +39,21 @@ const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
 
 const useAssetsFromManifest = (
     appName: string,
-    appPath: string,
     extraPaths: string[],
-    setStatus: (status: AppStatus) => void
+    setStatus: (status: AppStatus) => void,
+    appPath?: string
 ) => {
     useEffect(() => {
-        const loadAssets = async (appName: string, appPath: string, extraPaths: string[]) => {
-            if (appName && appPath && !loadjs.isDefined(appName)) {
+        const loadAssets = async () => {
+            if (appName && !loadjs.isDefined(appName)) {
                 try {
-                    const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
-                    const pathsToLoad = [
-                        ...extractPathsToLoadFromManifest(manifest),
-                        ...extraPaths,
-                    ];
+                    let pathsToLoad: string[] = [];
+                    if (appPath) {
+                        const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
+                        pathsToLoad = extractPathsToLoadFromManifest(manifest);
+                    }
+                    pathsToLoad = [...pathsToLoad, ...extraPaths];
+                    console.log('hhhh', appName, pathsToLoad);
 
                     loadjs(pathsToLoad, appName);
                 } catch (e) {
@@ -67,7 +69,7 @@ const useAssetsFromManifest = (
             }
         };
 
-        loadAssets(appName, appPath, extraPaths);
+        loadAssets();
     }, [appName, appPath, extraPaths, setStatus]);
 };
 

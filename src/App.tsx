@@ -22,11 +22,12 @@ const App: FunctionComponent = () => {
             </nav>
             <main>
                 <ChildApp
+                    brukNavspa
                     appName="internarbeidsflatefs"
                     appPath=""
                     extraPaths={[
-                        'https://internarbeidsflatedecorator.nais.adeo.no/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js',
-                        'https://internarbeidsflatedecorator.nais.adeo.no/internarbeidsflatedecorator/v2.1/static/css/main.css',
+                        'https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js',
+                        'https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/css/main.css',
                     ]}
                     appProps={{
                         appName: 'Rekrutteringsbistand',

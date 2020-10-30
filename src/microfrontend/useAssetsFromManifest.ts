@@ -53,7 +53,6 @@ const useAssetsFromManifest = (
                         pathsToLoad = extractPathsToLoadFromManifest(manifest);
                     }
                     pathsToLoad = [...pathsToLoad, ...extraPaths];
-                    console.log('hhhh', appName, pathsToLoad);
 
                     loadjs(pathsToLoad, appName);
                 } catch (e) {

@@ -11,6 +11,11 @@ const App: FunctionComponent = () => {
     const [visning, setVisning] = useState<number>(1);
     const [teller, setTeller] = useState<number>(0);
 
+    const dekoratorUrlPrefix =
+        process.env.NODE_ENV === 'production'
+            ? 'https://internarbeidsflatedecorator.nais.adeo.no'
+            : 'https://navikt.github.io';
+
     return (
         <div className="App">
             <header className="App-header">
@@ -26,8 +31,8 @@ const App: FunctionComponent = () => {
                     appName="internarbeidsflatefs"
                     appPath=""
                     extraPaths={[
-                        'https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js',
-                        'https://navikt.github.io/internarbeidsflatedecorator/v2.1/static/css/main.css',
+                        `${dekoratorUrlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
+                        `${dekoratorUrlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,
                     ]}
                     appProps={{
                         appName: 'Rekrutteringsbistand',

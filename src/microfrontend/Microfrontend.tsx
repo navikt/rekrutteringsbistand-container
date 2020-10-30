@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import useAssetsFromManifest from './useAssetsFromManifest';
+import React, { useRef } from 'react';
 import importerApp from './importerApp';
+import useAppAssets from './useAppAssets';
 
 export enum AppStatus {
     LasterNedAssets,
@@ -11,18 +11,17 @@ export enum AppStatus {
 
 export type MicrofrontendProps<AppProps> = {
     appName: string;
-    brukNavspa?: boolean;
     appPath?: string;
-    extraPaths?: string[];
     appProps?: AppProps;
+    staticPaths?: string[];
+    brukNavspa?: boolean;
 };
 
 function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>) {
-    const { appName, brukNavspa, appPath, extraPaths = [], appProps = {} } = props;
-    const [status, setStatus] = useState<AppStatus>(AppStatus.LasterNedAssets);
-    const microfrontend = useRef<React.ComponentType>(importerApp(appName, brukNavspa));
+    const { appName, brukNavspa, appPath, staticPaths, appProps = {} } = props;
 
-    useAssetsFromManifest(appName, extraPaths, setStatus, appPath);
+    const microfrontend = useRef<React.ComponentType>(importerApp(appName, brukNavspa));
+    const status = useAppAssets(appName, staticPaths, appPath);
 
     if (status === AppStatus.LasterNedAssets) {
         return <div>{`Laster inn app "${appName}" ...`}</div>;

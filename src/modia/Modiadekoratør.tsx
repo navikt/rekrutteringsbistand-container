@@ -16,7 +16,7 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
     <Microfrontend<DekoratørProps>
         brukNavspa
         appName="internarbeidsflatefs"
-        extraPaths={[
+        staticPaths={[
             `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
             `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,
         ]}

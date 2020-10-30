@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import loadjs from 'loadjs';
 import { AppStatus } from './Microfrontend';
 
@@ -37,39 +37,45 @@ const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
     return pathsToLoad;
 };
 
-const useAssetsFromManifest = (
-    appName: string,
-    extraPaths: string[],
-    setStatus: (status: AppStatus) => void,
-    appPath?: string
-) => {
+const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifest?: string) => {
+    const [status, setStatus] = useState<AppStatus>(
+        loadjs.isDefined(appName) ? AppStatus.KlarTilVisning : AppStatus.LasterNedAssets
+    );
+
     useEffect(() => {
-        const loadAssets = async () => {
-            if (appName && !loadjs.isDefined(appName)) {
-                try {
-                    let pathsToLoad: string[] = [];
-                    if (appPath) {
-                        const manifest = await fetchAssetManifest(createAssetManifestUrl(appPath));
-                        pathsToLoad = extractPathsToLoadFromManifest(manifest);
-                    }
-                    pathsToLoad = [...pathsToLoad, ...extraPaths];
+        const loadAppFromManifest = async (pathToManifest: string) => {
+            try {
+                const manifest = await fetchAssetManifest(createAssetManifestUrl(pathToManifest));
+                const pathsToLoad = extractPathsToLoadFromManifest(manifest);
 
-                    loadjs(pathsToLoad, appName);
-                } catch (e) {
-                    setStatus(AppStatus.FeilUnderNedlasting);
-                }
-
-                loadjs.ready(appName, {
-                    success: () => setStatus(AppStatus.KlarTilVisning),
-                    error: () => setStatus(AppStatus.FeilUnderNedlasting),
+                await loadjs(pathsToLoad, appName, {
+                    returnPromise: true,
                 });
-            } else {
+
                 setStatus(AppStatus.KlarTilVisning);
+            } catch (e) {
+                setStatus(AppStatus.FeilUnderNedlasting);
             }
         };
 
-        loadAssets();
-    }, [appName, appPath, extraPaths, setStatus]);
+        const loadDefinedAssets = async (staticPaths: string[]) => {
+            try {
+                await loadjs(staticPaths, appName, {
+                    returnPromise: true,
+                });
+
+                setStatus(AppStatus.KlarTilVisning);
+            } catch (e) {
+                setStatus(AppStatus.FeilUnderNedlasting);
+            }
+        };
+
+        if (!loadjs.isDefined(appName)) {
+            pathToManifest ? loadAppFromManifest(pathToManifest) : loadDefinedAssets(staticPaths);
+        }
+    }, [appName, staticPaths, pathToManifest]);
+
+    return status;
 };
 
-export default useAssetsFromManifest;
+export default useAppAssets;

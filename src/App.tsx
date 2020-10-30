@@ -8,14 +8,19 @@ const importerMicrofrontends = process.env.REACT_APP_IMPORT || erProduksjon;
 
 const ChildApp = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
 
+type StatistikkProps = {
+    navKontor: string | null;
+};
+
 const App: FunctionComponent = () => {
+    const [navKontor, setNavKontor] = useState<string | null>(null);
+
     const [visning, setVisning] = useState<number>(1);
-    const [teller, setTeller] = useState<number>(0);
 
     return (
         <>
             <header>
-                <Modiadekoratør />
+                <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
                 {/* Meny */}
             </header>
             <nav>
@@ -23,15 +28,12 @@ const App: FunctionComponent = () => {
                 <button onClick={() => setVisning(2)}>Kandidat</button>
             </nav>
             <main>
-                <button onClick={() => setTeller(teller - 1)}>Tell ned</button>
-                <button onClick={() => setTeller(teller + 1)}>Tell opp</button>
                 {visning === 1 && (
-                    <ChildApp
+                    <ChildApp<StatistikkProps>
                         appName="rekrutteringsbistand-statistikk"
                         appPath="/statistikk"
-                        extraPaths={[]}
                         appProps={{
-                            hilsen: `Hei fra rekrutteringsbistand-statistikk! Teller er på ${teller}`,
+                            navKontor,
                         }}
                     />
                 )}
@@ -39,9 +41,8 @@ const App: FunctionComponent = () => {
                     <ChildApp
                         appName="rekrutteringsbistand-kandidat"
                         appPath="/kandidater"
-                        extraPaths={[]}
                         appProps={{
-                            hilsen: `Hei fra rekrutteringsbistand-kandidat! Teller er på ${teller}`,
+                            hilsen: `Hei fra rekrutteringsbistand-kandidat!`,
                         }}
                     />
                 )}

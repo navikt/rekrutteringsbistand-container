@@ -6,6 +6,7 @@ function importerApp<Props>(name: string, brukNavspa?: boolean): FunctionCompone
 
         useEffect(() => {
             let render, unmount: any;
+
             if (brukNavspa) {
                 render = (global as any).NAVSPA[name];
             } else {
@@ -17,7 +18,7 @@ function importerApp<Props>(name: string, brukNavspa?: boolean): FunctionCompone
             if (render) {
                 render(ref.current, props);
             } else {
-                console.log('app ikke funnet', name);
+                console.error('App ikke funnet:', name);
             }
 
             const unmountedRef = ref.current;

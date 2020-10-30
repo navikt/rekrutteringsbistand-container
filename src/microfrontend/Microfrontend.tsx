@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useAssetsFromManifest from './useAssetsFromManifest';
 import importerApp from './importerApp';
 
@@ -17,9 +17,8 @@ export type MicrofrontendProps<AppProps> = {
     appProps?: AppProps;
 };
 
-type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
-
-const Microfrontend: Props = ({ appName, brukNavspa, appPath, extraPaths = [], appProps = {} }) => {
+function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>) {
+    const { appName, brukNavspa, appPath, extraPaths = [], appProps = {} } = props;
     const [status, setStatus] = useState<AppStatus>(AppStatus.LasterNedAssets);
     const microfrontend = useRef<React.ComponentType>(importerApp(appName, brukNavspa));
 
@@ -38,6 +37,6 @@ const Microfrontend: Props = ({ appName, brukNavspa, appPath, extraPaths = [], a
     } else {
         return null;
     }
-};
+}
 
 export default Microfrontend;

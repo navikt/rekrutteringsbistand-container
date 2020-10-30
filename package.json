@@ -18,6 +18,7 @@
     "scripts": {
         "start": "craco start",
         "start:import": "REACT_APP_IMPORT=true craco start",
+        "start:mock": "REACT_APP_MOCK=true craco start",
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject"
@@ -52,7 +53,9 @@
         "@types/react-dom": "^16.9.8",
         "craco-less": "^1.17.0",
         "eslint-config-prettier": "^6.13.0",
+        "fetch-mock": "^9.10.7",
         "http-proxy": "^1.18.1",
+        "mock-socket": "^9.0.3",
         "prettier": "^2.1.2"
     }
 }

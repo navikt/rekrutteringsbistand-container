@@ -13,7 +13,7 @@ const App: FunctionComponent = () => {
     const [teller, setTeller] = useState<number>(0);
 
     return (
-        <div className="rekrutteringsbistand-container">
+        <>
             <header>
                 <Modiadekoratør />
                 {/* Meny */}
@@ -46,7 +46,7 @@ const App: FunctionComponent = () => {
                     />
                 )}
             </main>
-        </div>
+        </>
     );
 };
 

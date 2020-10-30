@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import loadjs from 'loadjs';
-import { AppStatus } from './Microfrontend';
+import { AssetStatus } from './Microfrontend';
 
 export type AssetManifest = {
     files: Record<string, string>;
@@ -38,8 +38,8 @@ const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
 };
 
 const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifest?: string) => {
-    const [status, setStatus] = useState<AppStatus>(
-        loadjs.isDefined(appName) ? AppStatus.KlarTilVisning : AppStatus.LasterNedAssets
+    const [status, setStatus] = useState<AssetStatus>(
+        loadjs.isDefined(appName) ? AssetStatus.Klar : AssetStatus.LasterNed
     );
 
     useEffect(() => {
@@ -52,9 +52,9 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
                     returnPromise: true,
                 });
 
-                setStatus(AppStatus.KlarTilVisning);
+                setStatus(AssetStatus.Klar);
             } catch (e) {
-                setStatus(AppStatus.FeilUnderNedlasting);
+                setStatus(AssetStatus.Feil);
             }
         };
 
@@ -64,9 +64,9 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
                     returnPromise: true,
                 });
 
-                setStatus(AppStatus.KlarTilVisning);
+                setStatus(AssetStatus.Klar);
             } catch (e) {
-                setStatus(AppStatus.FeilUnderNedlasting);
+                setStatus(AssetStatus.Feil);
             }
         };
 

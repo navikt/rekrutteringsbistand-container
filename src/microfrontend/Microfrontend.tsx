@@ -1,12 +1,6 @@
 import React, { useRef } from 'react';
-import importerApp from './importerApp';
-import useAppAssets from './useAppAssets';
-
-export enum AssetStatus {
-    LasterNed,
-    Klar,
-    Feil,
-}
+import importerMicrofrontend from './importerMicrofrontend';
+import useAppAssets, { AssetStatus } from './useAppAssets';
 
 export type MicrofrontendProps<AppProps> = {
     appName: string;
@@ -20,7 +14,7 @@ export type MicrofrontendProps<AppProps> = {
 function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>) {
     const { appName, appPath, appProps = {}, staticPaths, brukNavspa, visSpinner } = props;
 
-    const microfrontend = useRef<React.ComponentType>(importerApp(appName, brukNavspa));
+    const microfrontend = useRef<React.ComponentType>(importerMicrofrontend(appName, brukNavspa));
     const status = useAppAssets(appName, staticPaths, appPath);
 
     if (status === AssetStatus.LasterNed && visSpinner) {

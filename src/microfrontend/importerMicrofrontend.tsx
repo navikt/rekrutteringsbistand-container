@@ -1,7 +1,10 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
-function importerApp<Props>(name: string, brukNavspa?: boolean): FunctionComponent<Props> {
-    const App: FunctionComponent<Props> = (props) => {
+function importerMicrofrontend<Props>(
+    name: string,
+    brukNavspa?: boolean
+): FunctionComponent<Props> {
+    const RenderedMicrofrontend: FunctionComponent<Props> = (props) => {
         const ref = useRef<HTMLDivElement | null>(null);
 
         useEffect(() => {
@@ -33,7 +36,7 @@ function importerApp<Props>(name: string, brukNavspa?: boolean): FunctionCompone
         return <div ref={ref} />;
     };
 
-    return App;
+    return RenderedMicrofrontend;
 }
 
-export default importerApp;
+export default importerMicrofrontend;

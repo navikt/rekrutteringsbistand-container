@@ -1,41 +1,33 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
-import useAssetsFromManifest from './useAssetsFromManifest';
-import importerApp from './importerApp';
-
-export enum AppStatus {
-    LasterNedAssets,
-    KlarTilVisning,
-    FeilUnderNedlasting,
-    FeilMedAssets,
-}
+import React, { useRef } from 'react';
+import importerMicrofrontend from './importerMicrofrontend';
+import useAppAssets, { AssetStatus } from './useAppAssets';
 
 export type MicrofrontendProps<AppProps> = {
     appName: string;
-    appPath: string;
+    appPath?: string;
     appProps?: AppProps;
+    staticPaths?: string[];
+    brukNavspa?: boolean;
+    visSpinner?: boolean;
 };
 
-type Props<AppProps = {}> = FunctionComponent<MicrofrontendProps<AppProps>>;
+function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>) {
+    const { appName, appPath, appProps = {}, staticPaths, brukNavspa, visSpinner } = props;
 
-const Microfrontend: Props = ({ appName, appPath, appProps = {} }) => {
-    const [status, setStatus] = useState<AppStatus>(AppStatus.LasterNedAssets);
-    const microfrontend = useRef<React.ComponentType>(importerApp(appName));
+    const microfrontend = useRef<React.ComponentType>(importerMicrofrontend(appName, brukNavspa));
+    const status = useAppAssets(appName, staticPaths, appPath);
 
-    useAssetsFromManifest(appName, appPath, setStatus);
-
-    if (status === AppStatus.LasterNedAssets) {
+    if (status === AssetStatus.LasterNed && visSpinner) {
         return <div>{`Laster inn app "${appName}" ...`}</div>;
-    } else if (status === AppStatus.FeilUnderNedlasting) {
+    } else if (status === AssetStatus.Feil) {
         return <div>{'Klarte ikke å laste inn ' + appName}</div>;
-    } else if (status === AppStatus.FeilMedAssets) {
-        return <div>{'Klarte ikke å vise ' + appName}</div>;
-    } else if (status === AppStatus.KlarTilVisning) {
+    } else if (status === AssetStatus.Klar) {
         const App = microfrontend.current;
 
         return <App {...appProps} />;
     } else {
         return null;
     }
-};
+}
 
 export default Microfrontend;

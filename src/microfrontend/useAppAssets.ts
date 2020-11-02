@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import loadjs from 'loadjs';
-import { AssetStatus } from './Microfrontend';
 
 export type AssetManifest = {
     files: Record<string, string>;
 };
+
+export enum AssetStatus {
+    LasterNed,
+    Klar,
+    Feil,
+}
 
 const joinUrlWithPath = (url: string, path: string): string => {
     const cleanedUrl = url.endsWith('/') ? url.substring(0, url.length - 1) : url;

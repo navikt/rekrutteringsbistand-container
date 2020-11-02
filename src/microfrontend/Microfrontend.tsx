@@ -1,12 +1,6 @@
 import React, { useRef } from 'react';
 import importerApp from './importerApp';
-import useAppAssets from './useAppAssets';
-
-export enum AssetStatus {
-    LasterNed,
-    Klar,
-    Feil,
-}
+import useAppAssets, { AssetStatus } from './useAppAssets';
 
 export type MicrofrontendProps<AppProps> = {
     appName: string;

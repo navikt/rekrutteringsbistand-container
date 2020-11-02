@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import Microfrontend from './microfrontend/Microfrontend';
+import ImportertMicrofrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
 
-const erProduksjon = process.env.NODE_ENV === 'production';
-const importerMicrofrontends = process.env.REACT_APP_IMPORT || erProduksjon;
+const importerMicrofrontends =
+    process.env.REACT_APP_IMPORT || process.env.NODE_ENV === 'production';
 
-const ChildApp = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
+const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMicrofrontend;
 
 type StatistikkProps = {
     navKontor: string | null;
@@ -29,7 +29,7 @@ const App: FunctionComponent = () => {
             </nav>
             <main>
                 {visning === 1 && (
-                    <ChildApp<StatistikkProps>
+                    <Microfrontend<StatistikkProps>
                         appName="rekrutteringsbistand-statistikk"
                         appPath="/statistikk"
                         appProps={{
@@ -38,7 +38,7 @@ const App: FunctionComponent = () => {
                     />
                 )}
                 {visning === 2 && (
-                    <ChildApp
+                    <Microfrontend
                         appName="rekrutteringsbistand-kandidat"
                         appPath="/kandidater"
                         appProps={{

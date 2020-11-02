@@ -10,10 +10,10 @@ spec:
     image: {{ image }}
     port: 8080
     ingresses:
-        - https://rekrutteringsbistand.nais.preprod.local/rekrutteringsbistand
+        - https://rekrutteringsbistand.nais.preprod.local
     liveness:
         initialDelay: 5
-        path: /rekrutteringsbistand/internal/isAlive
+        path: /container/internal/isAlive
     readiness:
         initialDelay: 5
-        path: /rekrutteringsbistand/internal/isReady
+        path: /container/internal/isReady

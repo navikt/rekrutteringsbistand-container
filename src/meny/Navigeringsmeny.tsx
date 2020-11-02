@@ -37,7 +37,7 @@ const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 
     const onTabClick = (href: string) => (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Callback');
+        console.log('Tab click:', href);
     };
 
     return (

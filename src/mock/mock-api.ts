@@ -37,15 +37,6 @@ const log = (response: MockResponse | MockResponseFunction) => {
     };
 };
 
-class VoidWebSocket {
-    addEventListener() {}
-    removeEventListener() {}
-    send() {}
-    close() {}
-}
-
-(window as any).WebSocket = VoidWebSocket;
-
 fetchMock
     .get(url.modiaAktivEnhet, log(aktivEnhetOgBruker))
     .get(url.modiaDecorator, log(decorator))

@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
+import Navigeringsmeny from './meny/Navigeringsmeny';
 import Microfrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
@@ -21,7 +22,7 @@ const App: FunctionComponent = () => {
         <>
             <header>
                 <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
-                {/* Meny */}
+                <Navigeringsmeny />
             </header>
             <nav>
                 <button onClick={() => setVisning(1)}>Statistikk</button>

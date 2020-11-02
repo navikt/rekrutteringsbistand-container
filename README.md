@@ -36,11 +36,10 @@ Si vi rendrer følgende komponent i `App.tsx`:
 
 ```jsx
 <Microfrontend
-    vis
     appName="rekrutteringsbistand-statistikk"
     appPath="/statistikk"
     appProps={{
-        hilsen: 'Hei fra statistikk!',
+        navKontor: '0239',
     }}
 />
 ```

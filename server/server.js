@@ -3,18 +3,17 @@ const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 8080;
-const basePath = '/rekrutteringsbistand';
 const buildPath = path.join(__dirname, '../build');
 
 const startServer = () => {
-    app.get([`${basePath}/internal/isAlive`, `${basePath}/internal/isReady`], (_, res) =>
+    app.get([`/container/internal/isAlive`, `/container/internal/isReady`], (_, res) =>
         res.sendStatus(200)
     );
 
-    app.use(`${basePath}/static/js`, express.static(`${buildPath}/static/js`));
-    app.use(`${basePath}/static/css`, express.static(`${buildPath}/static/css`));
+    app.use('/static/js', express.static(`${buildPath}/static/js`));
+    app.use('/static/css', express.static(`${buildPath}/static/css`));
 
-    app.get([`${basePath}/`, `${basePath}/*`], (_, res) => {
+    app.get(['/', '/*'], (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 

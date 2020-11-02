@@ -2,7 +2,7 @@
     "name": "rekrutteringsbistand-container",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/rekrutteringsbistand",
+    "homepage": "/",
     "dependencies": {
         "@navikt/navspa": "^1.0.3",
         "@navikt/nytt-i-rekrutteringsbistand": "^1.2.8",

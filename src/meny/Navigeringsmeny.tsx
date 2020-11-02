@@ -8,18 +8,18 @@ import Forsidelenke from './Forsidelenke';
 import '../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
 import './Navigeringsmeny.less';
 
-const appPrefiks = '/rekrutteringsbistand';
+const appPrefiks = '';
 
 const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
         href: '/stillinger',
-        erSammeApp: true,
+        erSammeApp: false,
     },
     {
         tittel: 'Mine stillinger',
         href: '/minestillinger',
-        erSammeApp: true,
+        erSammeApp: false,
     },
     {
         tittel: 'Kandidatsøk',

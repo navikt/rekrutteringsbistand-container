@@ -10,51 +10,52 @@ import './Navigeringsmeny.less';
 
 const appPrefiks = '/rekrutteringsbistand';
 
-const kandidatsøkTab = {
-    tittel: 'Kandidatsøk',
-    href: `${appPrefiks}/kandidater`,
-    erSammeApp: true,
-};
-
-const kandidatlisterTab = {
-    tittel: 'Kandidatlister',
-    href: `${appPrefiks}/kandidater/lister`,
-    erSammeApp: true,
-};
-
 const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
-        href: `${appPrefiks}/stillinger`,
-        erSammeApp: false,
+        href: '/stillinger',
+        erSammeApp: true,
     },
     {
         tittel: 'Mine stillinger',
-        href: `${appPrefiks}/minestillinger`,
+        href: '/minestillinger',
+        erSammeApp: true,
+    },
+    {
+        tittel: 'Kandidatsøk',
+        href: '/kandidater',
         erSammeApp: false,
     },
-    kandidatsøkTab,
-    kandidatlisterTab,
+    {
+        tittel: 'Kandidatlister',
+        href: '/kandidater/lister',
+        erSammeApp: false,
+    },
 ];
-
-const aktivTab = (pathname: string): TabConfig => {
-    if (pathname.startsWith(`${appPrefiks}/kandidater/lister`)) {
-        return kandidatlisterTab;
-    } else {
-        return kandidatsøkTab;
-    }
-};
 
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
+
+    const onTabClick = (href: string) => (event: React.MouseEvent<HTMLElement>) => {
+        console.log('Callback');
+    };
 
     return (
         <div className="navigeringsmeny">
             <div className="navigeringsmeny__inner">
                 <nav className="navigeringsmeny__tabs">
-                    <Forsidelenke href={`${appPrefiks}/`} />
+                    <Forsidelenke
+                        href={`${appPrefiks}/`}
+                        erAktiv={pathname === `${appPrefiks}/`}
+                        onClick={onTabClick('/')}
+                    />
                     {tabs.map((tab) => (
-                        <Tab key={tab.href} config={tab} erAktiv={tab === aktivTab(pathname)} />
+                        <Tab
+                            key={tab.href}
+                            config={tab}
+                            erAktiv={pathname.startsWith(tab.href)}
+                            onClick={onTabClick(tab.href)}
+                        />
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">

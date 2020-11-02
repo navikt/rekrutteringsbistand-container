@@ -11,9 +11,10 @@ export type TabConfig = {
 type Props = {
     config: TabConfig;
     erAktiv: boolean;
+    onClick: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
+const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
     const { tittel, href, erSammeApp } = config;
 
     let className = 'navigeringsmeny__tab';
@@ -23,11 +24,11 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
     }
 
     return erSammeApp ? (
-        <Link className={className} to={href}>
+        <Link className={className} to={href} onClick={onClick}>
             <Normaltekst>{tittel}</Normaltekst>
         </Link>
     ) : (
-        <a className={className} href={href}>
+        <a className={className} href={href} onClick={onClick}>
             <Normaltekst>{tittel}</Normaltekst>
         </a>
     );

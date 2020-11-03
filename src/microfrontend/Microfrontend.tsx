@@ -2,6 +2,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { ReactElement, useRef } from 'react';
 import importerMicrofrontend from './importerMicrofrontend';
 import useAppAssets, { AssetStatus } from './useAppAssets';
+import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import './Microfrontend.less';
 
 export type MicrofrontendProps<AppProps> = {
@@ -33,7 +34,7 @@ function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>): ReactElem
             return placeholder;
         } else if (visSpinner) {
             return (
-                <div className="microfrontend__spinner">
+                <div className="microfrontend__spinner-og-feilmelding">
                     <NavFrontendSpinner />
                 </div>
             );
@@ -41,7 +42,11 @@ function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>): ReactElem
             return null;
         }
     } else if (status === AssetStatus.Feil) {
-        return <div>{'Klarte ikke å laste inn ' + appName}</div>;
+        return (
+            <div className="microfrontend__spinner-og-feilmelding">
+                <AlertStripeFeil>Klarte ikke å laste inn {appName}</AlertStripeFeil>
+            </div>
+        );
     } else if (status === AssetStatus.Klar) {
         const App = microfrontend.current;
 

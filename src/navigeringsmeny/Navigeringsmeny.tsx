@@ -36,9 +36,7 @@ const tabs: TabConfig[] = [
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 
-    const onTabClick = (href: string) => (event: React.MouseEvent<HTMLElement>) => {
-        console.log('Tab click:', href);
-    };
+    const onTabClick = (href: string) => (event: React.MouseEvent<HTMLElement>) => {};
 
     return (
         <div className="navigeringsmeny">

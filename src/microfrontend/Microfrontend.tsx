@@ -1,5 +1,5 @@
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import importerMicrofrontend from './importerMicrofrontend';
 import useAppAssets, { AssetStatus } from './useAppAssets';
 import './Microfrontend.less';
@@ -10,15 +10,15 @@ export type MicrofrontendProps<AppProps> = {
     appProps?: AppProps;
     staticPaths?: string[];
     brukNavspa?: boolean;
-    placeholder?: ReactNode;
+    placeholder?: ReactElement;
     visSpinner?: boolean;
 };
 
-function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>): any {
+function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>): ReactElement | null {
     const {
         appName,
         appPath,
-        appProps = {},
+        appProps,
         staticPaths,
         brukNavspa,
         placeholder,
@@ -45,7 +45,7 @@ function Microfrontend<AppProps>(props: MicrofrontendProps<AppProps>): any {
     } else if (status === AssetStatus.Klar) {
         const App = microfrontend.current;
 
-        return <App {...appProps} />;
+        return <App {...(appProps || {})} />;
     } else {
         return null;
     }

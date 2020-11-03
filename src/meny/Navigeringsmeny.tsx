@@ -18,7 +18,7 @@ const tabs: TabConfig[] = [
     },
     {
         tittel: 'Mine stillinger',
-        href: '/minestillinger',
+        href: '/stillinger/minestillinger',
         erSammeApp: false,
     },
     {

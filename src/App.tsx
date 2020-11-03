@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import Navigeringsmeny from './meny/Navigeringsmeny';
+import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import ImportertMicrofrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 import Modiadekoratør from './modia/Modiadekoratør';

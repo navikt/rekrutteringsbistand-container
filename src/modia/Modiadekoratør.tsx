@@ -15,11 +15,14 @@ type Props = {
     onNavKontorChange: (navKontor: string) => void;
 };
 
+const Placeholder = () => <div className="modiadekoratør__placeholder" />;
+
 const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChange }) => (
     <div className={`modiadekoratør${erMocket ? ' modiadekoratør--mocket' : ''}`}>
         <Microfrontend<DekoratørProps>
             brukNavspa
             appName="internarbeidsflatefs"
+            placeholder={<Placeholder />}
             staticPaths={[
                 `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
                 `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,

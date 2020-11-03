@@ -2,7 +2,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { ReactElement, useRef } from 'react';
 import importerMicrofrontend from './importerMicrofrontend';
 import useAppAssets, { AssetStatus } from './useAppAssets';
-import AlertStripe, { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import './Microfrontend.less';
 
 export type MicrofrontendProps<AppProps> = {

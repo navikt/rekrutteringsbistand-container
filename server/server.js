@@ -1,10 +1,9 @@
 const path = require('path');
 const express = require('express');
-const jws = require('jws');
+const ensureLoggedIn = require('./login.js');
 const app = express();
 
 const port = process.env.PORT || 8080;
-const loginserviceUrl = process.env.LOGINSERVICE_URL;
 
 const buildPath = path.join(__dirname, '../build');
 
@@ -25,39 +24,6 @@ const startServer = () => {
     app.listen(port, () => {
         console.log('Server kjører på port', port);
     });
-};
-
-const hentLoginTokenFraCookies = (cookies) => {
-    if (cookies !== undefined) {
-        const erLoginCookie = (cookie) => typeof cookie === 'string' && cookie.includes('-idtoken');
-        const loginCookie = cookies.split(';').find(erLoginCookie);
-
-        if (loginCookie) {
-            return loginCookie.split('=').pop().trim();
-        }
-    }
-
-    return undefined;
-};
-
-const tokenErUtløpt = (token) => {
-    let expiration = jws.decode(token).payload.exp;
-    if (expiration.toString().length === 10) {
-        expiration = expiration * 1000;
-    }
-
-    return expiration - Date.now() < 0;
-};
-
-const ensureLoggedIn = (req, res, next) => {
-    const loginToken = hentLoginTokenFraCookies(req.headers.cookie);
-    if (loginToken === undefined || tokenErUtløpt(loginToken)) {
-        const hostname = req.get('host');
-        const redirectUrl = `${loginserviceUrl}?redirect=https://${hostname}`;
-        return res.redirect(redirectUrl);
-    }
-
-    return next();
 };
 
 startServer();

@@ -17,3 +17,6 @@ spec:
     readiness:
         initialDelay: 5
         path: /container/internal/isReady
+    env:
+        - name: LOGINSERVICE_URL
+          value: https://loginservice.nais.adeo.no/login

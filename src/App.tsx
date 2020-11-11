@@ -1,10 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
-import { Microfrontend2 } from './microfrontend/Microfrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Switch, Route } from 'react-router-dom';
 import Microfrontend from './microfrontend/Microfrontend';
-import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
 const importerMicrofrontends =
     process.env.REACT_APP_IMPORT || process.env.NODE_ENV === 'production';
@@ -34,6 +32,7 @@ const App: FunctionComponent = () => {
                         path="/stillinger"
                         render={() => (
                             <Microfrontend<StillingerProps>
+                                key="rekrutteringsbistand-stilling"
                                 appName="rekrutteringsbistand-stilling"
                                 appPath="/microfrontend-ressurser/stilling"
                                 appProps={{
@@ -46,7 +45,8 @@ const App: FunctionComponent = () => {
                         exact
                         path="/"
                         render={() => (
-                            <Microfrontend2<StatistikkProps>
+                            <Microfrontend<StatistikkProps>
+                                key="rekrutteringsbistand-statistikk"
                                 appName="rekrutteringsbistand-statistikk"
                                 appPath="/microfrontend-ressurser/statistikk"
                                 appProps={{

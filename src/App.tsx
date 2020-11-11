@@ -1,13 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
-import ImportertMicrofrontend from './microfrontend/Microfrontend';
-import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
+import { Microfrontend2 } from './microfrontend/Microfrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
+import { Switch, Route } from 'react-router-dom';
+import Microfrontend from './microfrontend/Microfrontend';
+import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
 const importerMicrofrontends =
     process.env.REACT_APP_IMPORT || process.env.NODE_ENV === 'production';
 
-const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMicrofrontend;
+// const Microfrontend = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
 
 type StatistikkProps = {
     navKontor: string | null;
@@ -27,20 +29,33 @@ const App: FunctionComponent = () => {
                 <Navigeringsmeny />
             </header>
             <main>
-                <Microfrontend<StillingerProps>
-                    appName="rekrutteringsbistand-stilling"
-                    appPath="/stillinger"
-                    appProps={{
-                        navKontor,
-                    }}
-                />
-                <Microfrontend<StatistikkProps>
-                    appName="rekrutteringsbistand-statistikk"
-                    appPath="/statistikk"
-                    appProps={{
-                        navKontor,
-                    }}
-                />
+                <Switch>
+                    <Route
+                        path="/stillinger"
+                        render={() => (
+                            <Microfrontend<StillingerProps>
+                                appName="rekrutteringsbistand-stilling"
+                                appPath="/microfrontend-ressurser/stilling"
+                                appProps={{
+                                    navKontor,
+                                }}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Microfrontend2<StatistikkProps>
+                                appName="rekrutteringsbistand-statistikk"
+                                appPath="/microfrontend-ressurser/statistikk"
+                                appProps={{
+                                    navKontor,
+                                }}
+                            />
+                        )}
+                    />
+                </Switch>
             </main>
         </>
     );

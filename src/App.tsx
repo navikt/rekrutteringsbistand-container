@@ -13,6 +13,10 @@ type StatistikkProps = {
     navKontor: string | null;
 };
 
+type StillingerProps = {
+    navKontor: string | null;
+};
+
 const App: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
@@ -23,6 +27,13 @@ const App: FunctionComponent = () => {
                 <Navigeringsmeny />
             </header>
             <main>
+                <Microfrontend<StillingerProps>
+                    appName="rekrutteringsbistand-stilling"
+                    appPath="/stillinger"
+                    appProps={{
+                        navKontor,
+                    }}
+                />
                 <Microfrontend<StatistikkProps>
                     appName="rekrutteringsbistand-statistikk"
                     appPath="/statistikk"

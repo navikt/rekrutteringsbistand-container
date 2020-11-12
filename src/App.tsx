@@ -5,8 +5,9 @@ import { Switch, Route } from 'react-router-dom';
 import ImportertMicrofrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
-const importerMicrofrontends =
-    process.env.REACT_APP_IMPORT || process.env.NODE_ENV === 'production';
+const nodeEnvProduction = process.env.NODE_ENV === 'production';
+
+const importerMicrofrontends = process.env.REACT_APP_IMPORT || nodeEnvProduction;
 
 const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMicrofrontend;
 
@@ -36,6 +37,7 @@ const App: FunctionComponent = () => {
                                 key="rekrutteringsbistand-stilling"
                                 appName="rekrutteringsbistand-stilling"
                                 appPath="/microfrontend-ressurser/stilling"
+                                staticPaths={nodeEnvProduction ? ['env.js'] : undefined}
                                 appProps={{
                                     navKontor,
                                 }}

@@ -76,7 +76,13 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
         };
 
         if (!loadjs.isDefined(appName)) {
-            pathToManifest ? loadAppFromManifest(pathToManifest) : loadDefinedAssets(staticPaths);
+            if (pathToManifest) {
+                loadAppFromManifest(pathToManifest);
+            }
+
+            if (staticPaths && staticPaths.length > 0) {
+                loadDefinedAssets(staticPaths);
+            }
         }
     }, [appName, staticPaths, pathToManifest]);
 

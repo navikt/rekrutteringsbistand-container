@@ -37,7 +37,11 @@ const App: FunctionComponent = () => {
                                 key="rekrutteringsbistand-stilling"
                                 appName="rekrutteringsbistand-stilling"
                                 appPath="/microfrontend-ressurser/stilling"
-                                staticPaths={nodeEnvProduction ? ['env.js'] : undefined}
+                                staticPaths={
+                                    nodeEnvProduction
+                                        ? ['/microfrontend-ressurser/stilling/static/js/env.js']
+                                        : undefined
+                                }
                                 appProps={{
                                     navKontor,
                                 }}

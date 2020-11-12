@@ -75,14 +75,33 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
             }
         };
 
-        if (!loadjs.isDefined(appName)) {
-            if (pathToManifest) {
-                loadAppFromManifest(pathToManifest);
-            }
+        const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
+            try {
+                if (pathToManifest) {
+                    const manifest = await fetchAssetManifest(
+                        createAssetManifestUrl(pathToManifest)
+                    );
+                    const pathsToLoad = extractPathsToLoadFromManifest(manifest);
 
-            if (staticPaths && staticPaths.length > 0) {
-                loadDefinedAssets(staticPaths);
+                    await loadjs(pathsToLoad, appName, {
+                        returnPromise: true,
+                    });
+                }
+
+                if (staticPaths && staticPaths.length > 0) {
+                    await loadjs(staticPaths, appName, {
+                        returnPromise: true,
+                    });
+                }
+
+                setStatus(AssetStatus.Klar);
+            } catch (e) {
+                setStatus(AssetStatus.Feil);
             }
+        };
+
+        if (!loadjs.isDefined(appName)) {
+            loadAssets(pathToManifest, staticPaths);
         }
     }, [appName, staticPaths, pathToManifest]);
 

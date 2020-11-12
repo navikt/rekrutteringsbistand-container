@@ -2,12 +2,13 @@ import React, { FunctionComponent, useState } from 'react';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Switch, Route } from 'react-router-dom';
-import Microfrontend from './microfrontend/Microfrontend';
+import ImportertMicrofrontend from './microfrontend/Microfrontend';
+import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 
 const importerMicrofrontends =
     process.env.REACT_APP_IMPORT || process.env.NODE_ENV === 'production';
 
-// const Microfrontend = importerMicrofrontends ? Microfrontend : MocketMicrofrontend;
+const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMicrofrontend;
 
 type StatistikkProps = {
     navKontor: string | null;

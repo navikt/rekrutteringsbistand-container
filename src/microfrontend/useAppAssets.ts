@@ -48,33 +48,6 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
     );
 
     useEffect(() => {
-        const loadAppFromManifest = async (pathToManifest: string) => {
-            try {
-                const manifest = await fetchAssetManifest(createAssetManifestUrl(pathToManifest));
-                const pathsToLoad = extractPathsToLoadFromManifest(manifest);
-
-                await loadjs(pathsToLoad, appName, {
-                    returnPromise: true,
-                });
-
-                setStatus(AssetStatus.Klar);
-            } catch (e) {
-                setStatus(AssetStatus.Feil);
-            }
-        };
-
-        const loadDefinedAssets = async (staticPaths: string[]) => {
-            try {
-                await loadjs(staticPaths, appName, {
-                    returnPromise: true,
-                });
-
-                setStatus(AssetStatus.Klar);
-            } catch (e) {
-                setStatus(AssetStatus.Feil);
-            }
-        };
-
         const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
             try {
                 if (pathToManifest) {

@@ -56,19 +56,42 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
                     );
                     const pathsToLoad = extractPathsToLoadFromManifest(manifest);
 
+                    console.log(
+                        `Laster assets fra manifest. pathsToLoad: ${pathsToLoad.join(
+                            ', '
+                        )}, appName: ${appName}`
+                    );
+
                     await loadjs(pathsToLoad, appName, {
                         returnPromise: true,
                     });
+
+                    console.log(
+                        `Ferdig å laste inn assets fra manifest! ${pathsToLoad.join(
+                            ', '
+                        )}, appName: ${appName}`
+                    );
                 }
 
                 if (staticPaths && staticPaths.length > 0) {
+                    console.log(
+                        `Laster inn fra staticPaths: ${staticPaths.join(', ')}, appName: ${appName}`
+                    );
                     await loadjs(staticPaths, appName, {
                         returnPromise: true,
                     });
+                    console.log(
+                        `Ferdig å laste inn fra staticPaths: ${staticPaths.join(
+                            ', '
+                        )}, appName: ${appName}`
+                    );
                 }
 
+                console.log('Alle assets lastet ned. Setter AssertStatus: Klar');
                 setStatus(AssetStatus.Klar);
             } catch (e) {
+                console.log('Noe feil skjedde ved lasting av assets!', e);
+                console.log('Error: ' + e);
                 setStatus(AssetStatus.Feil);
             }
         };

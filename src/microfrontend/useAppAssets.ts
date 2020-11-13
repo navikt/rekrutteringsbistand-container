@@ -50,42 +50,30 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
     useEffect(() => {
         const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
             try {
-                if (staticPaths && staticPaths.length > 0) {
-                    console.log(
-                        `Laster inn fra staticPaths: ${staticPaths.join(', ')}, appName: ${appName}`
-                    );
-                    await loadjs(staticPaths, appName, {
-                        returnPromise: true,
-                    });
-                    console.log(
-                        `Ferdig å laste inn fra staticPaths: ${staticPaths.join(
-                            ', '
-                        )}, appName: ${appName}`
-                    );
-                }
-
+                let liste: string[] = staticPaths;
                 if (pathToManifest) {
                     const manifest = await fetchAssetManifest(
                         createAssetManifestUrl(pathToManifest)
                     );
                     const pathsToLoad = extractPathsToLoadFromManifest(manifest);
-
-                    console.log(
-                        `Laster assets fra manifest. pathsToLoad: ${pathsToLoad.join(
-                            ', '
-                        )}, appName: ${appName}`
-                    );
-
-                    await loadjs(pathsToLoad, appName, {
-                        returnPromise: true,
-                    });
-
-                    console.log(
-                        `Ferdig å laste inn assets fra manifest! ${pathsToLoad.join(
-                            ', '
-                        )}, appName: ${appName}`
-                    );
+                    liste = [...liste, ...pathsToLoad];
                 }
+
+                console.log(
+                    `Laster assets fra manifest. pathsToLoad: ${liste.join(
+                        ', '
+                    )}, appName: ${appName}`
+                );
+
+                await loadjs(liste, appName, {
+                    returnPromise: true,
+                });
+
+                console.log(
+                    `Ferdig å laste inn assets fra manifest! ${liste.join(
+                        ', '
+                    )}, appName: ${appName}`
+                );
 
                 console.log('Alle assets lastet ned. Setter AssertStatus: Klar');
                 setStatus(AssetStatus.Klar);

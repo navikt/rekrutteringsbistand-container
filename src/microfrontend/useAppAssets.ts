@@ -90,6 +90,7 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
                 console.log('Alle assets lastet ned. Setter AssertStatus: Klar');
                 setStatus(AssetStatus.Klar);
             } catch (e) {
+                console.trace();
                 console.log('Noe feil skjedde ved lasting av assets!', e);
                 console.log('Error: ' + e);
                 setStatus(AssetStatus.Feil);

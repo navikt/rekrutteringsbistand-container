@@ -30,31 +30,38 @@ const App: FunctionComponent = () => {
             </header>
             <main>
                 <Switch>
-                    <Route path="/stillinger">
-                        <Microfrontend<StillingerProps>
-                            key="rekrutteringsbistand-stilling"
-                            appName="rekrutteringsbistand-stilling"
-                            appPath="/rekrutteringsbistand-stilling"
-                            staticPaths={
-                                nodeEnvProduction
-                                    ? ['/rekrutteringsbistand-stilling/static/js/env.js']
-                                    : undefined
-                            }
-                            appProps={{
-                                navKontor,
-                            }}
-                        />
-                    </Route>
-                    <Route exact path="/">
-                        <Microfrontend<StatistikkProps>
-                            key="rekrutteringsbistand-statistikk"
-                            appName="rekrutteringsbistand-statistikk"
-                            appPath="/rekrutteringsbistand-statistikk"
-                            appProps={{
-                                navKontor,
-                            }}
-                        />
-                    </Route>
+                    <Route
+                        path="/stillinger"
+                        render={() => (
+                            <Microfrontend<StillingerProps>
+                                key="rekrutteringsbistand-stilling"
+                                appName="rekrutteringsbistand-stilling"
+                                appPath="/rekrutteringsbistand-stilling"
+                                staticPaths={
+                                    nodeEnvProduction
+                                        ? ['/rekrutteringsbistand-stilling/static/js/env.js']
+                                        : undefined
+                                }
+                                appProps={{
+                                    navKontor,
+                                }}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Microfrontend<StatistikkProps>
+                                key="rekrutteringsbistand-statistikk"
+                                appName="rekrutteringsbistand-statistikk"
+                                appPath="/rekrutteringsbistand-statistikk"
+                                appProps={{
+                                    navKontor,
+                                }}
+                            />
+                        )}
+                    />
                 </Switch>
             </main>
         </>

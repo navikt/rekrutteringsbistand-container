@@ -50,6 +50,20 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
     useEffect(() => {
         const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
             try {
+                if (staticPaths && staticPaths.length > 0) {
+                    console.log(
+                        `Laster inn fra staticPaths: ${staticPaths.join(', ')}, appName: ${appName}`
+                    );
+                    await loadjs(staticPaths, appName, {
+                        returnPromise: true,
+                    });
+                    console.log(
+                        `Ferdig å laste inn fra staticPaths: ${staticPaths.join(
+                            ', '
+                        )}, appName: ${appName}`
+                    );
+                }
+
                 if (pathToManifest) {
                     const manifest = await fetchAssetManifest(
                         createAssetManifestUrl(pathToManifest)
@@ -68,20 +82,6 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
 
                     console.log(
                         `Ferdig å laste inn assets fra manifest! ${pathsToLoad.join(
-                            ', '
-                        )}, appName: ${appName}`
-                    );
-                }
-
-                if (staticPaths && staticPaths.length > 0) {
-                    console.log(
-                        `Laster inn fra staticPaths: ${staticPaths.join(', ')}, appName: ${appName}`
-                    );
-                    await loadjs(staticPaths, appName, {
-                        returnPromise: true,
-                    });
-                    console.log(
-                        `Ferdig å laste inn fra staticPaths: ${staticPaths.join(
                             ', '
                         )}, appName: ${appName}`
                     );

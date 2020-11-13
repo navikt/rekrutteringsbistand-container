@@ -11,6 +11,6 @@ module.exports = (app) => {
         );
     };
 
-    setupProxy('/microfrontend-ressurser/statistikk', 'http://localhost:3001');
-    setupProxy('/microfrontend-ressurser/stilling', 'http://localhost:3002');
+    setupProxy('/rekrutteringsbistand-statistikk', 'http://localhost:3001');
+    setupProxy('/rekrutteringsbistand-stilling', 'http://localhost:3002');
 };

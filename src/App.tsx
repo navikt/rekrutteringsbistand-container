@@ -36,7 +36,7 @@ const App: FunctionComponent = () => {
                             <Microfrontend<StillingerProps>
                                 key="rekrutteringsbistand-stilling"
                                 appName="rekrutteringsbistand-stilling"
-                                appPath="/microfrontend-ressurser/stilling"
+                                appPath="/rekrutteringsbistand-stilling"
                                 staticPaths={
                                     nodeEnvProduction
                                         ? ['/microfrontend-ressurser/stilling/static/js/env.js']
@@ -55,7 +55,7 @@ const App: FunctionComponent = () => {
                             <Microfrontend<StatistikkProps>
                                 key="rekrutteringsbistand-statistikk"
                                 appName="rekrutteringsbistand-statistikk"
-                                appPath="/microfrontend-ressurser/statistikk"
+                                appPath="/rekrutteringsbistand-statistikk"
                                 appProps={{
                                     navKontor,
                                 }}

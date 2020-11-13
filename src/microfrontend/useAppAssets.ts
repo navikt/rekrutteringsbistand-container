@@ -59,28 +59,12 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
                     liste = [...liste, ...pathsToLoad];
                 }
 
-                console.log(
-                    `Laster assets fra manifest. pathsToLoad: ${liste.join(
-                        ', '
-                    )}, appName: ${appName}`
-                );
-
                 await loadjs(liste, appName, {
                     returnPromise: true,
                 });
 
-                console.log(
-                    `Ferdig å laste inn assets fra manifest! ${liste.join(
-                        ', '
-                    )}, appName: ${appName}`
-                );
-
-                console.log('Alle assets lastet ned. Setter AssertStatus: Klar');
                 setStatus(AssetStatus.Klar);
             } catch (e) {
-                console.trace();
-                console.log('Noe feil skjedde ved lasting av assets!', e);
-                console.log('Error: ' + e);
                 setStatus(AssetStatus.Feil);
             }
         };

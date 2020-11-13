@@ -39,7 +39,7 @@ const App: FunctionComponent = () => {
                                 appPath="/rekrutteringsbistand-stilling"
                                 staticPaths={
                                     nodeEnvProduction
-                                        ? ['/microfrontend-ressurser/stilling/static/js/env.js']
+                                        ? ['/rekrutteringsbistand-stilling/static/js/env.js']
                                         : undefined
                                 }
                                 appProps={{

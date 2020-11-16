@@ -50,16 +50,16 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
     useEffect(() => {
         const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
             try {
-                let liste: string[] = staticPaths;
+                let pathsToLoad: string[] = staticPaths;
                 if (pathToManifest) {
                     const manifest = await fetchAssetManifest(
                         createAssetManifestUrl(pathToManifest)
                     );
-                    const pathsToLoad = extractPathsToLoadFromManifest(manifest);
-                    liste = [...liste, ...pathsToLoad];
+                    const pathsFromManifest = extractPathsToLoadFromManifest(manifest);
+                    pathsToLoad = [...pathsToLoad, ...pathsFromManifest];
                 }
 
-                await loadjs(liste, appName, {
+                await loadjs(pathsToLoad, appName, {
                     returnPromise: true,
                 });
 

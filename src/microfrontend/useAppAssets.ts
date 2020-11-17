@@ -48,10 +48,16 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
     );
 
     useEffect(() => {
-        const loadAppFromManifest = async (pathToManifest: string) => {
+        const loadAssets = async (pathToManifest: string | undefined, staticPaths: string[]) => {
             try {
-                const manifest = await fetchAssetManifest(createAssetManifestUrl(pathToManifest));
-                const pathsToLoad = extractPathsToLoadFromManifest(manifest);
+                let pathsToLoad: string[] = staticPaths;
+                if (pathToManifest) {
+                    const manifest = await fetchAssetManifest(
+                        createAssetManifestUrl(pathToManifest)
+                    );
+                    const pathsFromManifest = extractPathsToLoadFromManifest(manifest);
+                    pathsToLoad = [...pathsToLoad, ...pathsFromManifest];
+                }
 
                 await loadjs(pathsToLoad, appName, {
                     returnPromise: true,
@@ -63,20 +69,8 @@ const useAppAssets = (appName: string, staticPaths: string[] = [], pathToManifes
             }
         };
 
-        const loadDefinedAssets = async (staticPaths: string[]) => {
-            try {
-                await loadjs(staticPaths, appName, {
-                    returnPromise: true,
-                });
-
-                setStatus(AssetStatus.Klar);
-            } catch (e) {
-                setStatus(AssetStatus.Feil);
-            }
-        };
-
         if (!loadjs.isDefined(appName)) {
-            pathToManifest ? loadAppFromManifest(pathToManifest) : loadDefinedAssets(staticPaths);
+            loadAssets(pathToManifest, staticPaths);
         }
     }, [appName, staticPaths, pathToManifest]);
 

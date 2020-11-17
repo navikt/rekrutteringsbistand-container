@@ -14,12 +14,12 @@ const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
         href: '/stillinger',
-        erSammeApp: false,
+        erSammeApp: true,
     },
     {
         tittel: 'Mine stillinger',
         href: '/stillinger/minestillinger',
-        erSammeApp: false,
+        erSammeApp: true,
     },
     {
         tittel: 'Kandidatsøk',
@@ -51,7 +51,7 @@ const Navigeringsmeny: FunctionComponent = () => {
                         <Tab
                             key={tab.href}
                             config={tab}
-                            erAktiv={pathname.startsWith(tab.href)}
+                            erAktiv={pathname === tab.href}
                             onClick={onTabClick(tab.href)}
                         />
                     ))}

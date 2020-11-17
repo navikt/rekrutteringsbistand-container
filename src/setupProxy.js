@@ -11,6 +11,6 @@ module.exports = (app) => {
         );
     };
 
-    setupProxy('/statistikk', 'http://localhost:3001');
-    setupProxy('/kandidater', 'http://localhost:3002');
+    setupProxy('/rekrutteringsbistand-statistikk', 'http://localhost:3001');
+    setupProxy('/rekrutteringsbistand-stilling', 'http://localhost:3002');
 };

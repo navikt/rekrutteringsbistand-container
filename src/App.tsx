@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
-import Modiadekoratør from './modia/Modiadekoratør';
 import { Switch, Route } from 'react-router-dom';
+import { History } from 'history';
+
+import history from './history';
 import ImportertMicrofrontend from './microfrontend/Microfrontend';
 import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
+import Modiadekoratør from './modia/Modiadekoratør';
+import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 
 const nodeEnvProduction = process.env.NODE_ENV === 'production';
 
@@ -13,10 +16,12 @@ const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMi
 
 type StatistikkProps = {
     navKontor: string | null;
+    history: History;
 };
 
 type StillingerProps = {
     navKontor: string | null;
+    history: History;
 };
 
 const App: FunctionComponent = () => {
@@ -30,38 +35,33 @@ const App: FunctionComponent = () => {
             </header>
             <main>
                 <Switch>
-                    <Route
-                        path="/stillinger"
-                        render={() => (
-                            <Microfrontend<StillingerProps>
-                                key="rekrutteringsbistand-stilling"
-                                appName="rekrutteringsbistand-stilling"
-                                appPath="/rekrutteringsbistand-stilling"
-                                staticPaths={
-                                    nodeEnvProduction
-                                        ? ['/rekrutteringsbistand-stilling/static/js/env.js']
-                                        : undefined
-                                }
-                                appProps={{
-                                    navKontor,
-                                }}
-                            />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Microfrontend<StatistikkProps>
-                                key="rekrutteringsbistand-statistikk"
-                                appName="rekrutteringsbistand-statistikk"
-                                appPath="/rekrutteringsbistand-statistikk"
-                                appProps={{
-                                    navKontor,
-                                }}
-                            />
-                        )}
-                    />
+                    <Route path="/stillinger">
+                        <Microfrontend<StillingerProps>
+                            key="rekrutteringsbistand-stilling"
+                            appName="rekrutteringsbistand-stilling"
+                            appPath="/rekrutteringsbistand-stilling"
+                            staticPaths={
+                                nodeEnvProduction
+                                    ? ['/rekrutteringsbistand-stilling/static/js/env.js']
+                                    : undefined
+                            }
+                            appProps={{
+                                navKontor,
+                                history,
+                            }}
+                        />
+                    </Route>
+                    <Route exact path="/">
+                        <Microfrontend<StatistikkProps>
+                            key="rekrutteringsbistand-statistikk"
+                            appName="rekrutteringsbistand-statistikk"
+                            appPath="/rekrutteringsbistand-statistikk"
+                            appProps={{
+                                navKontor,
+                                history,
+                            }}
+                        />
+                    </Route>
                 </Switch>
             </main>
         </>

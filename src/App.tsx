@@ -26,6 +26,7 @@ type StillingerProps = {
 
 type KandidaterProps = {
     navKontor: string | null;
+    history: History;
 };
 
 const App: FunctionComponent = () => {
@@ -69,6 +70,7 @@ const App: FunctionComponent = () => {
                                 }
                                 appProps={{
                                     navKontor,
+                                    history,
                                 }}
                             />
                         )}

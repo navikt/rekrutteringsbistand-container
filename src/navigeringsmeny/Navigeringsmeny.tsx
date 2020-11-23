@@ -24,12 +24,12 @@ const tabs: TabConfig[] = [
     {
         tittel: 'Kandidatsøk',
         href: '/kandidater',
-        erSammeApp: false,
+        erSammeApp: true,
     },
     {
         tittel: 'Kandidatlister',
         href: '/kandidater/lister',
-        erSammeApp: false,
+        erSammeApp: true,
     },
 ];
 

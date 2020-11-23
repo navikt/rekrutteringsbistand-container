@@ -56,25 +56,22 @@ const App: FunctionComponent = () => {
                             }}
                         />
                     </Route>
-                    <Route
-                        path="/kandidater"
-                        render={() => (
-                            <Microfrontend<KandidaterProps>
-                                key="rekrutteringsbistand-kandidat"
-                                appName="rekrutteringsbistand-kandidat"
-                                appPath="/rekrutteringsbistand-kandidat"
-                                staticPaths={
-                                    nodeEnvProduction
-                                        ? ['/rekrutteringsbistand-kandidat/static/js/env.js']
-                                        : undefined
-                                }
-                                appProps={{
-                                    navKontor,
-                                    history,
-                                }}
-                            />
-                        )}
-                    />
+                    <Route path="/kandidater">
+                        <Microfrontend<KandidaterProps>
+                            key="rekrutteringsbistand-kandidat"
+                            appName="rekrutteringsbistand-kandidat"
+                            appPath="/rekrutteringsbistand-kandidat"
+                            staticPaths={
+                                nodeEnvProduction
+                                    ? ['/rekrutteringsbistand-kandidat/static/js/env.js']
+                                    : undefined
+                            }
+                            appProps={{
+                                navKontor,
+                                history,
+                            }}
+                        />
+                    </Route>
                     <Route exact path="/">
                         <Microfrontend<StatistikkProps>
                             key="rekrutteringsbistand-statistikk"

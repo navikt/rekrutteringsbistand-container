@@ -24,6 +24,11 @@ type StillingerProps = {
     history: History;
 };
 
+type KandidaterProps = {
+    navKontor: string | null;
+    history: History;
+};
+
 const App: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
@@ -43,6 +48,22 @@ const App: FunctionComponent = () => {
                             staticPaths={
                                 nodeEnvProduction
                                     ? ['/rekrutteringsbistand-stilling/static/js/env.js']
+                                    : undefined
+                            }
+                            appProps={{
+                                navKontor,
+                                history,
+                            }}
+                        />
+                    </Route>
+                    <Route path="/kandidater">
+                        <Microfrontend<KandidaterProps>
+                            key="rekrutteringsbistand-kandidat"
+                            appName="rekrutteringsbistand-kandidat"
+                            appPath="/rekrutteringsbistand-kandidat"
+                            staticPaths={
+                                nodeEnvProduction
+                                    ? ['/rekrutteringsbistand-kandidat/static/js/env.js']
                                     : undefined
                             }
                             appProps={{

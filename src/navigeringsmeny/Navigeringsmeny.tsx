@@ -14,22 +14,18 @@ const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
         href: '/stillinger',
-        erSammeApp: true,
     },
     {
         tittel: 'Mine stillinger',
         href: '/stillinger/minestillinger',
-        erSammeApp: true,
     },
     {
         tittel: 'Kandidatsøk',
         href: '/kandidater',
-        erSammeApp: false,
     },
     {
         tittel: 'Kandidatlister',
         href: '/kandidater/lister',
-        erSammeApp: false,
     },
 ];
 

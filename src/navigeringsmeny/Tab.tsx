@@ -5,7 +5,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 export type TabConfig = {
     tittel: string;
     href: string;
-    erSammeApp: boolean;
 };
 
 type Props = {
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
-    const { tittel, href, erSammeApp } = config;
+    const { tittel, href } = config;
 
     let className = 'navigeringsmeny__tab';
 
@@ -23,14 +22,10 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
         className += ' navigeringsmeny__tab--aktiv';
     }
 
-    return erSammeApp ? (
+    return (
         <Link className={className} to={href} onClick={onClick}>
             <Normaltekst>{tittel}</Normaltekst>
         </Link>
-    ) : (
-        <a className={className} href={href} onClick={onClick}>
-            <Normaltekst>{tittel}</Normaltekst>
-        </a>
     );
 };
 

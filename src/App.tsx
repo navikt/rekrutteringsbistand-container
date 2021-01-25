@@ -14,17 +14,7 @@ const importerMicrofrontends = process.env.REACT_APP_IMPORT || nodeEnvProduction
 
 const Microfrontend = importerMicrofrontends ? ImportertMicrofrontend : MocketMicrofrontend;
 
-type StatistikkProps = {
-    navKontor: string | null;
-    history: History;
-};
-
-type StillingerProps = {
-    navKontor: string | null;
-    history: History;
-};
-
-type KandidaterProps = {
+type FellesMicrofrontendProps = {
     navKontor: string | null;
     history: History;
 };
@@ -41,7 +31,7 @@ const App: FunctionComponent = () => {
             <main>
                 <Switch>
                     <Route path="/stillinger">
-                        <Microfrontend<StillingerProps>
+                        <Microfrontend<FellesMicrofrontendProps>
                             key="rekrutteringsbistand-stilling"
                             appName="rekrutteringsbistand-stilling"
                             appPath="/rekrutteringsbistand-stilling"
@@ -51,8 +41,19 @@ const App: FunctionComponent = () => {
                             }}
                         />
                     </Route>
+                    <Route path="/stillingssok">
+                        <Microfrontend<FellesMicrofrontendProps>
+                            key="rekrutteringsbistand-stillingssok"
+                            appName="rekrutteringsbistand-stillingssok"
+                            appPath="/rekrutteringsbistand-stillingssok"
+                            appProps={{
+                                navKontor,
+                                history,
+                            }}
+                        />
+                    </Route>
                     <Route path="/kandidater">
-                        <Microfrontend<KandidaterProps>
+                        <Microfrontend<FellesMicrofrontendProps>
                             key="rekrutteringsbistand-kandidat"
                             appName="rekrutteringsbistand-kandidat"
                             appPath="/rekrutteringsbistand-kandidat"
@@ -63,7 +64,7 @@ const App: FunctionComponent = () => {
                         />
                     </Route>
                     <Route exact path="/">
-                        <Microfrontend<StatistikkProps>
+                        <Microfrontend<FellesMicrofrontendProps>
                             key="rekrutteringsbistand-statistikk"
                             appName="rekrutteringsbistand-statistikk"
                             appPath="/rekrutteringsbistand-statistikk"

@@ -9,7 +9,7 @@ const erProd = window.location.href.includes('adeo.no');
 
 const baseUrl =
     process.env.NODE_ENV === 'production'
-        ? `https://internarbeidsflatedecorator.nais.${erProd ? 'preprod.local' : 'adeo.no'}`
+        ? `https://internarbeidsflatedecorator.nais.${erProd ? 'adeo.no' : 'preprod.local'}`
         : 'https://navikt.github.io';
 
 type Props = {

@@ -26,7 +26,7 @@ const fetchAssetManifest = async (url: string): Promise<AssetManifest> => {
     return manifest.json();
 };
 
-const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
+export const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
     const pathsToLoad: string[] = [];
     const unnecessaryFiles = ['runtime-main', 'service-worker', 'precache-manifest'];
 
@@ -36,6 +36,25 @@ const extractPathsToLoadFromManifest = (manifest: AssetManifest): string[] => {
 
         if (isCssOrJs && !isUnnecessary) {
             pathsToLoad.push(path);
+        }
+    });
+
+    return pathsToLoad;
+};
+
+export const extractPathsToLoadFromExternalManifest = (
+    manifest: AssetManifest,
+    baseUrl: string
+): string[] => {
+    const pathsToLoad: string[] = [];
+    const unnecessaryFiles = ['runtime-main', 'service-worker', 'precache-manifest'];
+
+    Object.entries(manifest.files).forEach(([_, path]) => {
+        const isCssOrJs = path.endsWith('.js') || path.endsWith('.css');
+        const isUnnecessary = unnecessaryFiles.find((filePath) => path.includes(filePath));
+
+        if (isCssOrJs && !isUnnecessary) {
+            pathsToLoad.push(baseUrl + path);
         }
     });
 

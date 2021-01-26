@@ -5,12 +5,11 @@ import DekoratørProps, { EnhetDisplay } from './DekoratørProps';
 import assetManifestParser from '../microfrontends/assetManifestUtils';
 import './Modiadekoratør.less';
 
-const erProd = window.location.href.includes('adeo.no');
+const baseUrlIMiljø = window.location.href.includes('adeo.no')
+    ? 'https://internarbeidsflatedecorator.nais.adeo.no'
+    : 'https://internarbeidsflatedecorator-q0.nais.preprod.local';
 
-const baseUrl =
-    process.env.NODE_ENV === 'production'
-        ? `https://internarbeidsflatedecorator.nais.${erProd ? 'adeo.no' : 'preprod.local'}`
-        : 'https://navikt.github.io';
+const baseUrl = process.env.NODE_ENV === 'production' ? baseUrlIMiljø : 'https://navikt.github.io';
 
 type Props = {
     navKontor: string | null;

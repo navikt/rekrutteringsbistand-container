@@ -29,7 +29,7 @@ const App: FunctionComponent = () => {
                         <Kandidat navKontor={navKontor} history={history} />
                     </Route>
 
-                    <Route path="/kandidater">
+                    <Route path="/">
                         <Statistikk navKontor={navKontor} history={history} />
                     </Route>
                 </Switch>

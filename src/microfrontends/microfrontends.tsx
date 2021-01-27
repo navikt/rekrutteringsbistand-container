@@ -45,13 +45,6 @@ const stillingssøkConfig = {
     loader: <LasterInn />,
 };
 
-export const preloadMicrofrontends = () => {
-    AsyncNavspa.preload(stillingConfig);
-    AsyncNavspa.preload(kandidatConfig);
-    AsyncNavspa.preload(statistikkConfig);
-    AsyncNavspa.preload(stillingssøkConfig);
-};
-
 export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);

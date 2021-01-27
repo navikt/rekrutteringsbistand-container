@@ -1,43 +1,45 @@
 import React, { FunctionComponent } from 'react';
-import { AsyncNavspa } from '@navikt/navspa';
-
 import DekoratørProps, { EnhetDisplay } from './DekoratørProps';
-import assetManifestParser from '../microfrontends/assetManifestUtils';
+import OldMicrofrontend from './OldMicrofrontend';
 import './Modiadekoratør.less';
 
-const baseUrlIMiljø = window.location.href.includes('adeo.no')
-    ? 'https://internarbeidsflatedecorator.nais.adeo.no'
-    : 'https://internarbeidsflatedecorator-q0.nais.preprod.local';
+const urlPrefix =
+    process.env.NODE_ENV === 'production'
+        ? 'https://internarbeidsflatedecorator.nais.adeo.no'
+        : 'https://navikt.github.io';
 
-const baseUrl = process.env.NODE_ENV === 'production' ? baseUrlIMiljø : 'https://navikt.github.io';
+const erMocket = process.env.REACT_APP_MOCK;
 
 type Props = {
     navKontor: string | null;
     onNavKontorChange: (navKontor: string) => void;
 };
 
+const Placeholder = () => <div className="modiadekoratør__placeholder" />;
+
 const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChange }) => (
-    <div className={`modiadekoratør${process.env.REACT_APP_MOCK ? ' modiadekoratør--mocket' : ''}`}>
-        <AsyncModiadekoratør
-            appname="Rekrutteringsbistand"
-            enhet={{
-                initialValue: navKontor,
-                display: EnhetDisplay.ENHET_VALG,
-                onChange: onNavKontorChange,
-                ignoreWsEvents: true,
-            }}
-            toggles={{
-                visVeileder: true,
+    <div className={`modiadekoratør${erMocket ? ' modiadekoratør--mocket' : ''}`}>
+        <OldMicrofrontend<DekoratørProps>
+            appName="internarbeidsflatefs"
+            placeholder={<Placeholder />}
+            staticPaths={[
+                `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
+                `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,
+            ]}
+            appProps={{
+                appname: 'Rekrutteringsbistand',
+                enhet: {
+                    initialValue: navKontor,
+                    display: EnhetDisplay.ENHET_VALG,
+                    onChange: onNavKontorChange,
+                    ignoreWsEvents: true,
+                },
+                toggles: {
+                    visVeileder: true,
+                },
             }}
         />
     </div>
 );
-
-const AsyncModiadekoratør = AsyncNavspa.importer<DekoratørProps>({
-    appName: 'internarbeidsflatefs',
-    appBaseUrl: `${baseUrl}/internarbeidsflatedecorator/v2.1`,
-    assetManifestParser: assetManifestParser,
-    loader: <div className="modiadekoratør__placeholder" />,
-});
 
 export default Modiadekoratør;

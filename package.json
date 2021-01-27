@@ -11,6 +11,7 @@
         "@testing-library/user-event": "^7.1.2",
         "history": "^4.10.1",
         "http-proxy-middleware": "^1.0.6",
+        "loadjs": "^4.2.0",
         "nav-frontend-alertstriper": "^3.0.33",
         "nav-frontend-alertstriper-style": "^2.0.26",
         "nav-frontend-core": "^5.0.6",

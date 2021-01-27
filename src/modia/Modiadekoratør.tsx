@@ -1,29 +1,33 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import Navspa from '@navikt/navspa';
 import loadjs from 'loadjs';
-
 import DekoratørProps, { EnhetDisplay } from './DekoratørProps';
 import './Modiadekoratør.less';
 
 const appName = 'internarbeidsflatefs';
 
-const urlPrefix =
-    process.env.NODE_ENV === 'production'
-        ? 'https://internarbeidsflatedecorator.nais.adeo.no'
-        : 'https://navikt.github.io';
+const hentAssets = () => {
+    const urlPrefix =
+        process.env.NODE_ENV === 'production'
+            ? 'https://internarbeidsflatedecorator.nais.adeo.no'
+            : 'https://navikt.github.io';
 
-const erMocket = process.env.REACT_APP_MOCK;
+    return [
+        `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
+        `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,
+    ];
+};
+
+enum Status {
+    LasterNed,
+    Klar,
+    Feil,
+}
 
 type Props = {
     navKontor: string | null;
     onNavKontorChange: (navKontor: string) => void;
 };
-
-export enum Status {
-    LasterNed,
-    Klar,
-    Feil,
-}
 
 const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChange }) => {
     const Microfrontend = Navspa.importer<DekoratørProps>(appName);
@@ -46,20 +50,19 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
         };
 
         if (!loadjs.isDefined(appName)) {
-            loadAssets([
-                `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,
-                `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/css/main.css`,
-            ]);
+            loadAssets(hentAssets());
         }
     }, []);
 
+    const className = `modiadekoratør${
+        process.env.REACT_APP_MOCK ? ' modiadekoratør--mocket' : ''
+    }`;
+
     if (status === Status.LasterNed) {
         return <div className="modiadekoratør__placeholder" />;
-    } else if (status === Status.Feil) {
-        return null;
     } else if (status === Status.Klar) {
         return (
-            <div className={`modiadekoratør${erMocket ? ' modiadekoratør--mocket' : ''}`}>
+            <div className={className}>
                 <Microfrontend
                     appname="Rekrutteringsbistand"
                     enhet={{
@@ -75,7 +78,7 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
             </div>
         );
     } else {
-        return null;
+        return <span>Klarte ikke å laste inn Modia-dekoratør</span>;
     }
 };
 

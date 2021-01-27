@@ -13,27 +13,27 @@ type FellesMicrofrontendProps = {
 export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>({
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser,
     loader: <LasterInn />,
 });
 
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>({
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser,
     loader: <LasterInn />,
 });
 
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>({
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser,
     loader: <LasterInn />,
 });
 
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>({
     appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: '/rekrutteringsbistand-stillingssok',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser,
     loader: <LasterInn />,
 });

@@ -2,20 +2,27 @@ import { ManifestObject } from '@navikt/navspa/dist/async/async-navspa';
 
 export type AssetManifest = {
     files: Record<string, string>;
+    entrypoints: string[];
 };
 
-const assetManifestParser = (optionalBaseUrl?: string) => (manifest: ManifestObject): string[] => {
+const assetManifestParser = (manifestObject: ManifestObject): string[] => {
     const pathsToLoad: string[] = [];
-    const unnecessaryFiles = ['runtime-main', 'service-worker', 'precache-manifest'];
 
-    Object.entries(manifest.files as Record<string, string>).forEach(([_, path]) => {
-        const isCssOrJs = path.endsWith('.js') || path.endsWith('.css');
-        const isUnnecessary = unnecessaryFiles.find((filePath) => path.includes(filePath));
+    const { files, entrypoints } = manifestObject as AssetManifest;
 
-        if (isCssOrJs && !isUnnecessary) {
-            const fullPath: string = optionalBaseUrl ? optionalBaseUrl + path : path;
+    if (files == null || typeof files !== 'object' || !Array.isArray(entrypoints)) {
+        throw new Error('Invalid manifest: ' + JSON.stringify(manifestObject));
+    }
 
-            pathsToLoad.push(fullPath);
+    const fileList = Object.entries(files).map(([name, path]) => ({ name, path }));
+
+    entrypoints.forEach((entrypoint) => {
+        const matchingFile = fileList.find((file) => file.path.endsWith(entrypoint));
+
+        if (matchingFile) {
+            pathsToLoad.push(matchingFile.path);
+        } else {
+            console.warn('Fant ikke fil i asset-manifest for entrypoint ' + entrypoint);
         }
     });
 

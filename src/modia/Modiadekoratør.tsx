@@ -36,7 +36,7 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
 const AsyncModiadekoratør = AsyncNavspa.importer<DekoratørProps>({
     appName: 'internarbeidsflatefs',
     appBaseUrl: `${baseUrl}/internarbeidsflatedecorator/v2.1`,
-    assetManifestParser: assetManifestParser(baseUrl),
+    assetManifestParser: assetManifestParser,
     loader: <div className="modiadekoratør__placeholder" />,
 });
 

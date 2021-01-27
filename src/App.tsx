@@ -4,7 +4,15 @@ import { Switch, Route } from 'react-router-dom';
 import history from './history';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
-import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/Microfrontend';
+import {
+    Stilling,
+    Kandidat,
+    Statistikk,
+    Stillingssøk,
+    preloadMicrofrontends,
+} from './microfrontends/microfrontends';
+
+preloadMicrofrontends();
 
 const App: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);

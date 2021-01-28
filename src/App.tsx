@@ -26,7 +26,7 @@ const App: FunctionComponent = () => {
                     <Route path="/kandidater">
                         <Kandidat navKontor={navKontor} history={history} />
                     </Route>
-                    <Route path="/">
+                    <Route exact path="/">
                         <Statistikk navKontor={navKontor} history={history} />
                     </Route>
                 </Switch>

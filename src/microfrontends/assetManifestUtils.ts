@@ -26,6 +26,11 @@ const assetManifestParser = (manifestObject: ManifestObject): string[] => {
         }
     });
 
+    const environmentFile = fileList.find((file) => file.name === 'env.js');
+    if (environmentFile) {
+        pathsToLoad.push(environmentFile.path);
+    }
+
     return pathsToLoad;
 };
 

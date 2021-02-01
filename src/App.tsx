@@ -8,6 +8,12 @@ import MocketMicrofrontend from './microfrontend/mock/MocketMicrofrontend';
 import Modiadekoratør from './modia/Modiadekoratør';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 
+import { hotjar } from 'react-hotjar';
+
+const hjid = 118350;
+const hjsv = 6;
+hotjar.initialize(hjid, hjsv);
+
 const nodeEnvProduction = process.env.NODE_ENV === 'production';
 
 const importerMicrofrontends = process.env.REACT_APP_IMPORT || nodeEnvProduction;

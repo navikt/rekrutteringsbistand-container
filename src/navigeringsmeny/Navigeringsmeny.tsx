@@ -13,7 +13,7 @@ const appPrefiks = '';
 const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
-        href: '/stillinger',
+        href: '/stillingssok?statuser=publisert&publisert=intern',
     },
     {
         tittel: 'Mine stillinger',

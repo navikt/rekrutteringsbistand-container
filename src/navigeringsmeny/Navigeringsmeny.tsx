@@ -13,43 +13,33 @@ const appPrefiks = '';
 const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
-        href: '/stillingssok?statuser=publisert&publisert=intern',
+        path: '/stillingssok',
+        queryParam: '?statuser=publisert&publisert=intern',
     },
     {
         tittel: 'Mine stillinger',
-        href: '/stillinger/minestillinger',
+        path: '/stillinger/minestillinger',
     },
     {
         tittel: 'Kandidatsøk',
-        href: '/kandidater',
+        path: '/kandidater',
     },
     {
         tittel: 'Kandidatlister',
-        href: '/kandidater/lister',
+        path: '/kandidater/lister',
     },
 ];
 
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 
-    const onTabClick = (href: string) => (event: React.MouseEvent<HTMLElement>) => {};
-
     return (
         <div className="navigeringsmeny">
             <div className="navigeringsmeny__inner">
                 <nav className="navigeringsmeny__tabs">
-                    <Forsidelenke
-                        href={`${appPrefiks}/`}
-                        erAktiv={pathname === `${appPrefiks}/`}
-                        onClick={onTabClick('/')}
-                    />
+                    <Forsidelenke href={`${appPrefiks}/`} erAktiv={pathname === `${appPrefiks}/`} />
                     {tabs.map((tab) => (
-                        <Tab
-                            key={tab.href}
-                            config={tab}
-                            erAktiv={pathname === tab.href}
-                            onClick={onTabClick(tab.href)}
-                        />
+                        <Tab key={tab.path} config={tab} erAktiv={pathname === tab.path} />
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">

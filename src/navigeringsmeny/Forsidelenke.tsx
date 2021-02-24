@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 type Props = {
     href: string;
     erAktiv: boolean;
-    onClick: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const Forsidelenke: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {
+const Forsidelenke: FunctionComponent<Props> = ({ href, erAktiv }) => {
     let className = 'navigeringsmeny__forside';
 
     if (erAktiv) {
@@ -15,7 +14,7 @@ const Forsidelenke: FunctionComponent<Props> = ({ href, erAktiv, onClick }) => {
     }
 
     return (
-        <Link className={className} to={href} onClick={onClick}>
+        <Link className={className} to={href}>
             <svg viewBox="0 0 24 23" xmlns="http://www.w3.org/2000/svg">
                 <title>Hus</title>
                 <path

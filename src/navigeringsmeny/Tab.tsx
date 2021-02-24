@@ -4,26 +4,27 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 export type TabConfig = {
     tittel: string;
-    href: string;
+    path: string;
+    queryParam?: string;
 };
 
 type Props = {
     config: TabConfig;
     erAktiv: boolean;
-    onClick: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const Tab: FunctionComponent<Props> = ({ config, erAktiv, onClick }) => {
-    const { tittel, href } = config;
+const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
+    const { tittel, path, queryParam } = config;
 
     let className = 'navigeringsmeny__tab';
-
     if (erAktiv) {
         className += ' navigeringsmeny__tab--aktiv';
     }
 
+    const href = queryParam ? path + queryParam : path;
+
     return (
-        <Link className={className} to={href} onClick={onClick}>
+        <Link className={className} to={href}>
             <Normaltekst>{tittel}</Normaltekst>
         </Link>
     );

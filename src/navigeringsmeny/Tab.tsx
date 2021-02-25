@@ -21,10 +21,17 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
         className += ' navigeringsmeny__tab--aktiv';
     }
 
-    const href = queryParam ? path + queryParam : path;
-
     return (
-        <Link className={className} to={href}>
+        <Link
+            className={className}
+            to={{
+                pathname: path,
+                search: queryParam,
+                state: {
+                    fraMeny: true,
+                },
+            }}
+        >
             <Normaltekst>{tittel}</Normaltekst>
         </Link>
     );

@@ -30,6 +30,13 @@ const tabs: TabConfig[] = [
     },
 ];
 
+if (window.location.href.includes('preprod.local')) {
+    tabs.push({
+        tittel: 'Fellessøket',
+        path: '/kandidatsok',
+    });
+}
+
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 

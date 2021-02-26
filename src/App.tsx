@@ -23,7 +23,7 @@ const App: FunctionComponent = () => {
                     <Route path="/stillingssok">
                         <Stillingssøk navKontor={navKontor} history={history} />
                     </Route>
-                    <Route path="/kandidater">
+                    <Route path={['/kandidater', '/kandidatsok']}>
                         <Kandidat navKontor={navKontor} history={history} />
                     </Route>
                     <Route exact path="/">

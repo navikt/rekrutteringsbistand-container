@@ -14,7 +14,7 @@ const tabs: TabConfig[] = [
     {
         tittel: 'Søk etter stilling',
         path: '/stillingssok',
-        queryParam: '?statuser=publisert&publisert=intern',
+        queryParam: '?standardsok',
     },
     {
         tittel: 'Mine stillinger',

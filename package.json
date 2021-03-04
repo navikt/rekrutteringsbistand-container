@@ -5,7 +5,7 @@
     "homepage": "/",
     "dependencies": {
         "@navikt/navspa": "^3.0.1",
-        "@navikt/nytt-i-rekrutteringsbistand": "^1.2.13",
+        "@navikt/nytt-i-rekrutteringsbistand": "^1.2.14",
         "history": "^4.10.1",
         "http-proxy-middleware": "^1.0.6",
         "loadjs": "^4.2.0",

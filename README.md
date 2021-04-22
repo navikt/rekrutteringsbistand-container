@@ -18,7 +18,7 @@ Du kan selv velge om du vil jobbe isolert med container-appen, eller fyre opp ap
 npm start
 ```
 
-### Med microfrontends
+### Med microfrontend
 
 I denne appen:
 

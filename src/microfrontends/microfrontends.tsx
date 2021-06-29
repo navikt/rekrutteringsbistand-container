@@ -45,7 +45,15 @@ const stillingssøkConfig = {
     loader: <LasterInn />,
 };
 
+const bedriftspresentasjonerConfig = {
+    appName: 'rekrutteringsbistand-bedriftspresentasjoner',
+    appBaseUrl: '/rekrutteringsbistand-bedriftspresentasjoner',
+    assetManifestParser,
+    loader: <LasterInn />,
+};
+
 export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingssøkConfig);
+export const Bedriftspresentasjoner = AsyncNavspa.importer(bedriftspresentasjonerConfig);

@@ -28,6 +28,10 @@ const tabs: TabConfig[] = [
         tittel: 'Kandidatlister',
         path: '/kandidater/lister',
     },
+    {
+        tittel: 'Bedriftspresentasjoner',
+        path: '/bedriftspresentasjoner',
+    },
 ];
 
 const Navigeringsmeny: FunctionComponent = () => {

@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import history from './history';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
-import { Stilling, Kandidat, Statistikk, Stillingssøk } from './microfrontends/microfrontends';
+import { Stilling, Kandidat, Statistikk, Stillingssøk, Bedriftspresentasjoner } from './microfrontends/microfrontends';
 
 const App: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
@@ -17,6 +17,9 @@ const App: FunctionComponent = () => {
             </header>
             <main>
                 <Switch>
+                    <Route path="/bedriftspresentasjoner">
+                        <Bedriftspresentasjoner />
+                    </Route>
                     <Route path="/stillinger">
                         <Stilling navKontor={navKontor} history={history} />
                     </Route>

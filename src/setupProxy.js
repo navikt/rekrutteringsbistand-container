@@ -15,5 +15,5 @@ module.exports = (app) => {
     setupProxy('/rekrutteringsbistand-stilling', 'http://localhost:3002');
     setupProxy('/rekrutteringsbistand-kandidat', 'http://localhost:3003');
     setupProxy('/rekrutteringsbistand-stillingssok', 'http://localhost:3004');
-    setupProxy('/rekrutteringsbistand-bedriftspresentasjoner', 'http://localhost:3005');
+    setupProxy('/rekrutteringsbistand-bedriftspresentasjoner', 'https://rekrutteringsbistand-bedriftspresentasjoner.dev.intern.nav.no/');
 };

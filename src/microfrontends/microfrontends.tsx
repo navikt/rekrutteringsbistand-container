@@ -47,7 +47,7 @@ const stillingssøkConfig = {
 
 const bedriftspresentasjonerConfig = {
     appName: 'rekrutteringsbistand-bedriftspresentasjoner',
-    appBaseUrl: '/rekrutteringsbistand-bedriftspresentasjoner',
+    appBaseUrl: 'https://rekrutteringsbistand-bedriftspresentasjoner.dev.intern.nav.no/rekrutteringsbistand-bedriftspresentasjoner/',
     assetManifestParser,
     loader: <LasterInn />,
 };

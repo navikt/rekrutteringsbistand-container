@@ -45,9 +45,9 @@ const stillingssøkConfig = {
     loader: <LasterInn />,
 };
 
-const bedriftspresentasjonerConfig = {
-    appName: 'rekrutteringsbistand-bedriftspresentasjoner',
-    appBaseUrl: 'https://rekrutteringsbistand-bedriftspresentasjoner.dev.intern.nav.no/rekrutteringsbistand-bedriftspresentasjoner/',
+const jobbtreffConfig = {
+    appName: 'rekrutteringsbistand-jobbtreff',
+    appBaseUrl: 'https://rekrutteringsbistand-jobbtreff.dev.intern.nav.no/rekrutteringsbistand-jobbtreff/',
     assetManifestParser,
     loader: <LasterInn />,
 };
@@ -56,4 +56,4 @@ export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingC
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingssøkConfig);
-export const Bedriftspresentasjoner = AsyncNavspa.importer(bedriftspresentasjonerConfig);
+export const Jobbtreff = AsyncNavspa.importer(jobbtreffConfig);

@@ -29,8 +29,8 @@ const tabs: TabConfig[] = [
         path: '/kandidater/lister',
     },
     {
-        tittel: 'Bedriftspresentasjoner',
-        path: '/bedriftspresentasjoner',
+        tittel: 'Jobbtreff',
+        path: '/jobbtreff',
     },
 ];
 

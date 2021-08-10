@@ -45,9 +45,15 @@ const stillingssøkConfig = {
     loader: <LasterInn />,
 };
 
+const isProductionEnvironment = window.location.origin.includes('nais.adeo.no')
+
+const jobbtreffOrigin = isProductionEnvironment
+    ? 'https://rekrutteringsbistand-jobbtreff.intern.nav.no'
+    : 'https://rekrutteringsbistand-jobbtreff.dev.intern.nav.no';
+
 const jobbtreffConfig = {
     appName: 'rekrutteringsbistand-jobbtreff',
-    appBaseUrl: 'https://rekrutteringsbistand-jobbtreff.dev.intern.nav.no/rekrutteringsbistand-jobbtreff/',
+    appBaseUrl: `${jobbtreffOrigin}/rekrutteringsbistand-jobbtreff/`,
     assetManifestParser,
     loader: <LasterInn />,
 };

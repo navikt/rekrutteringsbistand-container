@@ -18,7 +18,7 @@ const assetManifestParser = (appBaseUrl: string = '') => (
 
     const fileList = Object.entries(files).map(([name, path]) => ({
         name,
-        path: path,
+        path: appBaseUrl + path,
     }));
 
     entrypoints.forEach((entrypoint) => {

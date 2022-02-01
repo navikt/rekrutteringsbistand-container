@@ -10,7 +10,7 @@ const hentAssets = () => {
     const urlPrefix =
         process.env.NODE_ENV === 'production'
             ? 'https://internarbeidsflatedecorator.nais.adeo.no'
-            : 'https://navikt.github.io';
+            : 'https://internarbeidsflatedecorator-q0.dev.intern.nav.no';
 
     return [
         `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,

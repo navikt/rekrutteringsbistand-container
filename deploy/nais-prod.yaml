@@ -10,7 +10,7 @@ spec:
     image: {{ image }}
     port: 8080
     ingresses:
-        - https://rekrutteringsbistand.intern.nav.no
+        - https://rekrutteringsbistand-container.intern.nav.no
     liveness:
         initialDelay: 5
         path: /container/internal/isAlive

@@ -18,14 +18,14 @@ const assetManifestParser = (appBaseUrl: string = '') => (
 
     const fileList = Object.entries(files).map(([name, path]) => ({
         name,
-        path: appBaseUrl + path,
+        path: path,
     }));
 
     entrypoints.forEach((entrypoint) => {
         const matchingFile = fileList.find((file) => file.path.endsWith(entrypoint));
 
         if (matchingFile) {
-            pathsToLoad.push(appBaseUrl + matchingFile.path);
+            pathsToLoad.push(matchingFile.path);
         } else {
             console.warn('Fant ikke fil i asset-manifest for entrypoint ' + entrypoint);
         }

@@ -5,7 +5,9 @@ export type AssetManifest = {
     entrypoints: string[];
 };
 
-const assetManifestParser = (manifestObject: ManifestObject): string[] => {
+const assetManifestParser = (appBaseUrl: string = '') => (
+    manifestObject: ManifestObject
+): string[] => {
     const pathsToLoad: string[] = [];
 
     const { files, entrypoints } = manifestObject as AssetManifest;
@@ -14,13 +16,16 @@ const assetManifestParser = (manifestObject: ManifestObject): string[] => {
         throw new Error('Invalid manifest: ' + JSON.stringify(manifestObject));
     }
 
-    const fileList = Object.entries(files).map(([name, path]) => ({ name, path }));
+    const fileList = Object.entries(files).map(([name, path]) => ({
+        name,
+        path: appBaseUrl + path,
+    }));
 
     entrypoints.forEach((entrypoint) => {
         const matchingFile = fileList.find((file) => file.path.endsWith(entrypoint));
 
         if (matchingFile) {
-            pathsToLoad.push(matchingFile.path);
+            pathsToLoad.push(appBaseUrl + matchingFile.path);
         } else {
             console.warn('Fant ikke fil i asset-manifest for entrypoint ' + entrypoint);
         }
@@ -30,6 +35,8 @@ const assetManifestParser = (manifestObject: ManifestObject): string[] => {
     if (environmentFile) {
         pathsToLoad.push(environmentFile.path);
     }
+
+    console.log('Found files from app-manifest.json:', pathsToLoad);
 
     return pathsToLoad;
 };

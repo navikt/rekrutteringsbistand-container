@@ -42,7 +42,8 @@ const statistikkConfig = {
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: '/rekrutteringsbistand-stillingssok',
+    appBaseUrl:
+        'https://rekrutteringsbistand-stillingssok.dev.intern.nav.no/rekrutteringsbistand-stillingssok',
     assetManifestParser,
     loader: <LasterInn />,
 };

@@ -33,20 +33,20 @@ jobs:
                   docker push ${IMAGE}
 
     deploy-til-dev:
-        name: Deploy til dev
+        name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/flytt-fra-namespace-default'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/azure-ad-sidecar'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: dev-fss
+                  CLUSTER: dev-gcp
                   RESOURCE: deploy/nais-dev.yaml
 
     deploy-to-prod:
-        name: Deploy til prod
+        name: Deploy til prod-gcp
         needs: deploy-til-dev
         if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
@@ -55,5 +55,5 @@ jobs:
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: prod-fss
+                  CLUSTER: prod-gcp
                   RESOURCE: deploy/nais-prod.yaml

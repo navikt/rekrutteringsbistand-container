@@ -10,7 +10,6 @@ spec:
     image: {{ image }}
     port: 8080
     ingresses:
-        - https://rekrutteringsbistand.nais.adeo.no
         - https://rekrutteringsbistand.intern.nav.no
     liveness:
         initialDelay: 5
@@ -18,6 +17,8 @@ spec:
     readiness:
         initialDelay: 5
         path: /container/internal/isReady
-    env:
-        - name: LOGINSERVICE_URL
-          value: https://loginservice.nais.adeo.no/login
+    azure:
+        sidecar:
+            enabled: true
+            autoLogin: false
+            errorPath: ""

@@ -17,6 +17,7 @@ const LasterInn: FunctionComponent = () => (
     </div>
 );
 
+/*
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
@@ -37,6 +38,7 @@ const statistikkConfig = {
     assetManifestParser,
     loader: <LasterInn />,
 };
+*/
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
@@ -45,7 +47,10 @@ const stillingssøkConfig = {
     loader: <LasterInn />,
 };
 
+/*
 export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
+*/
+
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingssøkConfig);

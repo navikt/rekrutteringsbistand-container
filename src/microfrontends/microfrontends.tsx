@@ -46,7 +46,7 @@ const statistikkConfig = {
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: `${gcpBaseUrl}/rekrutteringsbistand-stillingssok`,
-    assetManifestParser: assetManifestParser('https://rekrutteringsbistand.dev.intern.nav.no'),
+    assetManifestParser: assetManifestParser(gcpBaseUrl),
     loader: <LasterInn />,
 };
 

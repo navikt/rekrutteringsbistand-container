@@ -5,6 +5,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AsyncNavspa } from '@navikt/navspa';
 import { History } from 'history';
 import './microfrontends.less';
+import { erIkkeProd } from '../miljø';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
@@ -16,6 +17,10 @@ const LasterInn: FunctionComponent = () => (
         <NavFrontendSpinner />
     </div>
 );
+
+const gcpBaseUrl = erIkkeProd()
+    ? 'https://rekrutteringsbistand.dev.intern.nav.no'
+    : 'https://rekrutteringsbistand.intern.nav.no';
 
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
@@ -40,7 +45,7 @@ const statistikkConfig = {
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: 'https://rekrutteringsbistand.dev.intern.nav.no/rekrutteringsbistand-stillingssok',
+    appBaseUrl: `${gcpBaseUrl}/rekrutteringsbistand-stillingssok`,
     assetManifestParser: assetManifestParser('https://rekrutteringsbistand.dev.intern.nav.no'),
     loader: <LasterInn />,
 };

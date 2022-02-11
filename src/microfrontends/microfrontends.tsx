@@ -18,10 +18,6 @@ const LasterInn: FunctionComponent = () => (
     </div>
 );
 
-const gcpBaseUrl = erIkkeProd()
-    ? 'https://rekrutteringsbistand.dev.intern.nav.no'
-    : 'https://rekrutteringsbistand.intern.nav.no';
-
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
@@ -43,10 +39,14 @@ const statistikkConfig = {
     loader: <LasterInn />,
 };
 
+const stillingssøkBaseUrl = erIkkeProd()
+    ? 'https://rekrutteringsbistand-stillingssok.dev.intern.nav.no'
+    : 'https://rekrutteringsbistand-stillingssok.intern.nav.no';
+
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: `${gcpBaseUrl}/rekrutteringsbistand-stillingssok`,
-    assetManifestParser: assetManifestParser(gcpBaseUrl),
+    appBaseUrl: `${stillingssøkBaseUrl}/rekrutteringsbistand-stillingssok`,
+    assetManifestParser: assetManifestParser(stillingssøkBaseUrl),
     loader: <LasterInn />,
 };
 

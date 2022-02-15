@@ -48,7 +48,7 @@ jobs:
     deploy-to-prod:
         name: Deploy til prod-gcp
         needs: deploy-til-dev
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/azure-ad-sidecar'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

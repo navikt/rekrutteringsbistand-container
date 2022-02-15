@@ -5,7 +5,7 @@ export type AssetManifest = {
     entrypoints: string[];
 };
 
-const assetManifestParser = (manifestObject: ManifestObject): string[] => {
+const assetManifestParser = (appBaseUrl: string) => (manifestObject: ManifestObject): string[] => {
     const pathsToLoad: string[] = [];
 
     const { files, entrypoints } = manifestObject as AssetManifest;
@@ -14,7 +14,7 @@ const assetManifestParser = (manifestObject: ManifestObject): string[] => {
         throw new Error('Invalid manifest: ' + JSON.stringify(manifestObject));
     }
 
-    const fileList = Object.entries(files).map(([name, path]) => ({ name, path }));
+    const fileList = Object.entries(files).map(([name, path]) => ({ name, path: appBaseUrl + path }));
 
     entrypoints.forEach((entrypoint) => {
         const matchingFile = fileList.find((file) => file.path.endsWith(entrypoint));

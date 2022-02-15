@@ -5,6 +5,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AsyncNavspa } from '@navikt/navspa';
 import { History } from 'history';
 import './microfrontends.less';
+import {erIkkeProd} from "../miljø";
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
@@ -40,10 +41,14 @@ const statistikkConfig = {
 };
 */
 
+const stillingssøkBaseUrl = erIkkeProd()
+    ? 'https://rekrutteringsbistand-stillingssok.dev.intern.nav.no'
+    : 'https://rekrutteringsbistand-stillingssok.intern.nav.no';
+
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: '/rekrutteringsbistand-stillingssok',
-    assetManifestParser,
+    appBaseUrl: `${stillingssøkBaseUrl}/rekrutteringsbistand-stillingssok`,
+    assetManifestParser: assetManifestParser(stillingssøkBaseUrl),
     loader: <LasterInn />,
 };
 

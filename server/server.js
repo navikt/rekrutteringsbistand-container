@@ -8,9 +8,7 @@ const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');
 
 const startServer = () => {
-    app.get([`/container/internal/isAlive`, `/container/internal/isReady`], (_, res) =>
-        res.sendStatus(200)
-    );
+    app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];
 

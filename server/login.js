@@ -1,13 +1,20 @@
-const loginEndpoint = '/oauth2/login';
+const userIsLoggedIn = (req) => {
+    console.log(
+        'Authorization header:',
+        req.headers.authorization,
+        'Resten av headers:',
+        req.headers
+    );
 
-function ensureLoggedIn(req, res, next) {
-    const erAutentisert = req.get('Authorization');
+    return true;
+};
 
-    if (erAutentisert) {
-        return next();
+const ensureLoggedIn = (req, res, next) => {
+    if (userIsLoggedIn(req)) {
+        next();
     } else {
-        res.redirect(loginEndpoint);
+        res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
     }
-}
+};
 
 module.exports = ensureLoggedIn;

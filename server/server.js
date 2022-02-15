@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const ensureLoggedIn = require('./login.js');
+const { ensureLoggedIn, opprettCookieFraAuthorizationHeader } = require('./authorization.js');
 const app = express();
 
 const port = process.env.PORT || 8080;
@@ -15,7 +15,7 @@ const startServer = () => {
     app.use('/static/js', express.static(`${buildPath}/static/js`));
     app.use('/static/css', express.static(`${buildPath}/static/css`));
 
-    app.get(pathsForServingApp, ensureLoggedIn, (_, res) => {
+    app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 

@@ -1,3 +1,11 @@
+const cluster = process.env.NAIS_CLUSTER_NAME;
+
+const retrieveToken = (headers) => headers.authorization?.replace('Bearer ', '');
+
+const tokenIsValid = (token) => {
+    return true;
+};
+
 const userIsLoggedIn = (req) => {
     console.log(
         'Authorization header:',
@@ -6,10 +14,9 @@ const userIsLoggedIn = (req) => {
         req.headers
     );
 
-    return true;
+    const token = retrieveToken(req.headers);
+    return token && tokenIsValid(token);
 };
-
-const cluster = process.env.NAIS_CLUSTER_NAME;
 
 const ensureLoggedIn = (req, res, next) => {
     if (userIsLoggedIn(req)) {
@@ -20,10 +27,9 @@ const ensureLoggedIn = (req, res, next) => {
 };
 
 const opprettCookieFraAuthorizationHeader = (req, res, next) => {
-    const authorizationHeader = req.headers.authorization;
+    const token = retrieveToken(req.headers);
 
-    if (authorizationHeader) {
-        const issoIdToken = authorizationHeader?.replace('Bearer ', '');
+    if (token) {
         const cookieDomain = cluster === 'prod-gcp' ? 'intern.nav.no' : 'dev.intern.nav.no';
 
         res.header(

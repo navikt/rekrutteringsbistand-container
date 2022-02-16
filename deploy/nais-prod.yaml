@@ -10,14 +10,13 @@ spec:
     image: {{ image }}
     port: 8080
     ingresses:
-        - https://rekrutteringsbistand-container.intern.nav.no
         - https://rekrutteringsbistand.intern.nav.no
     liveness:
         initialDelay: 5
-        path: /container/internal/isAlive
+        path: /internal/isAlive
     readiness:
         initialDelay: 5
-        path: /container/internal/isReady
+        path: /internal/isReady
     azure:
         application:
             enabled: true

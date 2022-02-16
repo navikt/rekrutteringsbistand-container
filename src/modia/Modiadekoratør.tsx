@@ -10,7 +10,7 @@ const hentHostname = () => {
     if (window.location.hostname.includes('dev.intern.nav.no')) {
         return 'https://internarbeidsflatedecorator-q0.dev.intern.nav.no';
     } else if (window.location.hostname.includes('intern.nav.no')) {
-        return 'https://internarbeidsflatedecorator.nais.adeo.no';
+        return 'https://internarbeidsflatedecorator.intern.nav.no';
     } else {
         return 'https://navikt.github.io';
     }

@@ -1,8 +1,8 @@
-const path = require('path');
-const express = require('express');
-const { ensureLoggedIn, opprettCookieFraAuthorizationHeader } = require('./authorization.js');
-const app = express();
+import path from 'path';
+import express from 'express';
+import { ensureLoggedIn, opprettCookieFraAuthorizationHeader } from './authorization';
 
+const app = express();
 const port = process.env.PORT || 8080;
 
 const buildPath = path.join(__dirname, '../build');

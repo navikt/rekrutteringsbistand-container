@@ -1,5 +1,8 @@
 {
-    "dependencies": {
-        "jws": "^4.0.0"
+    "devDependencies": {
+        "typescript": "^4.5.5"
+    },
+    "scripts": {
+        "build": "tsc --build"
     }
 }

@@ -8,13 +8,12 @@ const tokenIsValid = (token) => {
 
 const userIsLoggedIn = (req) => {
     const token = retrieveToken(req.headers);
-
     console.log('Authorization header er definert:', !!token);
 
     return token && tokenIsValid(token);
 };
 
-const ensureLoggedIn = (req, res, next) => {
+export const ensureLoggedIn = (req, res, next) => {
     if (userIsLoggedIn(req)) {
         next();
     } else {
@@ -22,7 +21,7 @@ const ensureLoggedIn = (req, res, next) => {
     }
 };
 
-const opprettCookieFraAuthorizationHeader = (req, res, next) => {
+export const opprettCookieFraAuthorizationHeader = (req, res, next) => {
     const token = retrieveToken(req.headers);
 
     if (token) {
@@ -30,16 +29,11 @@ const opprettCookieFraAuthorizationHeader = (req, res, next) => {
 
         res.header(
             'Set-Cookie',
-            `isso-idtoken=${issoIdToken}; Domain=${cookieDomain}; Secure; HttpOnly; SameSite=Lax;`
+            `isso-idtoken=${token}; Domain=${cookieDomain}; Secure; HttpOnly; SameSite=Lax;`
         );
 
         next();
     } else {
         res.status(500).send('Klarte ikke å opprette isso-idtoken-cookie');
     }
-};
-
-module.exports = {
-    ensureLoggedIn,
-    opprettCookieFraAuthorizationHeader,
 };

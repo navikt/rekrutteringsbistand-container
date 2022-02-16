@@ -40,7 +40,7 @@ export const tokenIsValid = async (token: string) => {
         // TODO: Mer verifisering av payload?
         return payload.aud === clientId;
     } catch (e) {
-        console.error('Noe galt skjedde under validering av token', e);
+        console.error('Noe galt skjedde under validering av token:', e);
         return false;
     }
 };

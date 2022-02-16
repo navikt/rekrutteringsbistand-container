@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import { ensureLoggedIn, opprettCookieFraAuthorizationHeader } from './authorization';
-import { discoverAzureAdIssuer } from './azureAd';
+import { initializeAzureAd } from './azureAd';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -25,6 +25,6 @@ const startServer = () => {
     });
 };
 
-discoverAzureAdIssuer();
+initializeAzureAd();
 
 startServer();

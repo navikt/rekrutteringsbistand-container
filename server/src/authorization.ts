@@ -20,6 +20,7 @@ export const ensureLoggedIn: Middleware = async (req, res, next) => {
     if (await userIsLoggedIn(req)) {
         next();
     } else {
+        console.log('Bruker er ikke logget inn, videresender til /oauth2/login');
         res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
     }
 };

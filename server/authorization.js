@@ -7,14 +7,10 @@ const tokenIsValid = (token) => {
 };
 
 const userIsLoggedIn = (req) => {
-    console.log(
-        'Authorization header:',
-        req.headers.authorization,
-        'Resten av headers:',
-        req.headers
-    );
-
     const token = retrieveToken(req.headers);
+
+    console.log('Authorization header er definert:', !!token);
+
     return token && tokenIsValid(token);
 };
 

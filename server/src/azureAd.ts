@@ -31,14 +31,12 @@ export const tokenIsValid = async (token: string) => {
 
     try {
         const verification = await jwtVerify(token, remoteJWKSet, {
+            audience: clientId,
             issuer: azureAdIssuer.metadata.issuer,
         });
 
-        const payload = verification.payload;
         console.log('Fikk verifisert token:', verification);
-
-        // TODO: Mer verifisering av payload?
-        return payload.aud === clientId;
+        return !!verification.payload;
     } catch (e) {
         console.error('Noe galt skjedde under validering av token:', e);
         return false;

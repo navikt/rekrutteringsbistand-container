@@ -43,7 +43,7 @@ const statistikkConfig = {
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: `/rekrutteringsbistand-stillingssok`,
-    assetManifestParser,
+    assetManifestParser: assetManifestParser(),
     loader: <LasterInn />,
 };
 

@@ -39,7 +39,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/azure-ad-sidecar'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/samme-ingress'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
@@ -52,7 +52,7 @@ jobs:
     deploy-to-prod:
         name: Deploy til prod-gcp
         needs: deploy-til-dev
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/azure-ad-sidecar'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/samme-ingress'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

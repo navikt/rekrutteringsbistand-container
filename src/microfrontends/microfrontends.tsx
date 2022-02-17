@@ -5,7 +5,6 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AsyncNavspa } from '@navikt/navspa';
 import { History } from 'history';
 import './microfrontends.less';
-import { erIkkeProd } from '../miljø';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
@@ -18,35 +17,31 @@ const LasterInn: FunctionComponent = () => (
     </div>
 );
 
-const gcpBaseUrl = erIkkeProd()
-    ? 'https://rekrutteringsbistand.dev.intern.nav.no'
-    : 'https://rekrutteringsbistand.intern.nav.no';
-
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser,
     loader: <LasterInn />,
 };
 
 const kandidatConfig = {
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser,
     loader: <LasterInn />,
 };
 
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser,
     loader: <LasterInn />,
 };
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: `${gcpBaseUrl}/rekrutteringsbistand-stillingssok`,
-    assetManifestParser: assetManifestParser(gcpBaseUrl),
+    appBaseUrl: '/rekrutteringsbistand-stillingssok',
+    assetManifestParser,
     loader: <LasterInn />,
 };
 

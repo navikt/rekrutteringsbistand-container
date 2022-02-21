@@ -32,13 +32,14 @@ const kandidatConfig = {
     loader: <LasterInn />,
 };
 
+*/
+
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser,
+    assetManifestParser: assetManifestParser(),
     loader: <LasterInn />,
 };
-*/
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
@@ -50,7 +51,7 @@ const stillingssøkConfig = {
 /*
 export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
 export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
-export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
 */
 
+export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingssøkConfig);

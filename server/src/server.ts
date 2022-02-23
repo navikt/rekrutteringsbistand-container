@@ -23,6 +23,7 @@ const scopes = {
     statistikk: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
     stillingssøk: `api://${cluster}.arbeidsgiver.rekrutteringsbistand-stillingssok-proxy/.default`,
     stilling: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
+    kandidat: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-kandidat-api/.default`,
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
@@ -35,7 +36,12 @@ const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
     );
 };
 
-const { STILLING_API_URL, STATISTIKK_API_URL, STILLINGSSOK_PROXY_URL } = process.env;
+const {
+    STILLING_API_URL,
+    STATISTIKK_API_URL,
+    STILLINGSSOK_PROXY_URL,
+    KANDIDAT_API_URL,
+} = process.env;
 
 const startServer = () => {
     app.use(cookieParser());
@@ -47,9 +53,10 @@ const startServer = () => {
     app.use('/static/js', express.static(`${buildPath}/static/js`));
     app.use('/static/css', express.static(`${buildPath}/static/css`));
 
-    proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
     proxyWithAuth('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
     proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
+    proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
+    proxyWithAuth('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);

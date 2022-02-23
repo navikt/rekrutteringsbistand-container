@@ -37,6 +37,12 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
             expires,
         };
 
+        console.log(
+            `Cache har nå ${Object.keys(tokenCache).length} scopes, scope "${scope}" har ${
+                Object.keys(tokenCache[scope]).length
+            } entries`
+        );
+
         return nyttOboToken;
     }
 }

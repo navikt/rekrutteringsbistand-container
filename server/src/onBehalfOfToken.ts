@@ -18,16 +18,7 @@ type AccessToken = string;
 const tokenCache: Record<Scope, Record<AccessToken, CachetOboToken>> = {};
 
 export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
-    console.log(`Kaller hentOnBehalfOfToken med accessToken ${accessToken} og scope ${scope}`);
-
-    const cacheForScope = hentCacheForScope(scope);
-    const cachetOboToken = cacheForScope[accessToken];
-
-    console.log(
-        `Sjekker hentOnBehalfOfToken med cachetOboToken ${cachetOboToken} og gyldighet ${tokenErFremdelesGyldig(
-            cachetOboToken
-        )}`
-    );
+    const cachetOboToken = tokenCache[scope]?.[accessToken];
 
     if (cachetOboToken && tokenErFremdelesGyldig(cachetOboToken)) {
         console.log(`Bruker cachet OBO-token for scope ${scope}`);
@@ -37,28 +28,17 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
         const nyttOboToken = await hentNyttOnBehalfOfToken(accessToken, scope);
         const expires = Date.now() + nyttOboToken.expires_in * 1000;
 
+        if (tokenCache[scope] === undefined) {
+            tokenCache[scope] = {};
+        }
+
         tokenCache[scope][accessToken] = {
             token: nyttOboToken,
             expires,
         };
 
-        console.log(
-            `Cache har nå ${Object.keys(tokenCache).length} scopes, scope "${scope}" har ${
-                Object.keys(tokenCache[scope]).length
-            } entries:`,
-            Object.keys(tokenCache[scope]).map((accessToken) => accessToken.substring(0, 5))
-        );
-
         return nyttOboToken;
     }
-}
-
-function hentCacheForScope(scope: string): Record<AccessToken, CachetOboToken> {
-    if (tokenCache[scope] === undefined) {
-        tokenCache[scope] = {};
-    }
-
-    return tokenCache[scope];
 }
 
 async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Promise<OboToken> {

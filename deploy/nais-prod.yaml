@@ -29,8 +29,13 @@ spec:
       outbound:
         external:
           - host: rekrutteringsbistand-statistikk-api.prod-fss-pub.nais.io
+          - host: rekrutteringsbistand-stilling-api.prod-fss-pub.nais.io
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
         - name: STATISTIKK_API_URL
           value: https://rekrutteringsbistand-statistikk-api.prod-fss-pub.nais.io/rekrutteringsbistand-statistikk-api
+        - name: STILLINGSSOK_PROXY_URL
+          value: https://rekrutteringsbistand-stillingssok-proxy.intern.nav.no
+        - name: STILLING_API_URL
+          value: https://rekrutteringsbistand-stilling-api.prod-fss-pub.nais.io

@@ -1,5 +1,7 @@
 import path from 'path';
 import express from 'express';
+import cookieParser from 'cookie-parser';
+
 import { initializeAzureAd } from './azureAd';
 import {
     ensureLoggedIn,
@@ -8,7 +10,6 @@ import {
     setOnBehalfOfToken,
 } from './middlewares';
 import { setupProxy } from './proxy';
-import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -16,10 +17,25 @@ const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');
 
 const cluster = process.env.NAIS_CLUSTER_NAME;
-const fssMiljø = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
+const fssCluster = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 
-const statistikkApiUrl = process.env.STATISTIKK_API_URL;
-const statistikkApiScope = `api://${fssMiljø}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`;
+const scopes = {
+    statistikk: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
+    stillingssøk: `api://${cluster}.arbeidsgiver.rekrutteringsbistand-stillingssok-proxy/.default`,
+    stilling: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
+};
+
+const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
+    app.use(
+        path,
+        removeIssoIdToken,
+        ensureLoggedIn,
+        setOnBehalfOfToken(apiScope),
+        setupProxy(path, apiUrl)
+    );
+};
+
+const { STILLING_API_URL, STATISTIKK_API_URL, STILLINGSSOK_PROXY_URL } = process.env;
 
 const startServer = () => {
     app.use(cookieParser());
@@ -31,13 +47,9 @@ const startServer = () => {
     app.use('/static/js', express.static(`${buildPath}/static/js`));
     app.use('/static/css', express.static(`${buildPath}/static/css`));
 
-    app.use(
-        `/statistikk-api`,
-        removeIssoIdToken,
-        ensureLoggedIn,
-        setOnBehalfOfToken(statistikkApiScope),
-        setupProxy(`/statistikk-api`, statistikkApiUrl)
-    );
+    proxyWithAuth('/stilling-api', scopes.stilling, STILLING_API_URL);
+    proxyWithAuth('/statistikk-api', scopes.statistikk, STATISTIKK_API_URL);
+    proxyWithAuth('/stillingssok-proxy', scopes.stillingssøk, STILLINGSSOK_PROXY_URL);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);

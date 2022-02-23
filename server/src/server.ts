@@ -8,6 +8,7 @@ import {
     setOnBehalfOfToken,
 } from './middlewares';
 import { setupProxy } from './proxy';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -21,6 +22,8 @@ const statistikkApiUrl = process.env.STATISTIKK_API_URL;
 const statistikkApiScope = `api://${fssMiljø}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`;
 
 const startServer = () => {
+    app.use(cookieParser());
+
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];

@@ -84,5 +84,16 @@ async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Prom
 }
 
 function tokenErFremdelesGyldig(token: CachetOboToken) {
+    const frist = Date.now() - 5000;
+    const erGyldig = token.expires >= frist;
+
+    console.log(
+        erGyldig
+            ? 'Token er fremdeles gyldig'
+            : `Token er utgått med dato ${new Date(
+                  token.expires
+              ).toISOString()}, frist var (${new Date(frist).toISOString()}`
+    );
+
     return token.expires >= Date.now() - 5000;
 }

@@ -33,7 +33,6 @@ export const opprettCookieFraAuthorizationHeader: Middleware = (req, res, next) 
 };
 
 export const removeIssoIdToken: Middleware = async (req, _, next) => {
-    console.log('Mottok cookies:', req.cookies);
     req.cookies['isso-idtoken'] = undefined;
     next();
 };
@@ -49,8 +48,7 @@ export const setOnBehalfOfToken = (scope: string) => async (
         res.status(500).send('Kan ikke be om OBO-token siden access-token ikke finnes');
     } else {
         try {
-            console.log('Henter on behalf of-token for scope', scope);
-
+            console.log('Setter OBO-token for scope', scope);
             const token = await hentOnBehalfOfToken(accessToken, scope);
             req.headers.authorization = `Bearer ${token.access_token}`;
             next();

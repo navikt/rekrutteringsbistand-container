@@ -21,8 +21,10 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
     const oboTokenFraCache = tokenCache[scope]?.[accessToken];
 
     if (oboTokenFraCache && tokenErFremdelesGyldig(oboTokenFraCache)) {
+        console.log(`Bruker cachet OBO-token for scope ${scope}`);
         return oboTokenFraCache.token;
     } else {
+        console.log(`Henter nytt OBO-token for scope ${scope}`);
         const nyttOboToken = await hentNyttOnBehalfOfToken(accessToken, scope);
         const expires = Date.now() + nyttOboToken.expires_in * 1000;
 

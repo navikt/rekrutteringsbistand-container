@@ -27,15 +27,12 @@ export const opprettRemoteJWKSet = () => {
 };
 
 export const tokenIsValid = async (token: string) => {
-    console.log('Validerer token');
-
     try {
         const verification = await jwtVerify(token, remoteJWKSet, {
             audience: clientId,
             issuer: azureAdIssuer.metadata.issuer,
         });
 
-        console.log('Fikk verifisert token:', verification);
         return !!verification.payload;
     } catch (e) {
         console.error('Noe galt skjedde under validering av token:', e);

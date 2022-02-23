@@ -7,7 +7,6 @@
         "@navikt/navspa": "^3.0.1",
         "@navikt/nytt-i-rekrutteringsbistand": "^1.2.21",
         "history": "^4.10.1",
-        "http-proxy-middleware": "^1.0.6",
         "loadjs": "^4.2.0",
         "nav-frontend-alertstriper": "^3.0.49",
         "nav-frontend-alertstriper-style": "^2.0.36",

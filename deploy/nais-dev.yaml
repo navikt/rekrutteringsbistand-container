@@ -25,5 +25,12 @@ spec:
                     - NAVident
         sidecar:
             enabled: true
-            autoLogin: false
-            errorPath: ""
+    accessPolicy:
+      outbound:
+        external:
+          - host: rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io
+    env:
+        - name: NODE_EXTRA_CA_CERTS
+          value: /etc/ssl/ca-bundle.pem
+        - name: STATISTIKK_API_URL
+          value: https://rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io/rekrutteringsbistand-statistikk-api

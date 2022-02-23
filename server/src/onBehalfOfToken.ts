@@ -18,8 +18,16 @@ type AccessToken = string;
 const tokenCache: Record<Scope, Record<AccessToken, CachetOboToken>> = {};
 
 export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
+    console.log(`Kaller hentOnBehalfOfToken med accessToken ${accessToken} og scope ${scope}`);
+
     const cacheForScope = hentCacheForScope(scope);
     const cachetOboToken = cacheForScope[accessToken];
+
+    console.log(
+        `Sjekker hentOnBehalfOfToken med cachetOboToken ${cachetOboToken} og gyldighet ${tokenErFremdelesGyldig(
+            cachetOboToken
+        )}`
+    );
 
     if (cachetOboToken && tokenErFremdelesGyldig(cachetOboToken)) {
         console.log(`Bruker cachet OBO-token for scope ${scope}`);

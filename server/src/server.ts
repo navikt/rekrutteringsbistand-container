@@ -47,9 +47,9 @@ const startServer = () => {
     app.use('/static/js', express.static(`${buildPath}/static/js`));
     app.use('/static/css', express.static(`${buildPath}/static/css`));
 
-    proxyWithAuth('/stilling-api', scopes.stilling, STILLING_API_URL);
-    proxyWithAuth('/statistikk-api', scopes.statistikk, STATISTIKK_API_URL);
-    proxyWithAuth('/stillingssok-proxy', scopes.stillingssøk, STILLINGSSOK_PROXY_URL);
+    proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
+    proxyWithAuth('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
+    proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);

@@ -17,13 +17,16 @@ const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');
 
 const cluster = process.env.NAIS_CLUSTER_NAME;
-const fssCluster = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
+const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 
 const scopes = {
-    statistikk: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
+    statistikk: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
     stillingssøk: `api://${cluster}.arbeidsgiver.rekrutteringsbistand-stillingssok-proxy/.default`,
-    stilling: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
-    kandidat: `api://${fssCluster}.arbeidsgiver.rekrutteringsbistand-kandidat-api/.default`,
+    stilling: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
+    kandidat: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-kandidat-api/.default`,
+    sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,
+    finnKandidatApi: `api://${clusterOnPrem}.arbeidsgiver.finn-kandidat-api/.default`,
+    forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
@@ -41,6 +44,9 @@ const {
     STATISTIKK_API_URL,
     STILLINGSSOK_PROXY_URL,
     KANDIDAT_API_URL,
+    SMS_API,
+    FINN_KANDIDAT_API,
+    FORESPORSEL_OM_DELING_AV_CV_API,
 } = process.env;
 
 const startServer = () => {
@@ -57,6 +63,13 @@ const startServer = () => {
     proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
     proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
     proxyWithAuth('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
+    proxyWithAuth('/sms-api', SMS_API, scopes.sms);
+    proxyWithAuth('/finn-kandidat-api', FINN_KANDIDAT_API, scopes.finnKandidatApi);
+    proxyWithAuth(
+        '/foresporsel-om-deling-av-cv-api',
+        FORESPORSEL_OM_DELING_AV_CV_API,
+        scopes.forespørselOmDelingAvCv
+    );
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
@@ -67,6 +80,13 @@ const startServer = () => {
     });
 };
 
-initializeAzureAd();
+const initializeServer = async () => {
+    try {
+        await initializeAzureAd();
+        startServer();
+    } catch (e) {
+        console.error('Klarte ikke å starte server:', e);
+    }
+};
 
-startServer();
+initializeServer();

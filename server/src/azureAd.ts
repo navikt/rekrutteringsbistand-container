@@ -9,15 +9,19 @@ let azureAdIssuer: Issuer<Client>;
 let remoteJWKSet: GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>;
 
 export const initializeAzureAd = async () => {
-    await discoverAzureAdIssuer();
-    opprettRemoteJWKSet();
+    try {
+        await discoverAzureAdIssuer();
+        opprettRemoteJWKSet();
+    } catch (e) {
+        throw Error('Klarte ikke å initialisere AzureAD:' + e);
+    }
 };
 
 export const discoverAzureAdIssuer = async () => {
     if (discoveryUrl) {
         azureAdIssuer = await Issuer.discover(discoveryUrl);
     } else {
-        throw new Error(`Miljøvariabelen "AZURE_APP_WELL_KNOWN_URL" må være definert`);
+        throw Error(`Miljøvariabelen "AZURE_APP_WELL_KNOWN_URL" må være definert`);
     }
 };
 

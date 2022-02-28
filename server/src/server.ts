@@ -21,7 +21,7 @@ const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 
 const scopes = {
     statistikk: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
-    stillingssøk: `api://${cluster}.arbeidsgiver.rekrutteringsbistand-stillingssok-proxy/.default`,
+    stillingssøk: `api://${cluster}.toi.rekrutteringsbistand-stillingssok-proxy/.default`,
     stilling: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
     kandidat: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-kandidat-api/.default`,
     sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,

@@ -13,13 +13,30 @@ const getCookieNames = (request: ClientRequest) => {
     }
 };
 
+const removeIssoIdToken = (request: ClientRequest) => {
+    const requestCookies = request.getHeader('Cookie')?.toString();
+
+    if (requestCookies) {
+        return requestCookies
+            .split('; ')
+            .filter((cookie) => cookie.split('=')[0] !== 'isso-idtoken')
+            .join('; ');
+    } else {
+        return '';
+    }
+};
+
 // Krever ekstra miljøvariabler, se nais.yaml
-export const setupProxy = (fraPath: string, tilTarget: string) =>
+export const setupProxy = (fraPath: string, tilTarget: string, fjernCookies = true) =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
         changeOrigin: true,
         secure: true,
         onProxyReq: (request) => {
+            if (fjernCookies) {
+                request.setHeader('Cookie', removeIssoIdToken(request));
+            }
+
             const bearerTokenlength = request.getHeader('authorization')?.toString()?.length;
             const cookieNames = getCookieNames(request);
 

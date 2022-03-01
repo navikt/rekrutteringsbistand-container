@@ -21,7 +21,7 @@ const removeIssoIdToken = (request: ClientRequest) => {
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken = true) =>
     createProxyMiddleware(fraPath, {
-        target: tilTarget,
+        target: fraPath,
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
@@ -36,8 +36,4 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
                 `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies: ${cookieNames}`
             );
         },
-        logProvider: () => ({
-            ...logger,
-            log: logger.info,
-        }),
     });

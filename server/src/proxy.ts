@@ -24,6 +24,7 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
         target: tilTarget,
         changeOrigin: true,
         secure: true,
+        pathRewrite: (path) => path.replace(fraPath, ''),
         onProxyReq: (request) => {
             if (fjernIssoIdToken) {
                 request.setHeader('Cookie', removeIssoIdToken(request));
@@ -35,5 +36,8 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
                 `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies: ${cookieNames}`
             );
         },
-        pathRewrite: (path) => path.replace(fraPath, ''),
+        logProvider: () => ({
+            ...logger,
+            log: logger.info,
+        }),
     });

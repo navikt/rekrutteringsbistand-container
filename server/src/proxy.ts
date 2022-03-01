@@ -3,14 +3,17 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { logger } from './server';
 
 const getCookieNames = (request: ClientRequest) => {
-    const requestCookies = request.getHeader('Cookie')?.toString();
-    return requestCookies ? requestCookies.split('; ').map((cookie) => cookie.split('=')[0]) : [];
+    const requestCookies = request.getHeader('Cookie');
+
+    return typeof requestCookies === 'string'
+        ? requestCookies.split('; ').map((cookie) => cookie.split('=')[0])
+        : [];
 };
 
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
 
-    return requestCookies
+    return typeof requestCookies === 'string'
         ? requestCookies
               .split('; ')
               .filter((cookie) => cookie.split('=')[0] !== 'isso-idtoken')
@@ -21,7 +24,7 @@ const removeIssoIdToken = (request: ClientRequest) => {
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken = true) =>
     createProxyMiddleware(fraPath, {
-        target: fraPath,
+        target: tilTarget,
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),

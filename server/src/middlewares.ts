@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { tokenIsValid } from './azureAd';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
+import { logger } from './server';
 
 type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 
@@ -48,7 +49,7 @@ export const setOnBehalfOfToken = (scope: string) => async (
         res.status(500).send('Kan ikke be om OBO-token siden access-token ikke finnes');
     } else {
         try {
-            console.log('Setter OBO-token for scope', scope);
+            logger.info('Setter OBO-token for scope', scope);
             const token = await hentOnBehalfOfToken(accessToken, scope);
             req.headers.authorization = `Bearer ${token.access_token}`;
             next();

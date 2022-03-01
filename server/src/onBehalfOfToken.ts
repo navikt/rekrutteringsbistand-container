@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { logger } from './server';
 
 type OboToken = {
     access_token: string;
@@ -21,10 +22,10 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
     const cachetOboToken = tokenCache[scope]?.[accessToken];
 
     if (cachetOboToken && tokenErFremdelesGyldig(cachetOboToken)) {
-        console.log(`Bruker cachet OBO-token for scope ${scope}`);
+        logger.info(`Bruker cachet OBO-token for scope ${scope}`);
         return cachetOboToken.token;
     } else {
-        console.log(`Henter nytt OBO-token for scope ${scope}`);
+        logger.info(`Henter nytt OBO-token for scope ${scope}`);
         const nyttOboToken = await hentNyttOnBehalfOfToken(accessToken, scope);
         const expires = Date.now() + nyttOboToken.expires_in * 1000;
 
@@ -70,7 +71,7 @@ async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Prom
             const error = body['error'];
             const errorDescription = body['error_description'];
 
-            console.log(
+            logger.error(
                 `Klarte ikke å hente on behalf of token for scope "${scope}", årsak:`,
                 error,
                 errorDescription
@@ -87,7 +88,7 @@ function tokenErFremdelesGyldig(token: CachetOboToken) {
     const frist = Date.now() - 5000;
     const erGyldig = token.expires >= frist;
 
-    console.log(
+    logger.info(
         erGyldig
             ? 'Token er fremdeles gyldig'
             : `Token er utgått med dato ${new Date(

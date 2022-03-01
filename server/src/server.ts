@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import Logger from 'node-json-logger';
 
 import { initializeAzureAd } from './azureAd';
 import {
@@ -13,6 +14,8 @@ import { setupProxy } from './proxy';
 
 const app = express();
 const port = process.env.PORT || 8080;
+
+export const logger = new Logger();
 
 const buildPath = path.join(__dirname, '../build');
 
@@ -76,7 +79,7 @@ const startServer = () => {
     });
 
     app.listen(port, () => {
-        console.log('Server kjører på port', port);
+        logger.info('Server kjører på port', port);
     });
 };
 
@@ -85,7 +88,7 @@ const initializeServer = async () => {
         await initializeAzureAd();
         startServer();
     } catch (e) {
-        console.error('Klarte ikke å starte server:', e);
+        logger.error('Klarte ikke å starte server:', e);
     }
 };
 

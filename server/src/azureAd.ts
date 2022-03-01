@@ -1,6 +1,7 @@
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 import { FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters } from 'jose/dist/types/types';
 import { Issuer, Client } from 'openid-client';
+import { logger } from './server';
 
 const discoveryUrl = process.env.AZURE_APP_WELL_KNOWN_URL;
 const clientId = process.env.AZURE_APP_CLIENT_ID;
@@ -39,7 +40,7 @@ export const tokenIsValid = async (token: string) => {
 
         return !!verification.payload;
     } catch (e) {
-        console.error('Noe galt skjedde under validering av token:', e);
+        logger.error('Noe galt skjedde under validering av token:', e);
         return false;
     }
 };

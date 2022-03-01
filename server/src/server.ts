@@ -78,7 +78,7 @@ const initializeServer = async () => {
         await initializeAzureAd();
         startServer();
     } catch (e) {
-        logger.error('Klarte ikke å starte server:', e);
+        logger.error(`Klarte ikke å starte server: ${e}`);
     }
 };
 

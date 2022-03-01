@@ -26,6 +26,7 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
         return cachetOboToken.token;
     } else {
         logger.info(`Henter nytt OBO-token for scope ${scope}`);
+
         const nyttOboToken = await hentNyttOnBehalfOfToken(accessToken, scope);
         const expires = Date.now() + nyttOboToken.expires_in * 1000;
 

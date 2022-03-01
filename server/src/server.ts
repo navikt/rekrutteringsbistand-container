@@ -1,6 +1,6 @@
 import path from 'path';
 import express from 'express';
-import Logger from 'node-json-logger';
+import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
 import {
@@ -13,7 +13,10 @@ import { setupProxy } from './proxy';
 const app = express();
 const port = process.env.PORT || 8080;
 
-export const logger = new Logger();
+export const logger = winston.createLogger({
+    format: winston.format.json(),
+    transports: new winston.transports.Console(),
+});
 
 const buildPath = path.join(__dirname, '../build');
 

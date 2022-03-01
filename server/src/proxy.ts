@@ -36,4 +36,5 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
                 `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies: ${cookieNames}`
             );
         },
+        logProvider: () => logger,
     });

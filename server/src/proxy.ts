@@ -4,45 +4,35 @@ import { logger } from './server';
 
 const getCookieNames = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
-
-    if (requestCookies) {
-        const cookies = requestCookies.split('; ');
-        return cookies.map((cookie) => cookie.split('=')[0]);
-    } else {
-        return [];
-    }
+    return requestCookies ? requestCookies.split('; ').map((cookie) => cookie.split('=')[0]) : [];
 };
 
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
 
-    if (requestCookies) {
-        return requestCookies
-            .split('; ')
-            .filter((cookie) => cookie.split('=')[0] !== 'isso-idtoken')
-            .join('; ');
-    } else {
-        return '';
-    }
+    return requestCookies
+        ? requestCookies
+              .split('; ')
+              .filter((cookie) => cookie.split('=')[0] !== 'isso-idtoken')
+              .join('; ')
+        : '';
 };
 
 // Krever ekstra miljøvariabler, se nais.yaml
-export const setupProxy = (fraPath: string, tilTarget: string, fjernCookies = true) =>
+export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken = true) =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
         changeOrigin: true,
         secure: true,
         onProxyReq: (request) => {
-            if (fjernCookies) {
+            if (fjernIssoIdToken) {
                 request.setHeader('Cookie', removeIssoIdToken(request));
             }
 
             const bearerTokenlength = request.getHeader('authorization')?.toString()?.length;
             const cookieNames = getCookieNames(request);
-
             logger.info(
-                `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies:`,
-                cookieNames
+                `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies: ${cookieNames}`
             );
         },
         pathRewrite: (path) => path.replace(fraPath, ''),

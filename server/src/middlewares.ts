@@ -33,11 +33,6 @@ export const opprettCookieFraAuthorizationHeader: Middleware = (req, res, next) 
     }
 };
 
-export const removeIssoIdToken: Middleware = async (req, _, next) => {
-    req.cookies['isso-idtoken'] = undefined;
-    next();
-};
-
 export const setOnBehalfOfToken = (scope: string) => async (
     req: Request,
     res: Response,
@@ -49,7 +44,7 @@ export const setOnBehalfOfToken = (scope: string) => async (
         res.status(500).send('Kan ikke be om OBO-token siden access-token ikke finnes');
     } else {
         try {
-            logger.info('Setter OBO-token for scope', scope);
+            logger.info(`Setter OBO-token for scope ${scope}`);
             const token = await hentOnBehalfOfToken(accessToken, scope);
             req.headers.authorization = `Bearer ${token.access_token}`;
             next();

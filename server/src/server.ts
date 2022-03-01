@@ -1,13 +1,11 @@
 import path from 'path';
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import Logger from 'node-json-logger';
 
 import { initializeAzureAd } from './azureAd';
 import {
     ensureLoggedIn,
     opprettCookieFraAuthorizationHeader,
-    removeIssoIdToken,
     setOnBehalfOfToken,
 } from './middlewares';
 import { setupProxy } from './proxy';
@@ -33,13 +31,7 @@ const scopes = {
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
-    app.use(
-        path,
-        removeIssoIdToken,
-        ensureLoggedIn,
-        setOnBehalfOfToken(apiScope),
-        setupProxy(path, apiUrl)
-    );
+    app.use(path, ensureLoggedIn, setOnBehalfOfToken(apiScope), setupProxy(path, apiUrl));
 };
 
 const {
@@ -53,8 +45,6 @@ const {
 } = process.env;
 
 const startServer = () => {
-    app.use(cookieParser());
-
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];

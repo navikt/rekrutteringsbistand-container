@@ -27,7 +27,7 @@ const scopes = {
     statistikk: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
     stillingssøk: `api://${cluster}.toi.rekrutteringsbistand-stillingssok-proxy/.default`,
     stilling: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
-    kandidat: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-kandidat-api/.default`,
+    kandidat: `api://${clusterOnPrem}.toi.rekrutteringsbistand-kandidat-api/.default`,
     sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,
     finnKandidatApi: `api://${clusterOnPrem}.arbeidsgiver.finn-kandidat-api/.default`,
     forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,

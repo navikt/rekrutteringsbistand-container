@@ -46,7 +46,5 @@ spec:
           value: https://finn-kandidat-api.prod-fss-pub.nais.io/finn-kandidat-api/
         - name: SMS_API
           value: https://rekrutteringsbistand-sms.prod-fss-pub.nais.io/rekrutteringsbistand-sms/sms
-
-          # TODO: Skaff pub-ingresser for disse API-ene
         - name: FORESPORSEL_OM_DELING_AV_CV_API
-          value: https://foresporsel-om-deling-av-cv-api.intern.nav.no
+          value: https://foresporsel-om-deling-av-cv-api.prod-fss-pub.nais.io

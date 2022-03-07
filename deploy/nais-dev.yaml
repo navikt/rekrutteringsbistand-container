@@ -42,11 +42,11 @@ spec:
           value: https://rekrutteringsbistand-stilling-api.dev-fss-pub.nais.io
         - name: KANDIDAT_API_URL
           value: https://rekrutteringsbistand-kandidat-api.dev-fss-pub.nais.io/rekrutteringsbistand-kandidat-api/rest
+        - name: FINN_KANDIDAT_API
+          value: https://finn-kandidat-api.dev-fss-pub.nais.io/finn-kandidat-api/
 
         # TODO: Skaff pub-ingresser for disse API-ene
         - name: SMS_API
           value: https://arbeidsgiver.nais.preprod.local/rekrutteringsbistand-sms/sms
-        - name: FINN_KANDIDAT_API
-          value: https://arbeidsgiver.nais.preprod.local/finn-kandidat-api
         - name: FORESPORSEL_OM_DELING_AV_CV_API
           value: https://foresporsel-om-deling-av-cv-api.dev.intern.nav.no

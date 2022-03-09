@@ -48,3 +48,6 @@ spec:
           value: https://rekrutteringsbistand-sms.prod-fss-pub.nais.io/rekrutteringsbistand-sms/sms
         - name: FORESPORSEL_OM_DELING_AV_CV_API
           value: https://foresporsel-om-deling-av-cv-api.prod-fss-pub.nais.io
+        - name: SYNLIGHETSMOTOR_API
+          value: https://toi-synlighetsmotor.intern.nav.no
+          

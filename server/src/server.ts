@@ -31,6 +31,7 @@ const scopes = {
     sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,
     finnKandidatApi: `api://${clusterOnPrem}.arbeidsgiver.finn-kandidat-api/.default`,
     forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,
+    synlighetsmotor: `api://${cluster}.toi.toi-synlighetsmotor/.default`,
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
@@ -45,6 +46,7 @@ const {
     SMS_API,
     FINN_KANDIDAT_API,
     FORESPORSEL_OM_DELING_AV_CV_API,
+    SYNLIGHETSMOTOR_API
 } = process.env;
 
 const startServer = () => {
@@ -66,6 +68,7 @@ const startServer = () => {
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
+    proxyWithAuth('/toi-synlighetsmotor', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);

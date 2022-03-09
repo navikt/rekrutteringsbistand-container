@@ -24,7 +24,7 @@ export const opprettCookieFraAuthorizationHeader: Middleware = (req, res, next) 
 
         res.header(
             'Set-Cookie',
-            `isso-idtoken=${token}; Domain=${cookieDomain}; Secure; HttpOnly; SameSite=Lax;`
+            `isso-idtoken=${token}; Domain=${cookieDomain}; Path=/; Secure; HttpOnly; SameSite=Lax;`
         );
 
         next();

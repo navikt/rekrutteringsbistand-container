@@ -20,7 +20,9 @@ export const opprettCookieFraAuthorizationHeader: Middleware = (req, res, next) 
     const token = retrieveToken(req.headers);
 
     if (token) {
-        const cookieDomain = cluster === 'prod-gcp' ? 'intern.nav.no' : 'dev.intern.nav.no';
+        // Alltid sett domene til "intern.nav.no", dette fungerer også i dev
+        // fordi "intern.nav.no" er en substring av "dev.intern.nav.no"
+        const cookieDomain = cluster === 'prod-gcp' ? 'intern.nav.no' : 'intern.nav.no';
 
         res.header(
             'Set-Cookie',

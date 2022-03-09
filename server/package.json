@@ -4,6 +4,7 @@
         "start": "nodemon src/server.ts"
     },
     "dependencies": {
+        "compression": "^1.7.4",
         "http-proxy-middleware": "^2.0.3",
         "jose": "^4.5.0",
         "node-fetch": "^2.6.7",
@@ -11,6 +12,7 @@
         "winston": "^3.6.0"
     },
     "devDependencies": {
+        "@types/compression": "^1.7.2",
         "@types/express": "^4.17.13",
         "@types/node": "^17.0.18",
         "@types/node-fetch": "^2.6.1",

@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import compression from 'compression';
 import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
@@ -46,10 +47,11 @@ const {
     SMS_API,
     FINN_KANDIDAT_API,
     FORESPORSEL_OM_DELING_AV_CV_API,
-    SYNLIGHETSMOTOR_API
+    SYNLIGHETSMOTOR_API,
 } = process.env;
 
 const startServer = () => {
+    app.use(compression());
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];

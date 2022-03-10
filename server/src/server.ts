@@ -70,7 +70,7 @@ const startServer = () => {
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
-    proxyWithAuth('/toi-synlighetsmotor', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);

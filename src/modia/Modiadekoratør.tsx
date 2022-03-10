@@ -6,11 +6,18 @@ import './Modiadekoratør.less';
 
 const appName = 'internarbeidsflatefs';
 
+const hentHostname = () => {
+    if (window.location.hostname.includes('dev.intern.nav.no')) {
+        return 'https://internarbeidsflatedecorator-q0.dev.intern.nav.no';
+    } else if (window.location.hostname.includes('intern.nav.no')) {
+        return 'https://internarbeidsflatedecorator.intern.nav.no';
+    } else {
+        return 'https://navikt.github.io';
+    }
+};
+
 const hentAssets = () => {
-    const urlPrefix =
-        process.env.NODE_ENV === 'production'
-            ? 'https://internarbeidsflatedecorator.nais.adeo.no'
-            : 'https://navikt.github.io';
+    let urlPrefix = hentHostname();
 
     return [
         `${urlPrefix}/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js`,

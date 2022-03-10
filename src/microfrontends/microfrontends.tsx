@@ -17,35 +17,35 @@ const LasterInn: FunctionComponent = () => (
     </div>
 );
 
-const stillingConfig = {
-    appName: 'rekrutteringsbistand-stilling',
-    appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser,
-    loader: <LasterInn />,
-};
-
 const kandidatConfig = {
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser,
+    assetManifestParser: assetManifestParser(),
     loader: <LasterInn />,
 };
 
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser,
+    assetManifestParser: assetManifestParser(),
     loader: <LasterInn />,
 };
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
-    appBaseUrl: '/rekrutteringsbistand-stillingssok',
-    assetManifestParser,
+    appBaseUrl: `/rekrutteringsbistand-stillingssok`,
+    assetManifestParser: assetManifestParser(),
     loader: <LasterInn />,
 };
 
-export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
-export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);
+const stillingConfig = {
+    appName: 'rekrutteringsbistand-stilling',
+    appBaseUrl: '/rekrutteringsbistand-stilling',
+    assetManifestParser: assetManifestParser(),
+    loader: <LasterInn />,
+};
+
 export const Statistikk = AsyncNavspa.importer<FellesMicrofrontendProps>(statistikkConfig);
 export const Stillingssøk = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingssøkConfig);
+export const Stilling = AsyncNavspa.importer<FellesMicrofrontendProps>(stillingConfig);
+export const Kandidat = AsyncNavspa.importer<FellesMicrofrontendProps>(kandidatConfig);

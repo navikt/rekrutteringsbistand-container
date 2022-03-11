@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
@@ -20,9 +21,20 @@ export const logger = winston.createLogger({
 });
 
 const buildPath = path.join(__dirname, '../build');
+const indexPath = `${buildPath}/index.html`;
 
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
+
+const modiaDekoratørUrl =
+    cluster === 'prod-gcp'
+        ? 'https://internarbeidsflatedecorator.intern.nav.no'
+        : 'https://internarbeidsflatedecorator.dev.intern.nav.no';
+
+const modiaContextHolderUrl =
+    cluster === 'prod-gcp'
+        ? 'https://modiacontextholder.intern.nav.no'
+        : 'https://modiacontextholder-q0.dev.intern.nav.no';
 
 const scopes = {
     statistikk: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-statistikk-api/.default`,
@@ -81,12 +93,29 @@ const startServer = () => {
     });
 };
 
+const initializeHtml = () => {
+    try {
+        let html = fs.readFileSync(indexPath).toString();
+
+        html = html.replace('__MODIADEKORATOR_URL__', modiaDekoratørUrl);
+        html = html.replace('__MODIACONTEXTHOLDER_URL__', modiaContextHolderUrl);
+
+        fs.writeFileSync(indexPath, html);
+        logger.info('Skrev om HTML-fil fra template');
+    } catch (e) {
+        throw Error('Klarte ikke å skrive om HTML-fil');
+    }
+};
+
 const initializeServer = async () => {
     try {
         await initializeAzureAd();
+
+        initializeHtml();
         startServer();
     } catch (e) {
         logger.error(`Klarte ikke å starte server: ${e}`);
+        process.exit(1);
     }
 };
 

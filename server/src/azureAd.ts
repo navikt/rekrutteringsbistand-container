@@ -13,6 +13,7 @@ export const initializeAzureAd = async () => {
     try {
         await discoverAzureAdIssuer();
         opprettRemoteJWKSet();
+        logger.info(`Initialiserte AzureAD med discovery URL "${discoveryUrl}"`);
     } catch (e) {
         throw Error('Klarte ikke å initialisere AzureAD:' + e);
     }

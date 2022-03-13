@@ -62,7 +62,7 @@ const {
     SYNLIGHETSMOTOR_API,
 } = process.env;
 
-const startServer = () => {
+const startServer = (html: string) => {
     app.use(compression());
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
@@ -85,7 +85,7 @@ const startServer = () => {
     proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
 
     app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
-        res.sendFile(`${buildPath}/index.html`);
+        res.send(html);
     });
 
     app.listen(port, () => {
@@ -97,16 +97,12 @@ const initializeHtml = () => {
     try {
         let html = fs.readFileSync(indexPath).toString();
 
-        console.log('HTML før:', html.substring(0, 420));
-
         html = html.replace('__MODIADEKORATOR_URL__', modiaDekoratørUrl);
         html = html.replace('__MODIACONTEXTHOLDER_URL__', modiaContextHolderUrl);
 
-        console.log('HTML etter:', html.substring(0, 420));
-
-        fs.writeFileSync(indexPath, html);
-
         logger.info('Skrev om HTML-fil fra template');
+
+        return html;
     } catch (e) {
         throw Error('Klarte ikke å skrive om HTML-fil');
     }
@@ -115,9 +111,9 @@ const initializeHtml = () => {
 const initializeServer = async () => {
     try {
         await initializeAzureAd();
+        const html = initializeHtml();
 
-        initializeHtml();
-        startServer();
+        startServer(html);
     } catch (e) {
         logger.error(`Klarte ikke å starte server: ${e}`);
         process.exit(1);

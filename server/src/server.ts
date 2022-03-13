@@ -97,10 +97,15 @@ const initializeHtml = () => {
     try {
         let html = fs.readFileSync(indexPath).toString();
 
+        console.log('HTML før:', html.substring(0, 420));
+
         html = html.replace('__MODIADEKORATOR_URL__', modiaDekoratørUrl);
         html = html.replace('__MODIACONTEXTHOLDER_URL__', modiaContextHolderUrl);
 
+        console.log('HTML etter:', html.substring(0, 420));
+
         fs.writeFileSync(indexPath, html);
+
         logger.info('Skrev om HTML-fil fra template');
     } catch (e) {
         throw Error('Klarte ikke å skrive om HTML-fil');

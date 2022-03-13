@@ -29,7 +29,7 @@ const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 const modiaDekoratørUrl =
     cluster === 'prod-gcp'
         ? 'https://internarbeidsflatedecorator.intern.nav.no'
-        : 'https://internarbeidsflatedecorator.dev.intern.nav.no';
+        : 'https://internarbeidsflatedecorator-q0.dev.intern.nav.no';
 
 const modiaContextHolderUrl =
     cluster === 'prod-gcp'

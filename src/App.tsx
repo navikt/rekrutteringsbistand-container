@@ -1,19 +1,25 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
-import history from './history';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/microfrontends';
-import { setNavKontorForAmplitude } from './amplitude';
+import { AmplitudeEvent, sendEvent, setNavKontorForAmplitude } from './amplitude';
 
 const App: FunctionComponent = () => {
+    const history = useHistory();
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
     const handleNavKontorChange = (navKontor: string) => {
         setNavKontor(navKontor);
         setNavKontorForAmplitude(navKontor);
     };
+
+    useEffect(() => {
+        sendEvent(AmplitudeEvent.Sidevisning, {
+            path: history.location.pathname,
+        });
+    }, [history.location.pathname]);
 
     return (
         <>

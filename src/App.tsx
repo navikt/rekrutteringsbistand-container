@@ -5,14 +5,20 @@ import history from './history';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/microfrontends';
+import { setNavKontorForAmplitude } from './amplitude';
 
 const App: FunctionComponent = () => {
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
+    const handleNavKontorChange = (navKontor: string) => {
+        setNavKontor(navKontor);
+        setNavKontorForAmplitude(navKontor);
+    };
+
     return (
         <>
             <header>
-                <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
+                <Modiadekoratør navKontor={navKontor} onNavKontorChange={handleNavKontorChange} />
                 <Navigeringsmeny />
             </header>
             <main>

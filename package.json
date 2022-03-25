@@ -6,6 +6,7 @@
     "dependencies": {
         "@navikt/navspa": "^3.0.1",
         "@navikt/nytt-i-rekrutteringsbistand": "^1.2.22",
+        "amplitude-js": "^8.17.0",
         "history": "^4.10.1",
         "loadjs": "^4.2.0",
         "nav-frontend-alertstriper": "^3.0.49",
@@ -24,9 +25,9 @@
         "typescript": "^4.4.4"
     },
     "scripts": {
-        "start": "craco start",
-        "start:import": "REACT_APP_IMPORT=true REACT_APP_MOCK=true craco start",
-        "start:mock": "REACT_APP_MOCK=true craco start",
+        "start": "BROWSER=none craco start",
+        "start:import": "BROWSER=none REACT_APP_IMPORT=true REACT_APP_MOCK=true craco start",
+        "start:mock": "BROWSER=none REACT_APP_MOCK=true craco start",
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject"
@@ -56,6 +57,7 @@
     },
     "devDependencies": {
         "@craco/craco": "^6.1.1",
+        "@types/amplitude-js": "^8.16.0",
         "@types/express": "^4.17.13",
         "@types/loadjs": "^4.0.0",
         "@types/react": "^17.0.2",
@@ -64,7 +66,6 @@
         "craco-less": "^1.17.1",
         "eslint-config-prettier": "^7.2.0",
         "fetch-mock": "^9.11.0",
-        "http-proxy": "^1.18.1",
         "prettier": "^2.2.1"
     }
 }

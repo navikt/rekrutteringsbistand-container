@@ -1,13 +1,17 @@
 import { generaliserPath } from './path';
 
 test('generaliserPath erstatter kandidatnumre med en placeholder', () => {
-    const pathMedKandidatnummerFraArena = '/kandidater/kandidat/AB123456';
-    const pathMedKandidatnummerFraPam = '/kandidater/kandidat/PAMabcdefghi';
+    expect(generaliserPath('/kandidater/kandidat/AB123456')).toBe(
+        '/kandidater/kandidat/<kandidatnr>'
+    );
 
-    const generalisertPath = '/kandidater/kandidat/<kandidatnr>';
+    expect(generaliserPath('/kandidater/kandidat/PAMabcdefghi')).toBe(
+        '/kandidater/kandidat/<kandidatnr>'
+    );
 
-    expect(generaliserPath(pathMedKandidatnummerFraArena)).toBe(generalisertPath);
-    expect(generaliserPath(pathMedKandidatnummerFraPam)).toBe(generalisertPath);
+    expect(generaliserPath('/kandidater/kandidat/PAMabcdefghis/cv')).toBe(
+        '/kandidater/kandidat/<kandidatnr>/cv'
+    );
 });
 
 test('generaliserPath erstatter uuid-er med en placeholder', () => {

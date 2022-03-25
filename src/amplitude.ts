@@ -28,7 +28,7 @@ export const sendEvent = (event: AmplitudeEvent, properties: Record<string, any>
 
 const client: AmplitudeClient = amplitudeJs.getInstance();
 
-client.init(getApiKey(), '', {
+client.init(getApiKey(), undefined, {
     apiEndpoint: 'amplitude.nav.no/collect',
     saveEvents: false,
     includeUtm: true,

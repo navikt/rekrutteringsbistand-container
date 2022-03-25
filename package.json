@@ -25,9 +25,9 @@
         "typescript": "^4.4.4"
     },
     "scripts": {
-        "start": "craco start",
-        "start:import": "REACT_APP_IMPORT=true REACT_APP_MOCK=true craco start",
-        "start:mock": "REACT_APP_MOCK=true craco start",
+        "start": "BROWSER=none craco start",
+        "start:import": "BROWSER=none REACT_APP_IMPORT=true REACT_APP_MOCK=true craco start",
+        "start:mock": "BROWSER=none REACT_APP_MOCK=true craco start",
         "build": "craco build",
         "test": "craco test",
         "eject": "craco eject"
@@ -66,7 +66,6 @@
         "craco-less": "^1.17.1",
         "eslint-config-prettier": "^7.2.0",
         "fetch-mock": "^9.11.0",
-        "http-proxy": "^1.18.1",
         "prettier": "^2.2.1"
     }
 }

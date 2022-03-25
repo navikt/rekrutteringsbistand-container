@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
@@ -8,23 +8,22 @@ import { AmplitudeEvent, sendEvent, setNavKontorForAmplitude } from './amplitude
 
 const App: FunctionComponent = () => {
     const history = useHistory();
+    const location = useLocation();
     const [navKontor, setNavKontor] = useState<string | null>(null);
 
-    const handleNavKontorChange = (navKontor: string) => {
-        setNavKontor(navKontor);
-        setNavKontorForAmplitude(navKontor);
-    };
-
     useEffect(() => {
-        sendEvent(AmplitudeEvent.Sidevisning, {
-            path: history.location.pathname,
-        });
-    }, [history.location.pathname]);
+        if (navKontor) {
+            setNavKontorForAmplitude(navKontor);
+            sendEvent(AmplitudeEvent.Sidevisning, {
+                path: location.pathname,
+            });
+        }
+    }, [location.pathname, navKontor]);
 
     return (
         <>
             <header>
-                <Modiadekoratør navKontor={navKontor} onNavKontorChange={handleNavKontorChange} />
+                <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
                 <Navigeringsmeny />
             </header>
             <main>

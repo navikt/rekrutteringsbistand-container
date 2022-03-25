@@ -22,6 +22,8 @@ jobs:
               run: npm ci
             - name: Bygg applikasjon
               run: npm run build
+            - name: Test applikasjon
+              run: npm run test
             - name: Installer avhengigheter for server
               run: cd server && npm ci
             - name: Bygg server

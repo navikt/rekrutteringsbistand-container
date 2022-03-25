@@ -5,6 +5,7 @@ import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/microfrontends';
 import { AmplitudeEvent, sendEvent, setNavKontorForAmplitude } from './amplitude';
+import { generaliserPath } from './utils/path';
 
 const App: FunctionComponent = () => {
     const history = useHistory();
@@ -15,7 +16,7 @@ const App: FunctionComponent = () => {
         if (navKontor) {
             setNavKontorForAmplitude(navKontor);
             sendEvent(AmplitudeEvent.Sidevisning, {
-                path: location.pathname,
+                path: generaliserPath(location.pathname),
             });
         }
     }, [location.pathname, navKontor]);

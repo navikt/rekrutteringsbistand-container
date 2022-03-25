@@ -5,11 +5,15 @@ test('generaliserPath erstatter kandidatnumre med en placeholder', () => {
         '/kandidater/kandidat/<kandidatnr>'
     );
 
+    expect(generaliserPath('/kandidater/kandidat/AB123456/cv')).toBe(
+        '/kandidater/kandidat/<kandidatnr>/cv'
+    );
+
     expect(generaliserPath('/kandidater/kandidat/PAMabcdefghi')).toBe(
         '/kandidater/kandidat/<kandidatnr>'
     );
 
-    expect(generaliserPath('/kandidater/kandidat/PAMabcdefghis/cv')).toBe(
+    expect(generaliserPath('/kandidater/kandidat/PAM23/cv')).toBe(
         '/kandidater/kandidat/<kandidatnr>/cv'
     );
 });

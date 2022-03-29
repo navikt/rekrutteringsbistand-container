@@ -4,22 +4,36 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
 import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/microfrontends';
-import { AmplitudeEvent, sendEvent, setNavKontorForAmplitude } from './amplitude';
+import {
+    AmplitudeEvent,
+    sendEvent,
+    sendGenerellEvent,
+    setNavKontorForAmplitude,
+} from './amplitude';
 import { generaliserPath } from './utils/path';
 
 const App: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const [navKontor, setNavKontor] = useState<string | null>(null);
+    const [harSendtÅpneAppEvent, setHarSendtÅpneAppEvent] = useState<boolean>(false);
 
     useEffect(() => {
         if (navKontor) {
             setNavKontorForAmplitude(navKontor);
-            sendEvent(AmplitudeEvent.Sidevisning, {
+            sendGenerellEvent(AmplitudeEvent.Sidevisning, {
                 path: generaliserPath(location.pathname),
             });
+
+            if (harSendtÅpneAppEvent === false) {
+                sendEvent(AmplitudeEvent.ÅpneRekrutteringsbistand, {
+                    skjermbredde: window.screen.width,
+                });
+
+                setHarSendtÅpneAppEvent(true);
+            }
         }
-    }, [location.pathname, navKontor]);
+    }, [location.pathname, navKontor, harSendtÅpneAppEvent]);
 
     return (
         <>

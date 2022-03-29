@@ -4,7 +4,7 @@ import { Miljø, getMiljø } from './miljø';
 export enum AmplitudeEvent {
     Sidevisning = 'sidevisning',
     Navigere = 'navigere',
-    PanelEkspander = 'panel-ekspander',
+    ÅpneRekrutteringsbistand = '#rekrutteringsbistand-app-åpne',
 }
 
 const getApiKey = () => {
@@ -19,7 +19,11 @@ export const setNavKontorForAmplitude = (navKontor: string) => {
     });
 };
 
-export const sendEvent = (event: AmplitudeEvent, properties: Record<string, any>): void => {
+export const sendEvent = (event: AmplitudeEvent, properties: Record<string, any>) => {
+    client.logEvent(event, properties);
+};
+
+export const sendGenerellEvent = (event: AmplitudeEvent, properties: Record<string, any>): void => {
     client.logEvent(event, {
         app: 'rekrutteringsbistand',
         ...properties,

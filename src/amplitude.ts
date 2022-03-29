@@ -23,10 +23,22 @@ export const sendEvent = (event: AmplitudeEvent, properties: Record<string, any>
     client.logEvent(event, properties);
 };
 
-export const sendGenerellEvent = (event: AmplitudeEvent, properties: Record<string, any>): void => {
-    client.logEvent(event, {
+export const sendGenerellEvent = (
+    event: AmplitudeEvent,
+    properties: Record<string, any>
+): Promise<void> => {
+    const eventProperties = {
         app: 'rekrutteringsbistand',
         ...properties,
+    };
+
+    return new Promise((resolve, reject) => {
+        client.logEvent(
+            event,
+            eventProperties,
+            () => resolve(),
+            () => reject()
+        );
     });
 };
 

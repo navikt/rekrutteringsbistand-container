@@ -19,19 +19,24 @@ const App: FunctionComponent = () => {
     const [harSendtÅpneAppEvent, setHarSendtÅpneAppEvent] = useState<boolean>(false);
 
     useEffect(() => {
-        if (navKontor) {
+        const konfigurerAmplitudeOgSendEvents = async (navKontor: string) => {
             setNavKontorForAmplitude(navKontor);
-            sendGenerellEvent(AmplitudeEvent.Sidevisning, {
+
+            await sendGenerellEvent(AmplitudeEvent.Sidevisning, {
                 path: generaliserPath(location.pathname),
             });
 
-            if (harSendtÅpneAppEvent === false) {
+            if (!harSendtÅpneAppEvent) {
                 sendEvent(AmplitudeEvent.ÅpneRekrutteringsbistand, {
                     skjermbredde: window.screen.width,
                 });
 
                 setHarSendtÅpneAppEvent(true);
             }
+        };
+
+        if (navKontor) {
+            konfigurerAmplitudeOgSendEvents(navKontor);
         }
     }, [location.pathname, navKontor, harSendtÅpneAppEvent]);
 

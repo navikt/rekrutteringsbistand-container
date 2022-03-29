@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { tokenIsValid } from './azureAd';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
-import { logger } from './server';
 
 type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 

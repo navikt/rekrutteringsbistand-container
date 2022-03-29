@@ -36,8 +36,6 @@ const assetManifestParser = (appBaseUrl: string = '') => (
         pathsToLoad.push(environmentFile.path);
     }
 
-    console.log('Found files from app-manifest.json:', pathsToLoad);
-
     return pathsToLoad;
 };
 

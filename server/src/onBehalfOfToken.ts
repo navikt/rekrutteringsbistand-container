@@ -22,11 +22,8 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
     const cachetOboToken = tokenCache[scope]?.[accessToken];
 
     if (cachetOboToken && tokenErFremdelesGyldig(cachetOboToken)) {
-        logger.info(`Bruker cachet OBO-token for scope ${scope}`);
         return cachetOboToken.token;
     } else {
-        logger.info(`Henter nytt OBO-token for scope ${scope}`);
-
         const nyttOboToken = await hentNyttOnBehalfOfToken(accessToken, scope);
         const expires = Date.now() + nyttOboToken.expires_in * 1000;
 
@@ -86,16 +83,5 @@ async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Prom
 }
 
 function tokenErFremdelesGyldig(token: CachetOboToken) {
-    const frist = Date.now() - 5000;
-    const erGyldig = token.expires >= frist;
-
-    logger.info(
-        erGyldig
-            ? 'Token er fremdeles gyldig'
-            : `Token er utgått med dato ${new Date(
-                  token.expires
-              ).toISOString()}, frist var (${new Date(frist).toISOString()}`
-    );
-
     return token.expires >= Date.now() - 5000;
 }

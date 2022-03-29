@@ -2,14 +2,6 @@ import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { logger } from './server';
 
-const getCookieNames = (request: ClientRequest) => {
-    const requestCookies = request.getHeader('Cookie');
-
-    return typeof requestCookies === 'string'
-        ? requestCookies.split('; ').map((cookie) => cookie.split('=')[0])
-        : [];
-};
-
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
 
@@ -32,12 +24,6 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
             if (fjernIssoIdToken) {
                 request.setHeader('Cookie', removeIssoIdToken(request));
             }
-
-            const bearerTokenlength = request.getHeader('authorization')?.toString()?.length;
-            const cookieNames = getCookieNames(request);
-            logger.info(
-                `Proxy request fra ${fraPath} til ${tilTarget}, Bearer token er på ${bearerTokenlength} tegn. Alle cookies: ${cookieNames}`
-            );
         },
         logProvider: () => logger,
     });

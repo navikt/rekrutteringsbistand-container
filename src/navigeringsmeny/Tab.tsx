@@ -1,6 +1,6 @@
+import { BodyShort } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 export type TabConfig = {
     tittel: string;
@@ -32,7 +32,7 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
                 },
             }}
         >
-            <Normaltekst>{tittel}</Normaltekst>
+            <BodyShort>{tittel}</BodyShort>
         </Link>
     );
 };

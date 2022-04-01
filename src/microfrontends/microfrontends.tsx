@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
+import { Loader } from '@navikt/ds-react';
+import { AsyncNavspa } from '@navikt/navspa';
 
 import assetManifestParser from './assetManifestUtils';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import { AsyncNavspa } from '@navikt/navspa';
 import { History } from 'history';
 import './microfrontends.less';
 
@@ -13,7 +13,7 @@ type FellesMicrofrontendProps = {
 
 const LasterInn: FunctionComponent = () => (
     <div className="microfrontends__laster-inn">
-        <NavFrontendSpinner />
+        <Loader size="xlarge" />
     </div>
 );
 

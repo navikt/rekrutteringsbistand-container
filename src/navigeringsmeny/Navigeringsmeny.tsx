@@ -1,11 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import NyttIRekrutteringsbistand from '@navikt/nytt-i-rekrutteringsbistand';
 import { useLocation } from 'react-router-dom';
 
 import Tab, { TabConfig } from './Tab';
 import Forsidelenke from './Forsidelenke';
-
-import '../../node_modules/@navikt/nytt-i-rekrutteringsbistand/lib/nytt.css';
+import Nyheter from '../nyheter/Nyheter';
 import './Navigeringsmeny.less';
 
 const appPrefiks = '';
@@ -43,7 +41,7 @@ const Navigeringsmeny: FunctionComponent = () => {
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">
-                    <NyttIRekrutteringsbistand orientering={'under-hoyre' as any} />
+                    <Nyheter />
                 </div>
             </div>
         </div>

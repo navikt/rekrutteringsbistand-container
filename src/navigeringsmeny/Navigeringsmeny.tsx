@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import Tab, { TabConfig } from './Tab';
 import Forsidelenke from './Forsidelenke';
-import './Navigeringsmeny.less';
 import Nyheter from '../nyheter/Nyheter';
+import './Navigeringsmeny.less';
 
 const appPrefiks = '';
 

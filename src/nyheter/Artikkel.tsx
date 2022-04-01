@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { Undertittel, Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import { Nyhet } from './Nytt';
+import { Detail, Heading } from '@navikt/ds-react';
+import { Nyhet } from './Nyheter';
 
 const printDato = (dato: Date) =>
     dato.toLocaleDateString
@@ -17,15 +17,17 @@ interface Props {
 }
 
 const Artikkel: FunctionComponent<Props> = ({ nyhet, ulest }) => {
-    const klassenavn = 'nytt__artikkel' + (ulest ? ' nytt__artikkel--ulest' : '');
+    const klassenavn = 'nyheter__artikkel' + (ulest ? ' nyheter__artikkel--ulest' : '');
 
     return (
         <article className={klassenavn}>
-            <Undertekst className="nytt__artikkeldato">{printDato(nyhet.dato)}</Undertekst>
-            <Undertittel className="nytt__artikkeltittel">{nyhet.tittel}</Undertittel>
-            <Normaltekst className="nytt__artikkelinnhold" tag="section">
-                {nyhet.innhold}
-            </Normaltekst>
+            <Detail size="small" className="nyheter__artikkeldato">
+                {printDato(nyhet.dato)}
+            </Detail>
+            <Heading size="small" className="nyheter__artikkeltittel">
+                {nyhet.tittel}
+            </Heading>
+            <div className="nyheter__artikkelinnhold">{nyhet.innhold}</div>
         </article>
     );
 };

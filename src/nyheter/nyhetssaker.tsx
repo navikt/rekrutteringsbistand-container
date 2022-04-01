@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nyhet } from './Nytt';
+import { Nyhet } from './Nyheter';
 
 const tilDato = (dag: number, måned: number, år: number, timer: number = 0, minutter: number = 0) =>
     new Date(år, måned - 1, dag, timer, minutter);

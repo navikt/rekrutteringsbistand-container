@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Nyhet } from './Nytt';
+import { Nyhet } from './Nyheter';
 
 const hentAntallUlesteNyheter = (nyheter: Nyhet[], antallLesteNyheter: number) => {
     if (nyheter.length === 0) {

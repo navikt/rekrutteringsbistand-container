@@ -1,5 +1,3 @@
-@import '../variabler.less';
-
 .navigeringsmeny {
     padding: 0 2.5rem;
     background-color: white;
@@ -33,7 +31,7 @@
     &__tab {
         display: inline-block;
         text-decoration: none;
-        color: @navMorkGra;
+        color: var(--navds-semantic-color-text);
         letter-spacing: 0.3px;
 
         &--aktiv {
@@ -52,7 +50,7 @@
 
         &--aktiv,
         &:hover {
-            border-bottom-color: @navDypBla;
+            border-bottom-color: var(--navds-semantic-color-interaction-primary-selected);
         }
 
         &:not(.navigeringsmeny__tab--aktiv):not(.navigeringsmeny__forside--aktiv):hover {
@@ -61,7 +59,7 @@
 
         &:focus {
             outline: none;
-            box-shadow: 0 0 0 3px @fokusFarge;
+            box-shadow: 0 0 0 3px var(--navds-semantic-color-interaction-primary-selected);
         }
     }
 

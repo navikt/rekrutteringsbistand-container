@@ -1,9 +1,6 @@
-@nav-nesten-svart: #3e3832;
-@nav-fokus: 0 0 0 3px @nav-nesten-svart;
+@nav-fokus: 0 0 0 3px var(--navds-semantic-color-canvas-background-inverted);
 
-.nytt {
-    color: @nav-nesten-svart;
-
+.nyheter {
     &__knapp {
         background: none;
         border: none;
@@ -14,10 +11,6 @@
         &:focus {
             outline: none;
             box-shadow: @nav-fokus;
-        }
-
-        .nytt .popover {
-            margin: 0;
         }
     }
 
@@ -36,23 +29,18 @@
         width: 2.5rem;
     }
 
-    .popover {
+    .navds-popover {
         border: none;
         box-shadow: none;
         border-radius: 0.6rem;
 
         &:focus {
             box-shadow: @nav-fokus;
-
-            .popover__pil {
-                box-shadow: @nav-fokus;
-            }
         }
 
-        &__pil {
-            border-width: 2px;
-            border-color: @nav-nesten-svart;
-            background-color: @nav-nesten-svart;
+        &__arrow::before {
+            border: none;
+            background-color: var(--navds-semantic-color-canvas-background-inverted);
         }
     }
 
@@ -68,7 +56,7 @@
     &__tittel {
         color: white;
         text-align: center;
-        background-color: @nav-nesten-svart;
+        background-color: var(--navds-semantic-color-canvas-background-inverted);
         border-radius: 0.5rem 0.5rem 0 0;
         padding: 1rem 1.5rem;
         font-size: 1.1rem;

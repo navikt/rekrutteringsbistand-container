@@ -5,7 +5,6 @@
     "homepage": "/",
     "dependencies": {
         "@navikt/navspa": "^3.0.1",
-        "@navikt/nytt-i-rekrutteringsbistand": "^1.2.22",
         "amplitude-js": "^8.17.0",
         "history": "^4.10.1",
         "loadjs": "^4.2.0",
@@ -15,6 +14,8 @@
         "nav-frontend-ikoner-assets": "^2.0.10",
         "nav-frontend-paneler": "^2.0.31",
         "nav-frontend-paneler-style": "^1.0.2",
+        "nav-frontend-popover": "^2.0.3",
+        "nav-frontend-popover-style": "^2.0.1",
         "nav-frontend-spinner": "^2.0.16",
         "nav-frontend-spinner-style": "^1.0.2",
         "nav-frontend-typografi": "^3.0.3",

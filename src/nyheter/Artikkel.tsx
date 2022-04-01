@@ -24,7 +24,7 @@ const Artikkel: FunctionComponent<Props> = ({ nyhet, ulest }) => {
             <Detail size="small" className="nyheter__artikkeldato">
                 {printDato(nyhet.dato)}
             </Detail>
-            <Heading size="small" className="nyheter__artikkeltittel">
+            <Heading spacing size="small" className="nyheter__artikkeltittel">
                 {nyhet.tittel}
             </Heading>
             <div className="nyheter__artikkelinnhold">{nyhet.innhold}</div>

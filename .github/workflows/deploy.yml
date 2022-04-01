@@ -39,7 +39,7 @@ jobs:
     deploy-til-dev:
         name: Deploy til dev-gcp
         needs: bygg-og-push-docker-image
-        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/amplitude'
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/slett-nyhetskomponent-fra-npm'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1

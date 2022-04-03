@@ -5,7 +5,7 @@
     },
     "dependencies": {
         "compression": "^1.7.4",
-        "http-proxy-middleware": "^2.0.3",
+        "http-proxy-middleware": "^2.0.4",
         "jose": "^4.5.0",
         "node-fetch": "^2.6.7",
         "openid-client": "^5.1.3",

@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { AsyncNavspa } from '@navikt/navspa';
+import { BrowserHistory } from 'history';
 
 import assetManifestParser from './assetManifestUtils';
-import { History } from 'history';
 import './microfrontends.less';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
-    history: History;
+    history: BrowserHistory;
 };
 
 const LasterInn: FunctionComponent = () => (
@@ -20,28 +20,28 @@ const LasterInn: FunctionComponent = () => (
 const kandidatConfig = {
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser('/rekrutteringsbistand-kandidat'),
     loader: <LasterInn />,
 };
 
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser('/rekrutteringsbistand-kandidat'),
     loader: <LasterInn />,
 };
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: `/rekrutteringsbistand-stillingssok`,
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser('/rekrutteringsbistand-kandidat'),
     loader: <LasterInn />,
 };
 
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: assetManifestParser('/rekrutteringsbistand-kandidat'),
     loader: <LasterInn />,
 };
 

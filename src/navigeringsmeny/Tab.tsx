@@ -1,6 +1,6 @@
-import { BodyShort } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
+import { BodyShort } from '@navikt/ds-react';
+import { Link, useMatch } from 'react-router-dom';
 
 export type TabConfig = {
     tittel: string;
@@ -10,10 +10,11 @@ export type TabConfig = {
 
 type Props = {
     config: TabConfig;
-    erAktiv: boolean;
 };
 
-const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
+const Tab: FunctionComponent<Props> = ({ config }) => {
+    const erAktiv = useMatch(config.path);
+
     const { tittel, path, queryParam } = config;
 
     let className = 'navigeringsmeny__tab';
@@ -27,9 +28,9 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
             to={{
                 pathname: path,
                 search: queryParam,
-                state: {
-                    fraMeny: true,
-                },
+            }}
+            state={{
+                fraMeny: true,
             }}
         >
             <BodyShort>{tittel}</BodyShort>

@@ -29,15 +29,18 @@ const tabs: TabConfig[] = [
 ];
 
 const Navigeringsmeny: FunctionComponent = () => {
-    const { pathname }: any = useLocation();
+    const location = useLocation();
 
     return (
         <div className="navigeringsmeny">
             <div className="navigeringsmeny__inner">
                 <nav className="navigeringsmeny__tabs">
-                    <Forsidelenke href={`${appPrefiks}/`} erAktiv={pathname === `${appPrefiks}/`} />
+                    <Forsidelenke
+                        href={`${appPrefiks}/`}
+                        erAktiv={location.pathname === `${appPrefiks}/`}
+                    />
                     {tabs.map((tab) => (
-                        <Tab key={tab.path} config={tab} erAktiv={pathname === tab.path} />
+                        <Tab key={tab.path} config={tab} />
                     ))}
                 </nav>
                 <div className="navigeringsmeny__nyheter">

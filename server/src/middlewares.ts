@@ -7,11 +7,19 @@ type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 
 const cluster = process.env.NAIS_CLUSTER_NAME;
 
-export const ensureLoggedIn: Middleware = async (req, res, next) => {
+export const redirectIfUnauthorized: Middleware = async (req, res, next) => {
     if (await userIsLoggedIn(req)) {
         next();
     } else {
         res.redirect(`/oauth2/login?redirect=${req.originalUrl}`);
+    }
+};
+
+export const respondUnauthorizedIfUnauthorized: Middleware = async (req, res, next) => {
+    if (await userIsLoggedIn(req)) {
+        next();
+    } else {
+        res.status(401).send('Brukeren har ingen gyldig sesjon');
     }
 };
 

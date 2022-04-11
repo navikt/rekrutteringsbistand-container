@@ -5,8 +5,9 @@ import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
 import {
-    ensureLoggedIn,
     opprettCookieFraAuthorizationHeader,
+    redirectIfUnauthorized,
+    respondUnauthorizedIfUnauthorized,
     setOnBehalfOfToken,
 } from './middlewares';
 import { setupProxy } from './proxy';
@@ -36,7 +37,12 @@ const scopes = {
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
-    app.use(path, ensureLoggedIn, setOnBehalfOfToken(apiScope), setupProxy(path, apiUrl));
+    app.use(
+        path,
+        respondUnauthorizedIfUnauthorized,
+        setOnBehalfOfToken(apiScope),
+        setupProxy(path, apiUrl)
+    );
 };
 
 const {
@@ -72,9 +78,14 @@ const startServer = () => {
     );
     proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
 
-    app.get(pathsForServingApp, ensureLoggedIn, opprettCookieFraAuthorizationHeader, (_, res) => {
-        res.sendFile(`${buildPath}/index.html`);
-    });
+    app.get(
+        pathsForServingApp,
+        redirectIfUnauthorized,
+        opprettCookieFraAuthorizationHeader,
+        (_, res) => {
+            res.sendFile(`${buildPath}/index.html`);
+        }
+    );
 
     app.listen(port, () => {
         logger.info('Server kjører på port', port);

@@ -34,6 +34,7 @@ const scopes = {
     finnKandidatApi: `api://${clusterOnPrem}.arbeidsgiver.finn-kandidat-api/.default`,
     forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,
     synlighetsmotor: `api://${cluster}.toi.toi-synlighetsmotor/.default`,
+    kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
 const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
@@ -54,6 +55,7 @@ const {
     FINN_KANDIDAT_API,
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
+    KANDIDATMATCH_API
 } = process.env;
 
 const startServer = () => {
@@ -77,6 +79,7 @@ const startServer = () => {
         scopes.forespørselOmDelingAvCv
     );
     proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    proxyWithAuth('/kandidatmatch-api', KANDIDATMATCH_API, scopes.kandidatmatch)
 
     app.get(
         pathsForServingApp,

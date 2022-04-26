@@ -50,4 +50,6 @@ spec:
           value: https://foresporsel-om-deling-av-cv-api.prod-fss-pub.nais.io
         - name: SYNLIGHETSMOTOR_API
           value: https://toi-synlighetsmotor.intern.nav.no
-          
+        - name: KANDIDATMATCH_API
+          value: https://aimatch.intern.nav.no
+

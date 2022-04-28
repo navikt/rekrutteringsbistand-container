@@ -31,7 +31,6 @@ const scopes = {
     stilling: `api://${clusterOnPrem}.arbeidsgiver.rekrutteringsbistand-stilling-api/.default`,
     kandidat: `api://${clusterOnPrem}.toi.rekrutteringsbistand-kandidat-api/.default`,
     sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,
-    finnKandidatApi: `api://${clusterOnPrem}.arbeidsgiver.finn-kandidat-api/.default`,
     forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,
     synlighetsmotor: `api://${cluster}.toi.toi-synlighetsmotor/.default`,
     kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
@@ -52,10 +51,9 @@ const {
     STILLINGSSOK_PROXY_URL,
     KANDIDAT_API_URL,
     SMS_API,
-    FINN_KANDIDAT_API,
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
-    KANDIDATMATCH_API
+    KANDIDATMATCH_API,
 } = process.env;
 
 const startServer = () => {
@@ -72,14 +70,13 @@ const startServer = () => {
     proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
     proxyWithAuth('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
     proxyWithAuth('/sms-api', SMS_API, scopes.sms);
-    proxyWithAuth('/finn-kandidat-api', FINN_KANDIDAT_API, scopes.finnKandidatApi);
     proxyWithAuth(
         '/foresporsel-om-deling-av-cv-api',
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
     proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyWithAuth('/kandidatmatch-api', KANDIDATMATCH_API, scopes.kandidatmatch)
+    proxyWithAuth('/kandidatmatch-api', KANDIDATMATCH_API, scopes.kandidatmatch);
 
     app.get(
         pathsForServingApp,

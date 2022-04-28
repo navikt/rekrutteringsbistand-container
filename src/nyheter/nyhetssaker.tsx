@@ -6,6 +6,23 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(28, 4, 2022),
+        tittel: 'Fjernet midlertidig utilgjengelig',
+        innhold: (
+            <>
+                <p>
+                    For noen dager siden fjernet vi muligheten til å registrere kandidater som
+                    midlertidig utilgjengelig. Dette er en funksjon vi opprettet under
+                    koronautbruddet i 2020, for å håndtere karantenesituasjoner.
+                </p>
+                <p>
+                    Vi har ikke lenger noe grunnlag for å tilby denne funksjonaliteten, og har
+                    derfor fjernet registrerings- og søkemulighetene.
+                </p>
+            </>
+        ),
+    },
+    {
         dato: tilDato(10, 3, 2022),
         tittel: 'Rekrutteringsbistand har fått ny URL',
         innhold: (

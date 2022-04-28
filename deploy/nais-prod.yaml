@@ -42,8 +42,6 @@ spec:
           value: https://rekrutteringsbistand-stilling-api.prod-fss-pub.nais.io
         - name: KANDIDAT_API_URL
           value: https://rekrutteringsbistand-kandidat-api.prod-fss-pub.nais.io/rekrutteringsbistand-kandidat-api/rest
-        - name: FINN_KANDIDAT_API
-          value: https://finn-kandidat-api.prod-fss-pub.nais.io/finn-kandidat-api/
         - name: SMS_API
           value: https://rekrutteringsbistand-sms.prod-fss-pub.nais.io/rekrutteringsbistand-sms/sms
         - name: FORESPORSEL_OM_DELING_AV_CV_API
@@ -52,4 +50,3 @@ spec:
           value: https://toi-synlighetsmotor.intern.nav.no
         - name: KANDIDATMATCH_API
           value: https://aimatch.intern.nav.no
-

@@ -54,7 +54,7 @@ const App: FunctionComponent = () => {
                     <Route path="/stillingssok">
                         <Stillingssøk navKontor={navKontor} history={history} />
                     </Route>
-                    <Route path={['/kandidater', '/kandidatsok']}>
+                    <Route path={['/kandidater', '/kandidatsok', '/prototype']}>
                         <Kandidat navKontor={navKontor} history={history} />
                     </Route>
                     <Route exact path="/">

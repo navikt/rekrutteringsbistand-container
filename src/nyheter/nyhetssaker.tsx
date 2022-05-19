@@ -6,6 +6,17 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(19, 5, 2022),
+        tittel: 'Slette CV delt med arbeidsgiver',
+        innhold: (
+            <p>
+                Nå er det mulig å slette en CV som er sendt til arbeidsgivers kandidatliste. Dette
+                kan f.eks. være nyttig hvis kandidaten trekker samtykket sitt. Du finner dette
+                valget inne på kandidatlisten.
+            </p>
+        ),
+    },
+    {
         dato: tilDato(28, 4, 2022),
         tittel: 'Fjernet midlertidig utilgjengelig',
         innhold: (

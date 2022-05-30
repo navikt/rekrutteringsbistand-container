@@ -39,7 +39,7 @@ spec:
         - name: STILLINGSSOK_PROXY_URL
           value: https://rekrutteringsbistand-stillingssok-proxy.dev.intern.nav.no
         - name: STILLING_API_URL
-          value: https://rekrutteringsbistand-stilling-api.dev-fss-pub.nais.io
+          value: https://rekrutteringsbistand-stilling-api.dev.intern.nav.no
         - name: KANDIDAT_API_URL
           value: https://rekrutteringsbistand-kandidat-api.dev-fss-pub.nais.io/rekrutteringsbistand-kandidat-api/rest
         - name: SMS_API

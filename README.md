@@ -61,3 +61,4 @@ Container-appen vil da forvente at statistikk-appen ligger tilgjengelig under `/
 * Opprett gjerne en issue i Github for alle typer spørsmål
 * IT-utviklerne i Github-teamet https://github.com/orgs/navikt/teams/toi
 * IT-avdelingen i [Arbeids- og velferdsdirektoratet](https://www.nav.no/no/NAV+og+samfunn/Kontakt+NAV/Relatert+informasjon/arbeids-og-velferdsdirektoratet-kontorinformasjon)
+

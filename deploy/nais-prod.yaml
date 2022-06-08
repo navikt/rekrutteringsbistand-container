@@ -49,4 +49,4 @@ spec:
         - name: SYNLIGHETSMOTOR_API
           value: https://toi-synlighetsmotor.intern.nav.no
         - name: KANDIDATMATCH_API
-         # value: https://aimatch.intern.nav.no todo: sjekk at endepunkt er sikret med validering i matchmotor før aktivering
+          value: https://dummy.dummy.dummy.intern.nav.no

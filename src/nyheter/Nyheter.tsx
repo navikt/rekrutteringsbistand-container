@@ -5,7 +5,7 @@ import Artikkel from './Artikkel';
 import Ikon from './Ikon';
 import useAntallUlesteNyheter from './useAntallUlesteNyheter';
 import nyhetssaker from './nyhetssaker';
-import './Nyheter.less';
+import css from './Nyheter.module.css';
 
 export type Nyhet = {
     dato: Date;
@@ -33,10 +33,10 @@ const Nyheter: FunctionComponent = () => {
     }, [åpen, markerSomLest]);
 
     return (
-        <div className="nyheter">
-            <button ref={buttonRef} onClick={() => setÅpen(!åpen)} className="nyheter__knapp">
+        <div className={css.nyheter}>
+            <button ref={buttonRef} onClick={() => setÅpen(!åpen)} className={css.knapp}>
                 <Ikon />
-                {antallUlesteNyheter > 0 && <div className="nyheter__notifikasjon" />}
+                {antallUlesteNyheter > 0 && <div className={css.notifikasjon} />}
             </button>
             <Popover
                 open={åpen}
@@ -44,11 +44,11 @@ const Nyheter: FunctionComponent = () => {
                 onClose={() => setÅpen(false)}
                 placement="bottom-start"
             >
-                <div className="nyheter__popover">
-                    <Heading size="xsmall" level="2" className="nyheter__tittel">
+                <div className={css.popover}>
+                    <Heading size="xsmall" level="2" className={css.tittel}>
                         Nytt i Rekrutteringsbistand
                     </Heading>
-                    <section className="nyheter__nyheter">
+                    <section className={css.nyhetsliste}>
                         {nyhetssaker.map((nyhet, index) => (
                             <Artikkel
                                 key={`${nyhet.dato}-${nyhet.tittel}`}

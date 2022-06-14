@@ -1,0 +1,25 @@
+.artikkel {
+    padding: 1rem 2rem;
+}
+
+.artikkel:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+}
+
+.ulestArtikkel {
+    background-color: #e3edf8;
+}
+
+.tittel p {
+    margin-top: 0;
+}
+
+.tittel :global(.typo-undertittel) {
+    margin-bottom: 1rem;
+}
+
+.innhold h3 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}

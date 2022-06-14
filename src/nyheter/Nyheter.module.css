@@ -1,0 +1,69 @@
+:root {
+    --nav-fokus: 0 0 0 3px var(--navds-semantic-color-canvas-background-inverted);
+}
+
+.nyheter :global(.navds-popover) {
+    border: none;
+    box-shadow: none;
+    border-radius: 0.6rem;
+}
+
+.nyheter :global(.navds-popover):focus {
+    box-shadow: var(--nav-fokus);
+}
+
+.nyheter :global(.navds-popover__arrow)::before {
+    border: none;
+    background-color: var(--navds-semantic-color-canvas-background-inverted);
+}
+
+.knapp {
+    background: none;
+    border: none;
+    padding: 0.25rem;
+    position: relative;
+    border-radius: 0.125rem;
+}
+
+.knapp:focus {
+    outline: none;
+    box-shadow: var(--nav-fokus);
+}
+
+.notifikasjon {
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+    height: 0.9rem;
+    width: 0.9rem;
+    border-radius: 50%;
+    background-color: #0067c5;
+}
+
+.ikon {
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.popover {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.25rem 0 rgba(62, 56, 50, 0.125);
+    max-width: 27rem;
+
+    /* Unngå at scrollbar flyter over avrundet border i Windows */
+    overflow: hidden;
+}
+
+.tittel {
+    color: white;
+    text-align: center;
+    background-color: var(--navds-semantic-color-canvas-background-inverted);
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.nyhetsliste {
+    max-height: 30rem;
+    overflow-y: scroll;
+}

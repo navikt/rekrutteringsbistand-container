@@ -22,7 +22,8 @@
         "start:mock": "BROWSER=none REACT_APP_MOCK=true react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "prepare": "husky install"
     },
     "eslintConfig": {
         "extends": [
@@ -57,6 +58,8 @@
         "eslint-config-prettier": "^7.2.0",
         "fetch-mock": "^9.11.0",
         "http-proxy-middleware": "^2.0.4",
-        "prettier": "^2.2.1"
+        "husky": "^8.0.1",
+        "prettier": "^2.2.1",
+        "pretty-quick": "^3.1.3"
     }
 }

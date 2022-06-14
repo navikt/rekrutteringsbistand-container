@@ -13,16 +13,16 @@
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-router-dom": "^5.3.0",
-        "react-scripts": "^4.0.3",
+        "react-scripts": "^5.0.1",
         "typescript": "^4.4.4"
     },
     "scripts": {
-        "start": "BROWSER=none craco start",
-        "start:import": "BROWSER=none REACT_APP_IMPORT=true REACT_APP_MOCK=true craco start",
-        "start:mock": "BROWSER=none REACT_APP_MOCK=true craco start",
-        "build": "craco build",
-        "test": "craco test",
-        "eject": "craco eject"
+        "start": "BROWSER=none react-scripts start",
+        "start:import": "BROWSER=none REACT_APP_IMPORT=true REACT_APP_MOCK=true react-scripts start",
+        "start:mock": "BROWSER=none REACT_APP_MOCK=true react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": [
@@ -48,14 +48,12 @@
         ]
     },
     "devDependencies": {
-        "@craco/craco": "^6.1.1",
         "@types/amplitude-js": "^8.16.0",
         "@types/express": "^4.17.13",
         "@types/loadjs": "^4.0.0",
         "@types/react": "^17.0.2",
         "@types/react-dom": "^17.0.1",
         "@types/react-router-dom": "^5.1.7",
-        "craco-less": "^1.17.1",
         "eslint-config-prettier": "^7.2.0",
         "fetch-mock": "^9.11.0",
         "http-proxy-middleware": "^2.0.4",

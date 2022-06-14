@@ -1,6 +1,6 @@
 import { createBrowserHistory } from 'history';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Router } from 'react-router-dom';
 import App from './App';
 import './index.css';
@@ -12,11 +12,13 @@ if (process.env.REACT_APP_MOCK) {
     require('./mock/mock-api');
 }
 
-ReactDOM.render(
+const container = document.getElementById('rekrutteringsbistand-container');
+const root = createRoot(container!);
+
+root.render(
     <React.StrictMode>
         <Router history={history}>
             <App />
         </Router>
-    </React.StrictMode>,
-    document.getElementById('rekrutteringsbistand-container')
+    </React.StrictMode>
 );

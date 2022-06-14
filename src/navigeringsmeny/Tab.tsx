@@ -1,6 +1,7 @@
 import { BodyShort } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
+import navigerignsmenyCss from './Navigeringsmeny.module.css';
 
 export type TabConfig = {
     tittel: string;
@@ -16,9 +17,9 @@ type Props = {
 const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
     const { tittel, path, queryParam } = config;
 
-    let className = 'navigeringsmeny__tab';
+    let className = navigerignsmenyCss.tab;
     if (erAktiv) {
-        className += ' navigeringsmeny__tab--aktiv';
+        className += ' ' + navigerignsmenyCss.tabAktiv;
     }
 
     return (

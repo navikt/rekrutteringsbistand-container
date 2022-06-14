@@ -1,0 +1,70 @@
+.navigeringsmeny {
+    padding: 0 2.5rem;
+    background-color: white;
+}
+
+@media print {
+    .navigeringsmeny {
+        display: none !important;
+    }
+}
+
+.inner {
+    margin: 0 auto;
+    max-width: 1920px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tabs {
+    display: flex;
+    align-items: flex-end;
+}
+
+.tab,
+.forsidelenke {
+    padding: 1.25rem 1rem;
+}
+
+.forsidelenke svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    transform: translateY(3px);
+}
+
+.tab {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--navds-semantic-color-text);
+    letter-spacing: 0.3px;
+}
+
+.tabAktiv :global(.typo-normal) {
+    letter-spacing: 0.1px;
+    font-weight: bold;
+}
+
+.tabAktiv,
+.forsidelenkeAktiv,
+.tab:hover,
+.forsidelenke:hover {
+    border-bottom-color: var(--navds-semantic-color-interaction-primary-selected);
+}
+
+.tab,
+.forsidelenke {
+    margin-right: 1rem;
+    border-top: 0.25rem solid transparent;
+    border-bottom: 0.25rem solid transparent;
+}
+
+.tab:not(.tabAktiv):hover,
+.forsidelenke:not(.forsidelenkeAktiv):hover {
+    background-color: #f4f4f4;
+}
+
+.tab:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--navds-semantic-color-interaction-primary-selected);
+}

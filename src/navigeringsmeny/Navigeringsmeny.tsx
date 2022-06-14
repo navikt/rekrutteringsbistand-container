@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Tab, { TabConfig } from './Tab';
 import Forsidelenke from './Forsidelenke';
 import Nyheter from '../nyheter/Nyheter';
-import './Navigeringsmeny.less';
+import css from './Navigeringsmeny.module.css';
 
 const appPrefiks = '';
 
@@ -32,15 +32,15 @@ const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();
 
     return (
-        <div className="navigeringsmeny">
-            <div className="navigeringsmeny__inner">
-                <nav className="navigeringsmeny__tabs">
+        <div className={css.navigeringsmeny}>
+            <div className={css.inner}>
+                <nav className={css.tabs}>
                     <Forsidelenke href={`${appPrefiks}/`} erAktiv={pathname === `${appPrefiks}/`} />
                     {tabs.map((tab) => (
                         <Tab key={tab.path} config={tab} erAktiv={pathname === tab.path} />
                     ))}
                 </nav>
-                <div className="navigeringsmeny__nyheter">
+                <div className={css.nyheter}>
                     <Nyheter />
                 </div>
             </div>

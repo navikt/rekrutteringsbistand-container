@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
+import navigeringsmenyCss from './Navigeringsmeny.module.css';
 
 type Props = {
     href: string;
@@ -7,10 +8,10 @@ type Props = {
 };
 
 const Forsidelenke: FunctionComponent<Props> = ({ href, erAktiv }) => {
-    let className = 'navigeringsmeny__forside';
+    let className = navigeringsmenyCss.forsidelenke;
 
     if (erAktiv) {
-        className += ' navigeringsmeny__forside--aktiv';
+        className += ' ' + navigeringsmenyCss.forsidelenkeAktiv;
     }
 
     return (

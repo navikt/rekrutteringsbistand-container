@@ -40,9 +40,11 @@
     letter-spacing: 0.3px;
 }
 
-.tabAktiv :global(.typo-normal) {
-    letter-spacing: 0.1px;
-    font-weight: bold;
+.tab,
+.forsidelenke {
+    margin-right: 1rem;
+    border-top: 0.25rem solid transparent;
+    border-bottom: 0.25rem solid transparent;
 }
 
 .tabAktiv,
@@ -50,13 +52,6 @@
 .tab:hover,
 .forsidelenke:hover {
     border-bottom-color: var(--navds-semantic-color-interaction-primary-selected);
-}
-
-.tab,
-.forsidelenke {
-    margin-right: 1rem;
-    border-top: 0.25rem solid transparent;
-    border-bottom: 0.25rem solid transparent;
 }
 
 .tab:not(.tabAktiv):hover,

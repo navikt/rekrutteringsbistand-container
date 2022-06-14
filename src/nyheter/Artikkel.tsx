@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Detail, Heading } from '@navikt/ds-react';
 import { Nyhet } from './Nyheter';
+import css from './Artikkel.module.css';
 
 const printDato = (dato: Date) =>
     dato.toLocaleDateString
@@ -17,17 +18,15 @@ interface Props {
 }
 
 const Artikkel: FunctionComponent<Props> = ({ nyhet, ulest }) => {
-    const klassenavn = 'nyheter__artikkel' + (ulest ? ' nyheter__artikkel--ulest' : '');
+    const klassenavn = css.artikkel + (ulest ? ' ' + css.ulestArtikkel : '');
 
     return (
         <article className={klassenavn}>
-            <Detail size="small" className="nyheter__artikkeldato">
-                {printDato(nyhet.dato)}
-            </Detail>
-            <Heading spacing size="small" className="nyheter__artikkeltittel">
+            <Detail size="small">{printDato(nyhet.dato)}</Detail>
+            <Heading spacing size="small" className={css.tittel}>
                 {nyhet.tittel}
             </Heading>
-            <div className="nyheter__artikkelinnhold">{nyhet.innhold}</div>
+            <div className={css.innhold}>{nyhet.innhold}</div>
         </article>
     );
 };

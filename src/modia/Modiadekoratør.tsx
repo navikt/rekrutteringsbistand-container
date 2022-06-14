@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import Navspa from '@navikt/navspa';
 import loadjs from 'loadjs';
 import DekoratørProps, { EnhetDisplay } from './DekoratørProps';
-import './Modiadekoratør.less';
+import css from './Modiadekoratør.module.css';
 
 const appName = 'internarbeidsflatefs';
 
@@ -61,12 +61,10 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
         }
     }, []);
 
-    const className = `modiadekoratør${
-        process.env.REACT_APP_MOCK ? ' modiadekoratør--mocket' : ''
-    }`;
+    const className = process.env.REACT_APP_MOCK ? css.mocket : undefined;
 
     if (status === Status.LasterNed) {
-        return <div className="modiadekoratør__placeholder" />;
+        return <div className={css.placeholder} />;
     } else if (status === Status.Klar) {
         return (
             <div className={className}>

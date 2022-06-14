@@ -4,7 +4,7 @@ import { AsyncNavspa } from '@navikt/navspa';
 
 import assetManifestParser from './assetManifestUtils';
 import { History } from 'history';
-import './microfrontends.less';
+import css from './microfrontends.module.css';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
@@ -12,7 +12,7 @@ type FellesMicrofrontendProps = {
 };
 
 const LasterInn: FunctionComponent = () => (
-    <div className="microfrontends__laster-inn">
+    <div className={css.lasterInn}>
         <Loader size="xlarge" />
     </div>
 );

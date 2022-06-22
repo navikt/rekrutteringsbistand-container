@@ -1,7 +1,10 @@
 import { decodeJwt } from 'jose';
 import { Middleware, retrieveToken } from './middlewares';
 
-const autoriserteBrukereForKandidatmatch = process.env.KANDIDATMATCH_AUTORISERTE_BRUKERE || [];
+const autoriserteBrukereForKandidatmatch = (
+    process.env.KANDIDATMATCH_AUTORISERTE_BRUKERE || ''
+).split(',');
+
 const navIdentClaim = 'NAVident';
 
 export const featureToggleForKandidatmatch: Middleware = (req, res, next) => {

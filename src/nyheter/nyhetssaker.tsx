@@ -6,6 +6,17 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(22, 6, 2022),
+        tittel: 'Stillingskategorier i stillingssøket',
+        innhold: (
+            <p>
+                Nå vil du ikke lenger se formidlingsstillinger og jobbmesser/jobbtreff i
+                stillingssøket. Hvis du ønsker å vise alle stillingskategorier, har vi laget et nytt
+                valg for dette under "Om annonsen" i filteret.
+            </p>
+        ),
+    },
+    {
         dato: tilDato(19, 5, 2022),
         tittel: 'Slette CV delt med arbeidsgiver',
         innhold: (

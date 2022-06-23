@@ -13,7 +13,10 @@ import {
     tomMiddleware,
 } from './middlewares';
 import { setupProxy } from './proxy';
-import { featureToggleForKandidatmatch } from './featureToggle';
+import {
+    responderOmBrukerErAutorisertForKandidatmatch,
+    validerAtBrukerErAutorisertForKandidatmatch,
+} from './featureToggle';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -74,6 +77,12 @@ const startServer = () => {
     app.use('/static/js', express.static(`${buildPath}/static/js`));
     app.use('/static/css', express.static(`${buildPath}/static/css`));
 
+    app.get(
+        '/feature-toggle/kandidatmatch',
+        respondUnauthorizedIfUnauthorized,
+        responderOmBrukerErAutorisertForKandidatmatch
+    );
+
     proxyWithAuth('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
     proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
     proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
@@ -89,7 +98,7 @@ const startServer = () => {
         '/kandidatmatch-api',
         KANDIDATMATCH_API,
         scopes.kandidatmatch,
-        featureToggleForKandidatmatch
+        validerAtBrukerErAutorisertForKandidatmatch
     );
 
     app.get(

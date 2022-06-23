@@ -5,12 +5,15 @@ import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
 import {
+    Middleware,
     opprettCookieFraAuthorizationHeader,
     redirectIfUnauthorized,
     respondUnauthorizedIfUnauthorized,
     setOnBehalfOfToken,
+    tomMiddleware,
 } from './middlewares';
 import { setupProxy } from './proxy';
+import { featureToggleForKandidatmatch } from './featureToggle';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -36,10 +39,16 @@ const scopes = {
     kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
-const proxyWithAuth = (path: string, apiUrl: string, apiScope: string) => {
+const proxyWithAuth = (
+    path: string,
+    apiUrl: string,
+    apiScope: string,
+    customMiddleware?: Middleware
+) => {
     app.use(
         path,
         respondUnauthorizedIfUnauthorized,
+        customMiddleware ? customMiddleware : tomMiddleware,
         setOnBehalfOfToken(apiScope),
         setupProxy(path, apiUrl)
     );
@@ -76,7 +85,12 @@ const startServer = () => {
         scopes.forespørselOmDelingAvCv
     );
     proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyWithAuth('/kandidatmatch-api', KANDIDATMATCH_API, scopes.kandidatmatch);
+    proxyWithAuth(
+        '/kandidatmatch-api',
+        KANDIDATMATCH_API,
+        scopes.kandidatmatch,
+        featureToggleForKandidatmatch
+    );
 
     app.get(
         pathsForServingApp,

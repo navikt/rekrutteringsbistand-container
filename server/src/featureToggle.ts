@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { decodeJwt } from 'jose';
 import { Middleware, retrieveToken } from './middlewares';
 import { logger } from './server';
@@ -8,15 +9,33 @@ const autoriserteBrukereForKandidatmatch = (
 
 const navIdentClaim = 'NAVident';
 
-export const featureToggleForKandidatmatch: Middleware = (req, res, next) => {
-    const brukerensAccessToken = retrieveToken(req.headers);
-    const claims = decodeJwt(brukerensAccessToken);
-    const navIdent = String(claims[navIdentClaim]) || '';
+export const validerAtBrukerErAutorisertForKandidatmatch: Middleware = (req, res, next) => {
+    const { autorisert, navIdent } = erAutorisertForKandidatmatch(req);
 
-    if (autoriserteBrukereForKandidatmatch.includes(navIdent)) {
+    if (autorisert) {
         logger.info(`Bruker "${navIdent}" bruker kandidatmatch`);
         next();
     } else {
         res.status(403).send(`Bruker "${navIdent}" er ikke autorisert til å bruke kandidatmatch`);
     }
+};
+
+export const responderOmBrukerErAutorisertForKandidatmatch: Middleware = (req, res) => {
+    res.status(200).json(erAutorisertForKandidatmatch(req).autorisert);
+};
+
+const erAutorisertForKandidatmatch = (
+    req: Request
+): {
+    autorisert: boolean;
+    navIdent: string;
+} => {
+    const brukerensAccessToken = retrieveToken(req.headers);
+    const claims = decodeJwt(brukerensAccessToken);
+    const navIdent = String(claims[navIdentClaim]) || '';
+
+    return {
+        autorisert: autoriserteBrukereForKandidatmatch.includes(navIdent),
+        navIdent,
+    };
 };

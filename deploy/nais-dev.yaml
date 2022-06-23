@@ -32,7 +32,7 @@ spec:
         external:
           - host: rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io
     envFrom:
-        - secret: rekrutteringsbistand-container-kandidatmatch-autoriserte-brukere
+        - secret: rekrutteringsbistand-kandidatmatch-autoriserte-brukere
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem

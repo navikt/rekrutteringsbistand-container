@@ -9,7 +9,6 @@ const autoriserteBrukereForKandidatmatch = (
 const navIdentClaim = 'NAVident';
 
 export const featureToggleForKandidatmatch: Middleware = (req, res, next) => {
-    // TODO: Tillat alle i cluster:dev-gcp
     const brukerensAccessToken = retrieveToken(req.headers);
     const claims = decodeJwt(brukerensAccessToken);
     const navIdent = String(claims[navIdentClaim]) || '';

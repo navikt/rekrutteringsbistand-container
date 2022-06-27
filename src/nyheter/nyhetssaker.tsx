@@ -6,6 +6,12 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(27, 6, 2022),
+        tittel: 'Endring i statistikkperiode',
+        innhold:
+            'På forsiden av Rekrutteringsbistand viser vi nå statistikk for hele inneværende måned, i stedet for de siste 30 dagene.',
+    },
+    {
         dato: tilDato(22, 6, 2022),
         tittel: 'Stillingskategorier i stillingssøket',
         innhold: (

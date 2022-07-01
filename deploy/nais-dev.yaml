@@ -25,6 +25,9 @@ spec:
                     - NAVident
         sidecar:
             enabled: true
+    openSearch:
+      access: read
+      instance: rekrutteringsbistand-kandidat
     accessPolicy:
       outbound:
         rules:
@@ -53,3 +56,5 @@ spec:
           value: https://toi-synlighetsmotor.dev.intern.nav.no
         - name: KANDIDATMATCH_API
           value: https://aimatch.dev.intern.nav.no
+        - name: KANDIDATSOK_ES_URL
+          value: https://opensearch-toi-kandidat-nav-dev.aivencloud.com:26482

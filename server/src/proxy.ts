@@ -1,6 +1,13 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { logger } from './server';
+import {
+    Middleware,
+    respondUnauthorizedIfUnauthorized,
+    tomMiddleware,
+    setOnBehalfOfToken,
+} from './middlewares';
+import { leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
+import { app, logger } from './server';
 
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
@@ -27,3 +34,32 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
         },
         logProvider: () => logger,
     });
+
+export const proxyMedOboToken = (
+    path: string,
+    apiUrl: string,
+    apiScope: string,
+    customMiddleware?: Middleware
+) => {
+    app.use(
+        path,
+        respondUnauthorizedIfUnauthorized,
+        customMiddleware ? customMiddleware : tomMiddleware,
+        setOnBehalfOfToken(apiScope),
+        setupProxy(path, apiUrl)
+    );
+};
+
+export const proxyTilKandidatsøkEs = (
+    path: string,
+    proxyUrl: string,
+    brukernavn: string,
+    passord: string
+) => {
+    app.use(
+        path,
+        respondUnauthorizedIfUnauthorized,
+        leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
+        setupProxy(path, proxyUrl)
+    );
+};

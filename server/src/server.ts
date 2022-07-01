@@ -5,20 +5,17 @@ import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
 import {
-    Middleware,
     opprettCookieFraAuthorizationHeader,
     redirectIfUnauthorized,
     respondUnauthorizedIfUnauthorized,
-    setOnBehalfOfToken,
-    tomMiddleware,
 } from './middlewares';
-import { setupProxy } from './proxy';
 import {
     responderOmBrukerErAutorisertForKandidatmatch,
     validerAtBrukerErAutorisertForKandidatmatch,
 } from './featureToggle';
+import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 8080;
 
 export const logger = winston.createLogger({
@@ -42,25 +39,6 @@ const scopes = {
     kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
-const proxyWithOboToken = (
-    path: string,
-    apiUrl: string,
-    apiScope: string,
-    customMiddleware?: Middleware
-) => {
-    app.use(
-        path,
-        respondUnauthorizedIfUnauthorized,
-        customMiddleware ? customMiddleware : tomMiddleware,
-        setOnBehalfOfToken(apiScope),
-        setupProxy(path, apiUrl)
-    );
-};
-
-const proxyTilKandidatsøkEs = (path: string, proxyUrl: string) => {
-    app.use(path, respondUnauthorizedIfUnauthorized, setupProxy(path, proxyUrl));
-};
-
 const {
     STILLING_API_URL,
     STATISTIKK_API_URL,
@@ -71,6 +49,10 @@ const {
     SYNLIGHETSMOTOR_API,
     KANDIDATMATCH_API,
     KANDIDATSOK_ES_URL,
+
+    // TODO: Bruk de faktiske miljøvariablene fra Nais
+    KANDIDATSOK_ES_USERNAME,
+    KANDIDATSOK_ES_PASSWORD,
 } = process.env;
 
 const startServer = () => {
@@ -88,25 +70,30 @@ const startServer = () => {
         responderOmBrukerErAutorisertForKandidatmatch
     );
 
-    proxyWithOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
-    proxyWithOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
-    proxyWithOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
-    proxyWithOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
-    proxyWithOboToken('/sms-api', SMS_API, scopes.sms);
-    proxyWithOboToken(
+    proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
+    proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
+    proxyMedOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
+    proxyMedOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
+    proxyMedOboToken('/sms-api', SMS_API, scopes.sms);
+    proxyMedOboToken(
         '/foresporsel-om-deling-av-cv-api',
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
-    proxyWithOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyWithOboToken(
+    proxyMedOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    proxyMedOboToken(
         '/kandidatmatch-api',
         KANDIDATMATCH_API,
         scopes.kandidatmatch,
         validerAtBrukerErAutorisertForKandidatmatch
     );
 
-    proxyTilKandidatsøkEs('/kandidatsok-es', KANDIDATSOK_ES_URL);
+    proxyTilKandidatsøkEs(
+        '/kandidatsok-es',
+        KANDIDATSOK_ES_URL,
+        KANDIDATSOK_ES_USERNAME,
+        KANDIDATSOK_ES_PASSWORD
+    );
 
     app.get(
         pathsForServingApp,

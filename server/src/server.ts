@@ -48,11 +48,9 @@ const {
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
     KANDIDATMATCH_API,
-    KANDIDATSOK_ES_URL,
-
-    // TODO: Bruk de faktiske miljøvariablene fra Nais
-    KANDIDATSOK_ES_USERNAME,
-    KANDIDATSOK_ES_PASSWORD,
+    OPEN_SEARCH_URI,
+    OPEN_SEARCH_USERNAME,
+    OPEN_SEARCH_PASSWORD,
 } = process.env;
 
 const startServer = () => {
@@ -90,9 +88,9 @@ const startServer = () => {
 
     proxyTilKandidatsøkEs(
         '/kandidatsok-es',
-        KANDIDATSOK_ES_URL,
-        KANDIDATSOK_ES_USERNAME,
-        KANDIDATSOK_ES_PASSWORD
+        OPEN_SEARCH_URI,
+        OPEN_SEARCH_USERNAME,
+        OPEN_SEARCH_PASSWORD
     );
 
     app.get(

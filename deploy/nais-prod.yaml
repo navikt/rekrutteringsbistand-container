@@ -55,5 +55,3 @@ spec:
           value: https://toi-synlighetsmotor.intern.nav.no
         - name: KANDIDATMATCH_API
           value: https://aimatch.intern.nav.no
-        - name: KANDIDATSOK_ES_URL
-          value: https://opensearch-toi-kandidat-nav-prod.aivencloud.com:26482

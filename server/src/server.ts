@@ -42,7 +42,7 @@ const scopes = {
     kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
-const proxyWithAuth = (
+const proxyWithOboToken = (
     path: string,
     apiUrl: string,
     apiScope: string,
@@ -57,6 +57,10 @@ const proxyWithAuth = (
     );
 };
 
+const proxyTilKandidatsøkEs = (path: string, proxyUrl: string) => {
+    app.use(path, respondUnauthorizedIfUnauthorized, setupProxy(path, proxyUrl));
+};
+
 const {
     STILLING_API_URL,
     STATISTIKK_API_URL,
@@ -66,6 +70,7 @@ const {
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
     KANDIDATMATCH_API,
+    KANDIDATSOK_ES_URL,
 } = process.env;
 
 const startServer = () => {
@@ -83,23 +88,25 @@ const startServer = () => {
         responderOmBrukerErAutorisertForKandidatmatch
     );
 
-    proxyWithAuth('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
-    proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
-    proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
-    proxyWithAuth('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
-    proxyWithAuth('/sms-api', SMS_API, scopes.sms);
-    proxyWithAuth(
+    proxyWithOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
+    proxyWithOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
+    proxyWithOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
+    proxyWithOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
+    proxyWithOboToken('/sms-api', SMS_API, scopes.sms);
+    proxyWithOboToken(
         '/foresporsel-om-deling-av-cv-api',
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
-    proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyWithAuth(
+    proxyWithOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    proxyWithOboToken(
         '/kandidatmatch-api',
         KANDIDATMATCH_API,
         scopes.kandidatmatch,
         validerAtBrukerErAutorisertForKandidatmatch
     );
+
+    proxyTilKandidatsøkEs('/kandidatsok-es', KANDIDATSOK_ES_URL);
 
     app.get(
         pathsForServingApp,

@@ -5,6 +5,7 @@ import Tab, { TabConfig } from './Tab';
 import Forsidelenke from './Forsidelenke';
 import Nyheter from '../nyheter/Nyheter';
 import css from './Navigeringsmeny.module.css';
+import { erIkkeProd } from '../miljø';
 
 const appPrefiks = '';
 
@@ -27,6 +28,13 @@ const tabs: TabConfig[] = [
         path: '/kandidater/lister',
     },
 ];
+
+if (erIkkeProd()) {
+    tabs.push({
+        tittel: 'Nytt kandidatsøk',
+        path: '/kandidatsok',
+    });
+}
 
 const Navigeringsmeny: FunctionComponent = () => {
     const { pathname }: any = useLocation();

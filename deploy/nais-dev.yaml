@@ -27,7 +27,7 @@ spec:
             enabled: true
     openSearch:
       access: read
-      instance: rekrutteringsbistand-kandidat
+      instance: kandidat
     accessPolicy:
       outbound:
         rules:

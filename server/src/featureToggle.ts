@@ -1,6 +1,6 @@
-import { Request } from 'express';
+import { Request, RequestHandler } from 'express';
 import { decodeJwt } from 'jose';
-import { Middleware, retrieveToken } from './middlewares';
+import { retrieveToken } from './middlewares';
 import { logger } from './server';
 
 const autoriserteBrukereForKandidatmatch = (
@@ -9,7 +9,7 @@ const autoriserteBrukereForKandidatmatch = (
 
 const navIdentClaim = 'NAVident';
 
-export const validerAtBrukerErAutorisertForKandidatmatch: Middleware = (req, res, next) => {
+export const validerAtBrukerErAutorisertForKandidatmatch: RequestHandler = (req, res, next) => {
     const { autorisert, navIdent } = erAutorisertForKandidatmatch(req);
 
     if (autorisert) {
@@ -20,7 +20,7 @@ export const validerAtBrukerErAutorisertForKandidatmatch: Middleware = (req, res
     }
 };
 
-export const responderOmBrukerErAutorisertForKandidatmatch: Middleware = (req, res) => {
+export const responderOmBrukerErAutorisertForKandidatmatch: RequestHandler = (req, res) => {
     res.status(200).json(erAutorisertForKandidatmatch(req).autorisert);
 };
 

@@ -1,13 +1,13 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import {
-    Middleware,
     respondUnauthorizedIfUnauthorized,
     tomMiddleware,
     setOnBehalfOfToken,
 } from './middlewares';
 import { leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
 import { app, logger } from './server';
+import { RequestHandler } from 'express';
 
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
@@ -21,7 +21,11 @@ const removeIssoIdToken = (request: ClientRequest) => {
 };
 
 // Krever ekstra miljøvariabler, se nais.yaml
-export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken = true) =>
+export const setupProxy = (
+    fraPath: string,
+    tilTarget: string,
+    fjernIssoIdToken = true
+): RequestHandler =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
         changeOrigin: true,
@@ -39,7 +43,7 @@ export const proxyMedOboToken = (
     path: string,
     apiUrl: string,
     apiScope: string,
-    customMiddleware?: Middleware
+    customMiddleware?: RequestHandler
 ) => {
     app.use(
         path,

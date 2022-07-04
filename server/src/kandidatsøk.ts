@@ -2,9 +2,9 @@ import { RequestHandler } from 'express';
 
 export const leggTilAuthorizationForKandidatsøkEs =
     (brukernavn: string, passord: string): RequestHandler =>
-    (_, req, next) => {
+    (request, _, next) => {
         const encodedAuth = Buffer.from(`${brukernavn}:${passord}`).toString('base64');
-        req.setHeader('Authorization', `Basic ${encodedAuth}`);
+        request.headers.authorization = `Basic ${encodedAuth}`;
 
         next();
     };

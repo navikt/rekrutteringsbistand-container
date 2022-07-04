@@ -17,6 +17,5 @@ export const getMiljø = (): string => {
 };
 
 export const erIkkeProd = (): boolean => {
-    const pathname = window.location.hostname;
-    return pathname.includes('dev.intern.nav.no');
+    return getMiljø() !== Miljø.ProdGcp;
 };

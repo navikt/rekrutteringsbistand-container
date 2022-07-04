@@ -87,7 +87,7 @@ const startServer = () => {
     );
 
     proxyTilKandidatsøkEs(
-        '/kandidatsok-es',
+        '/kandidatsok-proxy',
         OPEN_SEARCH_URI,
         OPEN_SEARCH_USERNAME,
         OPEN_SEARCH_PASSWORD

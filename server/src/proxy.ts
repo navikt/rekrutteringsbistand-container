@@ -1,10 +1,6 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import {
-    respondUnauthorizedIfUnauthorized,
-    tomMiddleware,
-    setOnBehalfOfToken,
-} from './middlewares';
+import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
 import { leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
 import { app, logger } from './server';
 import { RequestHandler } from 'express';
@@ -47,7 +43,7 @@ export const proxyMedOboToken = (
 ) => {
     app.use(
         path,
-        respondUnauthorizedIfUnauthorized,
+        respondUnauthorizedIfNotLoggedIn,
         customMiddleware ? customMiddleware : tomMiddleware,
         setOnBehalfOfToken(apiScope),
         setupProxy(path, apiUrl)
@@ -62,7 +58,7 @@ export const proxyTilKandidatsøkEs = (
 ) => {
     app.use(
         path,
-        respondUnauthorizedIfUnauthorized,
+        respondUnauthorizedIfNotLoggedIn,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl)
     );

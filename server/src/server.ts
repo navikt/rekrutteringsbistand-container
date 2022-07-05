@@ -7,7 +7,7 @@ import { initializeAzureAd } from './azureAd';
 import {
     opprettCookieFraAuthorizationHeader,
     redirectIfUnauthorized,
-    respondUnauthorizedIfUnauthorized,
+    respondUnauthorizedIfNotLoggedIn,
 } from './middlewares';
 import {
     responderOmBrukerErAutorisertForKandidatmatch,
@@ -64,7 +64,7 @@ const startServer = () => {
 
     app.get(
         '/feature-toggle/kandidatmatch',
-        respondUnauthorizedIfUnauthorized,
+        respondUnauthorizedIfNotLoggedIn,
         responderOmBrukerErAutorisertForKandidatmatch
     );
 

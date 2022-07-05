@@ -13,7 +13,7 @@ export const redirectIfUnauthorized: RequestHandler = async (req, res, next) => 
     }
 };
 
-export const respondUnauthorizedIfUnauthorized: RequestHandler = async (req, res, next) => {
+export const respondUnauthorizedIfNotLoggedIn: RequestHandler = async (req, res, next) => {
     if (await userIsLoggedIn(req)) {
         next();
     } else {

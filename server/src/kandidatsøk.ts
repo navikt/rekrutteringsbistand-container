@@ -7,7 +7,7 @@ import { logger } from './server';
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
     AdGruppe.ModiaOppfølging,
-];
+].map((a) => a.toLowerCase());
 
 export const harTilgangTilKandidatsøk: RequestHandler = async (request, response, next) => {
     const brukerensAccessToken = retrieveToken(request.headers);
@@ -16,7 +16,9 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     try {
         const brukerensAdGrupper = await hentBrukerensAdGrupper(brukerensAccessToken);
         const harTilgang = brukerensAdGrupper.some((adGruppeBrukerErMedlemAv) =>
-            adGrupperMedTilgangTilKandidatsøket.includes(adGruppeBrukerErMedlemAv)
+            adGrupperMedTilgangTilKandidatsøket.includes(
+                adGruppeBrukerErMedlemAv.toLocaleLowerCase()
+            )
         );
 
         if (harTilgang) {

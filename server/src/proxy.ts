@@ -1,7 +1,7 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
-import { leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
+import { harTilgangTilKandidatsøk, leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
 import { app, logger } from './server';
 import { RequestHandler } from 'express';
 
@@ -59,7 +59,8 @@ export const proxyTilKandidatsøkEs = (
     app.use(
         path,
         respondUnauthorizedIfNotLoggedIn,
+        harTilgangTilKandidatsøk,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
-        setupProxy(path, proxyUrl)
+        setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')
     );
 };

@@ -1,4 +1,4 @@
-import { createRemoteJWKSet, jwtVerify } from 'jose';
+import { createRemoteJWKSet, decodeJwt, jwtVerify } from 'jose';
 import { FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters } from 'jose/dist/types/types';
 import { Issuer, Client } from 'openid-client';
 import { logger } from './server';
@@ -8,6 +8,8 @@ const clientId = process.env.AZURE_APP_CLIENT_ID;
 
 let azureAdIssuer: Issuer<Client>;
 let remoteJWKSet: GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>;
+
+export const navIdentClaim = 'NAVident';
 
 export const initializeAzureAd = async () => {
     try {
@@ -43,4 +45,9 @@ export const tokenIsValid = async (token: string) => {
         logger.error('Noe galt skjedde under validering av token:', e);
         return false;
     }
+};
+
+export const hentNavIdent = (token: string) => {
+    const claims = decodeJwt(token);
+    return String(claims[navIdentClaim]) || '';
 };

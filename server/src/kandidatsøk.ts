@@ -21,14 +21,14 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
             )
         );
 
+        const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}\nBrukeren har følgende AD-grupper: ${brukerensAdGrupper}`;
+
         if (harTilgang) {
-            logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket`);
+            logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
 
             next();
         } else {
-            logger.info(
-                `Bruker ${navIdent} har ikke tilgang til kandidatsøket.\nKandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}\nBrukeren har følgende AD-grupper: ${brukerensAdGrupper}`
-            );
+            logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
 
             response
                 .status(403)

@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
@@ -18,9 +17,9 @@ import {
 } from './amplitude';
 import { generaliserPath } from './utils/path';
 import { erIkkeProd } from './miljø';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 const App: FunctionComponent = () => {
-    const history = useHistory();
     const location = useLocation();
     const [navKontor, setNavKontor] = useState<string | null>(null);
     const [harSendtÅpneAppEvent, setHarSendtÅpneAppEvent] = useState<boolean>(false);
@@ -48,33 +47,34 @@ const App: FunctionComponent = () => {
     }, [location.pathname, navKontor, harSendtÅpneAppEvent]);
 
     return (
-        <>
-            <header>
-                <Modiadekoratør navKontor={navKontor} onNavKontorChange={setNavKontor} />
-                <Navigeringsmeny />
-            </header>
-            <main>
-                <Switch>
-                    <Route path="/stillinger">
-                        <Stilling navKontor={navKontor} history={history} />
-                    </Route>
-                    <Route path="/stillingssok">
-                        <Stillingssøk navKontor={navKontor} history={history} />
-                    </Route>
-                    <Route path={['/kandidater', '/prototype']}>
-                        <Kandidat navKontor={navKontor} history={history} />
-                    </Route>
-                    {erIkkeProd() && (
-                        <Route path="/kandidatsok">
-                            <Kandidatsøk navKontor={navKontor} history={history} />
-                        </Route>
-                    )}
-                    <Route exact path="/">
-                        <Statistikk navKontor={navKontor} history={history} />
-                    </Route>
-                </Switch>
-            </main>
-        </>
+        <Routes>
+            <Route
+                path="/"
+                element={
+                    <>
+                        <header>
+                            <Modiadekoratør
+                                navKontor={navKontor}
+                                onNavKontorChange={setNavKontor}
+                            />
+                            <Navigeringsmeny />
+                        </header>
+                        <Outlet />
+                    </>
+                }
+            >
+                <Route index element={<Statistikk navKontor={navKontor} />} />
+
+                <Route path="stillinger/*" element={<Stilling navKontor={navKontor} />} />
+                <Route path="stillingssok" element={<Stillingssøk navKontor={navKontor} />} />
+                <Route path="kandidater/*" element={<Kandidat navKontor={navKontor} />} />
+                <Route path="prototype" element={<Kandidat navKontor={navKontor} />} />
+
+                {erIkkeProd() && (
+                    <Route path="kandidatsok" element={<Kandidatsøk navKontor={navKontor} />} />
+                )}
+            </Route>
+        </Routes>
     );
 };
 

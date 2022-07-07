@@ -5,20 +5,17 @@ import winston from 'winston';
 
 import { initializeAzureAd } from './azureAd';
 import {
-    Middleware,
     opprettCookieFraAuthorizationHeader,
     redirectIfUnauthorized,
-    respondUnauthorizedIfUnauthorized,
-    setOnBehalfOfToken,
-    tomMiddleware,
+    respondUnauthorizedIfNotLoggedIn,
 } from './middlewares';
-import { setupProxy } from './proxy';
 import {
     responderOmBrukerErAutorisertForKandidatmatch,
     validerAtBrukerErAutorisertForKandidatmatch,
 } from './featureToggle';
+import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 8080;
 
 export const logger = winston.createLogger({
@@ -42,21 +39,6 @@ const scopes = {
     kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
-const proxyWithAuth = (
-    path: string,
-    apiUrl: string,
-    apiScope: string,
-    customMiddleware?: Middleware
-) => {
-    app.use(
-        path,
-        respondUnauthorizedIfUnauthorized,
-        customMiddleware ? customMiddleware : tomMiddleware,
-        setOnBehalfOfToken(apiScope),
-        setupProxy(path, apiUrl)
-    );
-};
-
 const {
     STILLING_API_URL,
     STATISTIKK_API_URL,
@@ -66,6 +48,9 @@ const {
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
     KANDIDATMATCH_API,
+    OPEN_SEARCH_URI,
+    OPEN_SEARCH_USERNAME,
+    OPEN_SEARCH_PASSWORD,
 } = process.env;
 
 const startServer = () => {
@@ -79,26 +64,33 @@ const startServer = () => {
 
     app.get(
         '/feature-toggle/kandidatmatch',
-        respondUnauthorizedIfUnauthorized,
+        respondUnauthorizedIfNotLoggedIn,
         responderOmBrukerErAutorisertForKandidatmatch
     );
 
-    proxyWithAuth('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
-    proxyWithAuth('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
-    proxyWithAuth('/stilling-api', STILLING_API_URL, scopes.stilling);
-    proxyWithAuth('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
-    proxyWithAuth('/sms-api', SMS_API, scopes.sms);
-    proxyWithAuth(
+    proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
+    proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
+    proxyMedOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
+    proxyMedOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
+    proxyMedOboToken('/sms-api', SMS_API, scopes.sms);
+    proxyMedOboToken(
         '/foresporsel-om-deling-av-cv-api',
         FORESPORSEL_OM_DELING_AV_CV_API,
         scopes.forespørselOmDelingAvCv
     );
-    proxyWithAuth('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyWithAuth(
+    proxyMedOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    proxyMedOboToken(
         '/kandidatmatch-api',
         KANDIDATMATCH_API,
         scopes.kandidatmatch,
         validerAtBrukerErAutorisertForKandidatmatch
+    );
+
+    proxyTilKandidatsøkEs(
+        '/kandidatsok-proxy',
+        OPEN_SEARCH_URI,
+        OPEN_SEARCH_USERNAME,
+        OPEN_SEARCH_PASSWORD
     );
 
     app.get(

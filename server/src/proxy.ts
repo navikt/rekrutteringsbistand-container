@@ -1,6 +1,9 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { logger } from './server';
+import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
+import { harTilgangTilKandidatsøk, leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
+import { app, logger } from './server';
+import { RequestHandler } from 'express';
 
 const removeIssoIdToken = (request: ClientRequest) => {
     const requestCookies = request.getHeader('Cookie')?.toString();
@@ -14,7 +17,11 @@ const removeIssoIdToken = (request: ClientRequest) => {
 };
 
 // Krever ekstra miljøvariabler, se nais.yaml
-export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken = true) =>
+export const setupProxy = (
+    fraPath: string,
+    tilTarget: string,
+    fjernIssoIdToken = true
+): RequestHandler =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
         changeOrigin: true,
@@ -27,3 +34,33 @@ export const setupProxy = (fraPath: string, tilTarget: string, fjernIssoIdToken 
         },
         logProvider: () => logger,
     });
+
+export const proxyMedOboToken = (
+    path: string,
+    apiUrl: string,
+    apiScope: string,
+    customMiddleware?: RequestHandler
+) => {
+    app.use(
+        path,
+        respondUnauthorizedIfNotLoggedIn,
+        customMiddleware ? customMiddleware : tomMiddleware,
+        setOnBehalfOfToken(apiScope),
+        setupProxy(path, apiUrl)
+    );
+};
+
+export const proxyTilKandidatsøkEs = (
+    path: string,
+    proxyUrl: string,
+    brukernavn: string,
+    passord: string
+) => {
+    app.use(
+        path,
+        respondUnauthorizedIfNotLoggedIn,
+        harTilgangTilKandidatsøk,
+        leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
+        setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')
+    );
+};

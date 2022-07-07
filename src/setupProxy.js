@@ -15,4 +15,5 @@ module.exports = (app) => {
     setupProxy('/rekrutteringsbistand-stilling', 'http://localhost:3002');
     setupProxy('/rekrutteringsbistand-kandidat', 'http://localhost:3003');
     setupProxy('/rekrutteringsbistand-stillingssok', 'http://localhost:3004');
+    setupProxy('/rekrutteringsbistand-kandidatsok', 'http://localhost:3005');
 };

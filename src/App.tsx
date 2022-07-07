@@ -3,7 +3,13 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 
 import Navigeringsmeny from './navigeringsmeny/Navigeringsmeny';
 import Modiadekoratør from './modia/Modiadekoratør';
-import { Kandidat, Statistikk, Stilling, Stillingssøk } from './microfrontends/microfrontends';
+import {
+    Kandidat,
+    Kandidatsøk,
+    Statistikk,
+    Stilling,
+    Stillingssøk,
+} from './microfrontends/microfrontends';
 import {
     AmplitudeEvent,
     sendEvent,
@@ -11,6 +17,7 @@ import {
     setNavKontorForAmplitude,
 } from './amplitude';
 import { generaliserPath } from './utils/path';
+import { erIkkeProd } from './miljø';
 
 const App: FunctionComponent = () => {
     const history = useHistory();
@@ -54,9 +61,14 @@ const App: FunctionComponent = () => {
                     <Route path="/stillingssok">
                         <Stillingssøk navKontor={navKontor} history={history} />
                     </Route>
-                    <Route path={['/kandidater', '/kandidatsok', '/prototype']}>
+                    <Route path={['/kandidater', '/prototype']}>
                         <Kandidat navKontor={navKontor} history={history} />
                     </Route>
+                    {erIkkeProd() && (
+                        <Route path="/kandidatsok">
+                            <Kandidatsøk navKontor={navKontor} history={history} />
+                        </Route>
+                    )}
                     <Route exact path="/">
                         <Statistikk navKontor={navKontor} history={history} />
                     </Route>

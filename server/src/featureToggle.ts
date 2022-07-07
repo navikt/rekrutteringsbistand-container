@@ -1,15 +1,14 @@
-import { Request } from 'express';
+import { Request, RequestHandler } from 'express';
 import { decodeJwt } from 'jose';
-import { Middleware, retrieveToken } from './middlewares';
+import { hentNavIdent, navIdentClaim } from './azureAd';
+import { retrieveToken } from './middlewares';
 import { logger } from './server';
 
 const autoriserteBrukereForKandidatmatch = (
     process.env.KANDIDATMATCH_AUTORISERTE_BRUKERE || ''
 ).split(',');
 
-const navIdentClaim = 'NAVident';
-
-export const validerAtBrukerErAutorisertForKandidatmatch: Middleware = (req, res, next) => {
+export const validerAtBrukerErAutorisertForKandidatmatch: RequestHandler = (req, res, next) => {
     const { autorisert, navIdent } = erAutorisertForKandidatmatch(req);
 
     if (autorisert) {
@@ -20,7 +19,7 @@ export const validerAtBrukerErAutorisertForKandidatmatch: Middleware = (req, res
     }
 };
 
-export const responderOmBrukerErAutorisertForKandidatmatch: Middleware = (req, res) => {
+export const responderOmBrukerErAutorisertForKandidatmatch: RequestHandler = (req, res) => {
     res.status(200).json(erAutorisertForKandidatmatch(req).autorisert);
 };
 
@@ -31,8 +30,7 @@ const erAutorisertForKandidatmatch = (
     navIdent: string;
 } => {
     const brukerensAccessToken = retrieveToken(req.headers);
-    const claims = decodeJwt(brukerensAccessToken);
-    const navIdent = String(claims[navIdentClaim]) || '';
+    const navIdent = hentNavIdent(brukerensAccessToken);
 
     return {
         autorisert: autoriserteBrukereForKandidatmatch.includes(navIdent),

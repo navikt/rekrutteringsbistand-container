@@ -1,13 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
 import { tokenIsValid } from './azureAd';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
 
-export type Middleware = (req: Request, res: Response, next: NextFunction) => void;
-
 export const cluster = process.env.NAIS_CLUSTER_NAME;
 
-export const redirectIfUnauthorized: Middleware = async (req, res, next) => {
+export const redirectIfUnauthorized: RequestHandler = async (req, res, next) => {
     if (await userIsLoggedIn(req)) {
         next();
     } else {
@@ -15,7 +13,7 @@ export const redirectIfUnauthorized: Middleware = async (req, res, next) => {
     }
 };
 
-export const respondUnauthorizedIfUnauthorized: Middleware = async (req, res, next) => {
+export const respondUnauthorizedIfNotLoggedIn: RequestHandler = async (req, res, next) => {
     if (await userIsLoggedIn(req)) {
         next();
     } else {
@@ -23,7 +21,7 @@ export const respondUnauthorizedIfUnauthorized: Middleware = async (req, res, ne
     }
 };
 
-export const opprettCookieFraAuthorizationHeader: Middleware = (req, res, next) => {
+export const opprettCookieFraAuthorizationHeader: RequestHandler = (req, res, next) => {
     const token = retrieveToken(req.headers);
 
     if (token) {
@@ -68,6 +66,6 @@ async function userIsLoggedIn(req: Request): Promise<boolean> {
     return token && (await tokenIsValid(token));
 }
 
-export const tomMiddleware: Middleware = (_, __, next) => {
+export const tomMiddleware: RequestHandler = (_, __, next) => {
     next();
 };

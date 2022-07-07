@@ -30,7 +30,12 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
                 `Bruker ${navIdent} har ikke tilgang til kandidatsøket.\nKandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}\nBrukeren har følgende AD-grupper: ${brukerensAdGrupper}`
             );
 
-            response.status(403).send('Brukeren har ikke tilgang til kandidatsøket');
+            response
+                .status(403)
+                .send(
+                    'Du har ikke tilgang til kandidatsøket fordi det krever én av følgende AD-grupper: ' +
+                        adGrupperMedTilgangTilKandidatsøket
+                );
         }
     } catch (e) {
         const feilmelding = 'Klarte ikke å sjekke brukerens tilgang til kandidatsøket:';

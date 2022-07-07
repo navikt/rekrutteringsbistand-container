@@ -25,9 +25,6 @@ spec:
                     - NAVident
         sidecar:
             enabled: true
-    openSearch:
-      access: read
-      instance: kandidat
     accessPolicy:
       outbound:
         external:

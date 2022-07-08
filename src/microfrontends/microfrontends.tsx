@@ -4,9 +4,11 @@ import { AsyncNavspa } from '@navikt/navspa';
 
 import assetManifestParser from './assetManifestUtils';
 import css from './microfrontends.module.css';
+import { History } from 'history';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
+    history: History;
 };
 
 const LasterInn: FunctionComponent = () => (

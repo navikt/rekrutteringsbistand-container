@@ -18,9 +18,15 @@ import {
 import { generaliserPath } from './utils/path';
 import { erIkkeProd } from './miljø';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { History } from 'history';
 
-const App: FunctionComponent = () => {
+type Props = {
+    history: History;
+};
+
+const App: FunctionComponent<Props> = ({ history }) => {
     const location = useLocation();
+
     const [navKontor, setNavKontor] = useState<string | null>(null);
     const [harSendtÅpneAppEvent, setHarSendtÅpneAppEvent] = useState<boolean>(false);
 
@@ -63,15 +69,30 @@ const App: FunctionComponent = () => {
                     </>
                 }
             >
-                <Route index element={<Statistikk navKontor={navKontor} />} />
+                <Route index element={<Statistikk navKontor={navKontor} history={history} />} />
 
-                <Route path="stillinger/*" element={<Stilling navKontor={navKontor} />} />
-                <Route path="stillingssok" element={<Stillingssøk navKontor={navKontor} />} />
-                <Route path="kandidater/*" element={<Kandidat navKontor={navKontor} />} />
-                <Route path="prototype" element={<Kandidat navKontor={navKontor} />} />
+                <Route
+                    path="stillinger/*"
+                    element={<Stilling navKontor={navKontor} history={history} />}
+                />
+                <Route
+                    path="stillingssok"
+                    element={<Stillingssøk navKontor={navKontor} history={history} />}
+                />
+                <Route
+                    path="kandidater/*"
+                    element={<Kandidat navKontor={navKontor} history={history} />}
+                />
+                <Route
+                    path="prototype"
+                    element={<Kandidat navKontor={navKontor} history={history} />}
+                />
 
                 {erIkkeProd() && (
-                    <Route path="kandidatsok" element={<Kandidatsøk navKontor={navKontor} />} />
+                    <Route
+                        path="kandidatsok"
+                        element={<Kandidatsøk navKontor={navKontor} history={history} />}
+                    />
                 )}
             </Route>
         </Routes>

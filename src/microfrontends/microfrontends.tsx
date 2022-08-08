@@ -3,8 +3,8 @@ import { Loader } from '@navikt/ds-react';
 import { AsyncNavspa } from '@navikt/navspa';
 
 import assetManifestParser from './assetManifestUtils';
-import { History } from 'history';
 import css from './microfrontends.module.css';
+import { History } from 'history';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;

@@ -1,12 +1,10 @@
-import { createBrowserHistory } from 'history';
 import React from 'react';
+import { createBrowserHistory } from 'history';
 import { createRoot } from 'react-dom/client';
-import { Router } from 'react-router-dom';
+import ContainerRouter from './ContainerRouter';
 import App from './App';
 import './index.css';
 import '@navikt/ds-css';
-
-const history = createBrowserHistory();
 
 if (process.env.REACT_APP_MOCK) {
     require('./mock/mock-api');
@@ -15,10 +13,12 @@ if (process.env.REACT_APP_MOCK) {
 const container = document.getElementById('rekrutteringsbistand-container');
 const root = createRoot(container!);
 
+const history = createBrowserHistory();
+
 root.render(
     <React.StrictMode>
-        <Router history={history}>
-            <App />
-        </Router>
+        <ContainerRouter history={history}>
+            <App history={history} />
+        </ContainerRouter>
     </React.StrictMode>
 );

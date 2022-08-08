@@ -25,12 +25,12 @@ const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
     return (
         <Link
             className={className}
+            state={{
+                fraMeny: true,
+            }}
             to={{
                 pathname: path,
                 search: queryParam,
-                state: {
-                    fraMeny: true,
-                },
             }}
         >
             <BodyShort>{tittel}</BodyShort>

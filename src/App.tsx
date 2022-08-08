@@ -84,7 +84,7 @@ const App: FunctionComponent<Props> = ({ history }) => {
                     element={<Kandidat navKontor={navKontor} history={history} />}
                 />
                 <Route
-                    path="prototype"
+                    path="prototype/*"
                     element={<Kandidat navKontor={navKontor} history={history} />}
                 />
 

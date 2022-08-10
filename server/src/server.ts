@@ -3,7 +3,7 @@ import express from 'express';
 import compression from 'compression';
 import winston from 'winston';
 
-import { initializeAzureAd } from './azureAd';
+import { initializeAzureAd, responderMedBrukerinfo } from './azureAd';
 import {
     opprettCookieFraAuthorizationHeader,
     redirectIfUnauthorized,
@@ -67,6 +67,8 @@ const startServer = () => {
         respondUnauthorizedIfNotLoggedIn,
         responderOmBrukerErAutorisertForKandidatmatch
     );
+
+    app.get('/meg', respondUnauthorizedIfNotLoggedIn, responderMedBrukerinfo);
 
     proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
     proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);

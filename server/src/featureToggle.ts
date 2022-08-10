@@ -1,6 +1,5 @@
 import { Request, RequestHandler } from 'express';
-import { decodeJwt } from 'jose';
-import { hentNavIdent, navIdentClaim } from './azureAd';
+import { hentNavIdent } from './azureAd';
 import { retrieveToken } from './middlewares';
 import { logger } from './server';
 

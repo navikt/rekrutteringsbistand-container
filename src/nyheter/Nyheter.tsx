@@ -42,7 +42,7 @@ const Nyheter: FunctionComponent = () => {
                 open={åpen}
                 anchorEl={buttonRef.current}
                 onClose={() => setÅpen(false)}
-                placement="bottom-start"
+                placement="bottom-end"
             >
                 <div className={css.popover}>
                     <Heading size="xsmall" level="2" className={css.tittel}>

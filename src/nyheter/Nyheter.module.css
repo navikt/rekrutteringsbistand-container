@@ -12,7 +12,7 @@
     box-shadow: var(--nav-fokus);
 }
 
-.nyheter :global(.navds-popover__arrow)::before {
+.nyheter :global(.navds-popover__arrow) {
     border: none;
     background-color: var(--navds-semantic-color-canvas-background-inverted);
 }
@@ -48,7 +48,7 @@
 .popover {
     border-radius: 0.5rem;
     box-shadow: 0 0.25rem 0.25rem 0 rgba(62, 56, 50, 0.125);
-    max-width: 27rem;
+    width: 27rem;
 
     /* Unngå at scrollbar flyter over avrundet border i Windows */
     overflow: hidden;

@@ -1,5 +1,5 @@
-import { BodyShort } from '@navikt/ds-react';
 import React, { FunctionComponent } from 'react';
+import { BodyShort } from '@navikt/ds-react';
 import { Link } from 'react-router-dom';
 import navigerignsmenyCss from './Navigeringsmeny.module.css';
 
@@ -12,14 +12,19 @@ export type TabConfig = {
 type Props = {
     config: TabConfig;
     erAktiv: boolean;
+    erFremhevet?: boolean;
 };
 
-const Tab: FunctionComponent<Props> = ({ config, erAktiv }) => {
+const Tab: FunctionComponent<Props> = ({ config, erAktiv, erFremhevet }) => {
     const { tittel, path, queryParam } = config;
 
     let className = navigerignsmenyCss.tab;
     if (erAktiv) {
         className += ' ' + navigerignsmenyCss.tabAktiv;
+    }
+
+    if (erFremhevet) {
+        className += ' ' + navigerignsmenyCss.tabFremhevet;
     }
 
     return (

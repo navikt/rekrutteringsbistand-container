@@ -19,7 +19,7 @@
 
 .tabs {
     display: flex;
-    align-items: flex-end;
+    align-items: stretch;
 }
 
 .tab,
@@ -62,4 +62,8 @@
 .tab:focus {
     outline: none;
     box-shadow: 0 0 0 3px var(--navds-semantic-color-interaction-primary-selected);
+}
+
+.tabFremhevet {
+    margin-left: 1.5rem;
 }

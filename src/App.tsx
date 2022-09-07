@@ -16,7 +16,6 @@ import {
     setNavKontorForAmplitude,
 } from './amplitude';
 import { generaliserPath } from './utils/path';
-import { erIkkeProd } from './miljø';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { History } from 'history';
 
@@ -88,12 +87,10 @@ const App: FunctionComponent<Props> = ({ history }) => {
                     element={<Kandidat navKontor={navKontor} history={history} />}
                 />
 
-                {erIkkeProd() && (
-                    <Route
-                        path="kandidatsok"
-                        element={<Kandidatsøk navKontor={navKontor} history={history} />}
-                    />
-                )}
+                <Route
+                    path="kandidatsok/*"
+                    element={<Kandidatsøk navKontor={navKontor} history={history} />}
+                />
             </Route>
         </Routes>
     );

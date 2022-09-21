@@ -20,15 +20,16 @@ const tabs: TabConfig[] = [
     },
     {
         tittel: 'Kandidatsøk',
-        path: '/kandidater',
+        path: '/kandidatsok',
     },
+
     {
         tittel: 'Kandidatlister',
         path: '/kandidater/lister',
     },
     {
-        tittel: 'Nytt kandidatsøk',
-        path: '/kandidatsok',
+        tittel: 'Gammelt kandidatsøk',
+        path: '/kandidater',
     },
 ];
 
@@ -45,7 +46,7 @@ const Navigeringsmeny: FunctionComponent = () => {
                             key={tab.path}
                             config={tab}
                             erAktiv={pathname === tab.path}
-                            erFremhevet={tab.path === '/kandidatsok'}
+                            erFremhevet={tab.path === '/kandidater'}
                         />
                     ))}
                 </nav>

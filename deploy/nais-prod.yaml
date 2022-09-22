@@ -5,6 +5,8 @@ metadata:
     namespace: toi
     labels:
         team: toi
+    annotations:
+        nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
 spec:
     # prettier-ignore
     image: {{ image }}

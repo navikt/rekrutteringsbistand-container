@@ -17,14 +17,15 @@ describe('Tilgangskontroll for kandidatsøket', () => {
         } as Partial<Response>;
 
         mockRequest = {
-            headers: {},
+            headers: {
+                authorization: '',
+            },
         };
 
         nextFunction = jest.fn();
     });
 
     test('En bruker med ModiaGenerellTilgang skal få tilgang til kandidatsøket', async () => {
-        jest.spyOn(middlewares, 'retrieveToken').mockReturnValue('');
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
             microsoftGraphApi.AdGruppe.ModiaGenerellTilgang,
@@ -40,7 +41,6 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     });
 
     test('En bruker med ModiaOppfølging skal få tilgang til kandidatsøket', async () => {
-        jest.spyOn(middlewares, 'retrieveToken').mockReturnValue('');
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
             microsoftGraphApi.AdGruppe.ModiaOppfølging,
@@ -58,7 +58,6 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     test('En bruker med andre tilganger skal ikke få tilgang til kandidatsøket', async () => {
         const andreTilganger = ['en-annen-tilgang' as microsoftGraphApi.AdGruppe];
 
-        jest.spyOn(middlewares, 'retrieveToken').mockReturnValue('');
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue(andreTilganger);
 

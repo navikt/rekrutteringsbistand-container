@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from './azureAd';
 import { AdGruppe, hentBrukerensAdGrupper } from './microsoftGraphApi';
 import { retrieveToken } from './middlewares';
-import { logger } from './server';
+import { logger } from './logger';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,

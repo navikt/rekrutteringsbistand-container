@@ -3,7 +3,7 @@ import { createRemoteJWKSet, decodeJwt, jwtVerify } from 'jose';
 import { FlattenedJWSInput, GetKeyFunction, JWSHeaderParameters } from 'jose/dist/types/types';
 import { Issuer, Client } from 'openid-client';
 import { retrieveToken } from './middlewares';
-import { logger } from './server';
+import { logger } from './logger';
 
 const discoveryUrl = process.env.AZURE_APP_WELL_KNOWN_URL;
 const clientId = process.env.AZURE_APP_CLIENT_ID;

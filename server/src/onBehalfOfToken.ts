@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { logger } from './server';
+import { logger } from './logger';
 
 type OboToken = {
     access_token: string;

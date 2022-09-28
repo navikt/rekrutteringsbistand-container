@@ -1,4 +1,4 @@
-import { expect, test, jest } from '@jest/globals';
+import { expect, test, jest, describe, beforeEach } from '@jest/globals';
 import { NextFunction, Request, Response } from 'express';
 import { harTilgangTilKandidatsøk } from '../src/kandidatsøk';
 import * as microsoftGraphApi from '../src/microsoftGraphApi';
@@ -44,6 +44,36 @@ describe('Tilgangskontroll for kandidatsøket', () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
             microsoftGraphApi.AdGruppe.ModiaOppfølging,
+        ]);
+
+        await harTilgangTilKandidatsøk(
+            mockRequest as Request,
+            mockResponse as Response,
+            nextFunction
+        );
+
+        expect(nextFunction).toBeCalled();
+    });
+
+    test('En bruker med ModiaOppfølging i uppercase skal få tilgang til kandidatsøket', async () => {
+        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
+        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
+            microsoftGraphApi.AdGruppe.ModiaOppfølging.toUpperCase() as microsoftGraphApi.AdGruppe,
+        ]);
+
+        await harTilgangTilKandidatsøk(
+            mockRequest as Request,
+            mockResponse as Response,
+            nextFunction
+        );
+
+        expect(nextFunction).toBeCalled();
+    });
+
+    test('En bruker med ModiaOppfølging i lowercase skal få tilgang til kandidatsøket', async () => {
+        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
+        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
+            microsoftGraphApi.AdGruppe.ModiaOppfølging.toUpperCase() as microsoftGraphApi.AdGruppe,
         ]);
 
         await harTilgangTilKandidatsøk(

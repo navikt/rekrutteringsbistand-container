@@ -16,9 +16,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     try {
         const brukerensAdGrupper = await hentBrukerensAdGrupper(brukerensAccessToken);
         const harTilgang = brukerensAdGrupper.some((adGruppeBrukerErMedlemAv) =>
-            adGrupperMedTilgangTilKandidatsøket.includes(
-                adGruppeBrukerErMedlemAv.toLocaleLowerCase()
-            )
+            adGrupperMedTilgangTilKandidatsøket.includes(adGruppeBrukerErMedlemAv.toLowerCase())
         );
 
         const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}\nBrukeren har følgende AD-grupper: ${brukerensAdGrupper}`;

@@ -1,9 +1,9 @@
 import { expect, test, jest } from '@jest/globals';
 import { NextFunction, Request, Response } from 'express';
-import { harTilgangTilKandidatsøk } from './kandidatsøk';
-import * as microsoftGraphApi from './microsoftGraphApi';
-import * as middlewares from './middlewares';
-import * as azureAd from './azureAd';
+import { harTilgangTilKandidatsøk } from '../src/kandidatsøk';
+import * as microsoftGraphApi from '../src/microsoftGraphApi';
+import * as middlewares from '../src/middlewares';
+import * as azureAd from '../src/azureAd';
 
 describe('Tilgangskontroll for kandidatsøket', () => {
     let mockRequest: Partial<Request>;

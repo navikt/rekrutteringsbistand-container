@@ -1,7 +1,7 @@
 import { Request, RequestHandler } from 'express';
 import { hentNavIdent } from './azureAd';
 import { retrieveToken } from './middlewares';
-import { logger } from './server';
+import { logger } from './logger';
 
 const autoriserteBrukereForKandidatmatch = (
     process.env.KANDIDATMATCH_AUTORISERTE_BRUKERE || ''

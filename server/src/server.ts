@@ -1,7 +1,6 @@
 import path from 'path';
 import express from 'express';
 import compression from 'compression';
-import winston from 'winston';
 
 import { initializeAzureAd, responderMedBrukerinfo } from './azureAd';
 import {
@@ -14,17 +13,12 @@ import {
     validerAtBrukerErAutorisertForKandidatmatch,
 } from './featureToggle';
 import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
+import { logger } from './logger';
 
 export const app = express();
+
 const port = process.env.PORT || 8080;
-
-export const logger = winston.createLogger({
-    format: winston.format.json(),
-    transports: new winston.transports.Console(),
-});
-
 const buildPath = path.join(__dirname, '../build');
-
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 

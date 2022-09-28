@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
-import { logger } from './server';
+import { logger } from './logger';
 
 const apiScope = 'https://graph.microsoft.com/.default';
 const memberOfApiUrl = ' https://graph.microsoft.com/v1.0/me/memberOf';

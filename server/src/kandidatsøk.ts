@@ -29,7 +29,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
             `Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet til ${cachetTilgang.utløper.toISOString()}`
         );
 
-        next();
+        return next();
     }
 
     try {

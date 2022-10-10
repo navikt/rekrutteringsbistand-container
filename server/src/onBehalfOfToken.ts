@@ -14,7 +14,7 @@ type CachetOboToken = {
 };
 
 type Scope = string;
-type AccessToken = string;
+export type AccessToken = string;
 
 const tokenCache: Record<Scope, Record<AccessToken, CachetOboToken>> = {};
 

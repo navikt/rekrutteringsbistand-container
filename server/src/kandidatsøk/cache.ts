@@ -1,28 +1,33 @@
+const EN_TIME = 1000 * 60 * 60;
+
 type NavIdent = string;
-type TilgangCache = Record<
-    NavIdent,
-    {
-        utløper: Date;
-    }
->;
+type CachetTilgang = {
+    expires: Date;
+};
 
-export let navIdenterMedTilgang: TilgangCache = {};
+class TilgangCache {
+    cache: Record<NavIdent, CachetTilgang> = {};
 
-export const lagreTilgangICache = (navIdent: string) => {
-    navIdenterMedTilgang[navIdent] = {
-        utløper: new Date(Date.now() + 1000 * 60 * 60),
+    clear = () => {
+        this.cache = {};
     };
-};
 
-export const hentTilgangICache = (navIdent: string) => {
-    const tilgang = navIdenterMedTilgang[navIdent];
-    return tilgang && tilgangErFremdelesGyldig(tilgang.utløper);
-};
+    lagreTilgang = (navIdent: string) => {
+        const omEnTime = new Date(Date.now() + EN_TIME);
 
-export const tilgangErFremdelesGyldig = (utløper: Date) => {
-    return utløper >= new Date();
-};
+        this.cache[navIdent] = {
+            expires: omEnTime,
+        };
+    };
 
-export const slettCache = () => {
-    navIdenterMedTilgang = {};
-};
+    hentTilgang = (navIdent: string) => {
+        const tilgang = this.cache[navIdent];
+        return tilgang && this.erGyldig(tilgang);
+    };
+
+    erGyldig = (tilgang: CachetTilgang) => {
+        return tilgang.expires >= new Date();
+    };
+}
+
+export default TilgangCache;

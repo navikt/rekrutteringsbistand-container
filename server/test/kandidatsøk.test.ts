@@ -1,7 +1,6 @@
 import { expect, test, jest, describe, beforeEach } from '@jest/globals';
 import { NextFunction, Request, Response } from 'express';
 import * as kandidatsøk from '../src/kandidatsøk/kandidatsøk';
-import * as tilgangCache from '../src/kandidatsøk/cache';
 import * as microsoftGraphApi from '../src/microsoftGraphApi';
 import * as middlewares from '../src/middlewares';
 import * as azureAd from '../src/azureAd';
@@ -24,7 +23,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
         };
 
         nextFunction = jest.fn();
-        tilgangCache.slettCache();
+        kandidatsøk.cache.clear();
     });
 
     test('En bruker med ModiaGenerellTilgang skal få tilgang til kandidatsøket', async () => {

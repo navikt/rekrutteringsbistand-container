@@ -1,7 +1,10 @@
 import { ClientRequest } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
-import { harTilgangTilKandidatsøk, leggTilAuthorizationForKandidatsøkEs } from './kandidatsøk';
+import {
+    harTilgangTilKandidatsøk,
+    leggTilAuthorizationForKandidatsøkEs,
+} from './kandidatsøk/kandidatsøk';
 import { app } from './server';
 import { logger } from './logger';
 import { RequestHandler } from 'express';

@@ -6,7 +6,7 @@ type CachetTilgang = {
 };
 
 class TilgangCache {
-    cache: Record<NavIdent, CachetTilgang> = {};
+    cache: Partial<Record<NavIdent, CachetTilgang>> = {};
 
     clear = () => {
         this.cache = {};

@@ -5,7 +5,8 @@
         "module": "CommonJS",
         "target": "ES2021",
         "lib": ["ES2021"],
-        "typeRoots": ["./node_modules/@types"]
+        "typeRoots": ["./node_modules/@types"],
+        "noUncheckedIndexedAccess": true
     },
     "include": ["src/**/*"]
 }

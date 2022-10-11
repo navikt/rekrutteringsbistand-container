@@ -1,34 +1,21 @@
 import { RequestHandler } from 'express';
-import { hentNavIdent } from './azureAd';
-import { AdGruppe, hentBrukerensAdGrupper } from './microsoftGraphApi';
-import { retrieveToken } from './middlewares';
-import { logger } from './logger';
+import { hentNavIdent } from '../azureAd';
+import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
+import { retrieveToken } from '../middlewares';
+import { logger } from '../logger';
+import { hentTilgangICache, lagreTilgangICache } from './cache';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
     AdGruppe.ModiaOppfølging,
 ].map((a) => a.toLowerCase());
 
-type NavIdent = string;
-type TilgangCache = Record<
-    NavIdent,
-    {
-        utløper: Date;
-    }
->;
-
-export let navIdenterMedTilgang: TilgangCache = {};
-
 export const harTilgangTilKandidatsøk: RequestHandler = async (request, response, next) => {
     const brukerensAccessToken = retrieveToken(request.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
 
-    const cachetTilgang = navIdenterMedTilgang[navIdent];
-    if (cachetTilgang && tilgangErFremdelesGyldig(cachetTilgang.utløper)) {
-        logger.info(
-            `Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet til ${cachetTilgang.utløper.toISOString()}`
-        );
-
+    if (hentTilgangICache(navIdent)) {
+        logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
         return next();
     }
 
@@ -60,20 +47,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
         logger.error(feilmelding + ': ' + e);
         response.status(500).send(feilmelding);
     }
-};
-
-const lagreTilgangICache = (navIdent: string) => {
-    navIdenterMedTilgang[navIdent] = {
-        utløper: new Date(Date.now() + 1000 * 60 * 60),
-    };
-};
-
-const tilgangErFremdelesGyldig = (utløper: Date) => {
-    return utløper >= new Date();
-};
-
-export const slettCache = () => {
-    navIdenterMedTilgang = {};
 };
 
 export const leggTilAuthorizationForKandidatsøkEs =

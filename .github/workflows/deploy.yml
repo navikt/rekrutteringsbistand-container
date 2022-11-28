@@ -10,14 +10,23 @@ jobs:
         name: Bygg og push
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-node@v2
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
               with:
                   node-version: 16
                   cache: 'npm'
                   cache-dependency-path: |
                       package-lock.json
                       server/package-lock.json
+            - name: Install Snyk CLI
+              uses: snyk/actions/setup@master
+            - name: Test dependencies with Snyk
+              run: snyk test --org=toi --all-projects --fail-on=all --severity-threshold=medium
+              env:
+                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              ## Ved fix av prodfeil, sett continue-on-error=true, slik at workflow fortsetter selvom snyk finner sårbarheter
+              continue-on-error: false
             - name: Installer avhengigheter
               run: npm ci
             - name: Bygg applikasjon
@@ -31,13 +40,13 @@ jobs:
             - name: Test server
               run: cd server && npm run test
             - name: Logg inn til Github
-              uses: docker/login-action@v1
+              uses: docker/login-action@v2
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
             - name: Bygg og publiser Docker-image
-              uses: docker/build-push-action@v2
+              uses: docker/build-push-action@v3
               with:
                   context: .
                   push: true
@@ -49,7 +58,7 @@ jobs:
         if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/oppgraderinger-oktober-2022'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
@@ -62,7 +71,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
@@ -75,8 +84,8 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout code
-          uses: actions/checkout@v2
-        - uses: actions/setup-node@v2
+          uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
           with:
             node-version: 16
             cache: 'npm'

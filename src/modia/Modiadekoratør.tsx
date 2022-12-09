@@ -70,6 +70,7 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
             <div className={className}>
                 <Microfrontend
                     appname="Rekrutteringsbistand"
+                    useProxy={true}
                     enhet={{
                         initialValue: navKontor,
                         display: EnhetDisplay.ENHET_VALG,

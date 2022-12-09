@@ -67,7 +67,8 @@ async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Prom
             return body as OboToken;
         } else {
             logger.error(
-                `Klarte ikke å hente on behalf of token for scope "${scope}", fikk status ${response.status} (${response.statusText}) årsak: ${body}`
+                `Klarte ikke å hente on behalf of token for scope "${scope}", fikk status ${response.status} (${response.statusText}) årsak: `,
+                body
             );
 
             throw new Error(response.statusText);

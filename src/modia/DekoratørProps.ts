@@ -32,6 +32,7 @@ interface DekoratørProps {
     enhet?: EnhetContextvalue;
     toggles?: TogglesConfig;
     markup?: Markup;
+    useProxy?: boolean | string;
 }
 
 export default DekoratørProps;

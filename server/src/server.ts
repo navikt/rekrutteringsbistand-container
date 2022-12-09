@@ -23,6 +23,7 @@ const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 
 const scopes = {
+    modiaContextHolder: `api://${cluster}.personoversikt.modiacontextholder/.default`,
     statistikk: `api://${clusterOnPrem}.toi.rekrutteringsbistand-statistikk-api/.default`,
     stillingssøk: `api://${cluster}.toi.rekrutteringsbistand-stillingssok-proxy/.default`,
     stilling: `api://${cluster}.toi.rekrutteringsbistand-stilling-api/.default`,
@@ -45,6 +46,7 @@ const {
     OPEN_SEARCH_URI,
     OPEN_SEARCH_USERNAME,
     OPEN_SEARCH_PASSWORD,
+    MODIA_CONTEXT_HOLDER_API,
 } = process.env;
 
 const startServer = () => {
@@ -64,6 +66,7 @@ const startServer = () => {
 
     app.get('/meg', respondUnauthorizedIfNotLoggedIn, responderMedBrukerinfo);
 
+    proxyMedOboToken('/modiacontextholder', MODIA_CONTEXT_HOLDER_API, scopes.modiaContextHolder);
     proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
     proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
     proxyMedOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);

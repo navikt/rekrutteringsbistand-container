@@ -23,7 +23,7 @@ const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 
 const scopes = {
-    modiaContextHolder: `api://${cluster}.personoversikt.modiacontextholder/.default`,
+    modiaContextHolder: `api://${cluster}.personoversikt.modiacontextholder-q0/.default`,
     statistikk: `api://${clusterOnPrem}.toi.rekrutteringsbistand-statistikk-api/.default`,
     stillingssøk: `api://${cluster}.toi.rekrutteringsbistand-stillingssok-proxy/.default`,
     stilling: `api://${cluster}.toi.rekrutteringsbistand-stilling-api/.default`,

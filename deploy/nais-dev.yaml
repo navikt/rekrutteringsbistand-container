@@ -63,4 +63,4 @@ spec:
         - name: KANDIDATMATCH_API
           value: https://aimatch.dev.intern.nav.no
         - name: MODIA_CONTEXT_HOLDER_API
-          value: https://modiacontextholder.dev.intern.nav.no
+          value: https://modiacontextholder.dev.intern.nav.no/modiacontextholder

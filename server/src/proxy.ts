@@ -24,7 +24,8 @@ const removeIssoIdToken = (request: ClientRequest) => {
 export const setupProxy = (
     fraPath: string,
     tilTarget: string,
-    fjernIssoIdToken = true
+    fjernIssoIdToken = true,
+    logRequest = false
 ): RequestHandler =>
     createProxyMiddleware(fraPath, {
         target: tilTarget,
@@ -32,6 +33,9 @@ export const setupProxy = (
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
         onProxyReq: (request) => {
+            if (logRequest)
+                logger.info(`Proxying call from ${fraPath} to "${tilTarget} ~/~ ${request.path}"`);
+
             if (fjernIssoIdToken) {
                 request.setHeader('Cookie', removeIssoIdToken(request));
             }
@@ -50,7 +54,7 @@ export const proxyMedOboToken = (
         respondUnauthorizedIfNotLoggedIn,
         customMiddleware ? customMiddleware : tomMiddleware,
         setOnBehalfOfToken(apiScope),
-        setupProxy(path, apiUrl)
+        setupProxy(path, apiUrl, true, path === '/modiacontextholder')
     );
 };
 

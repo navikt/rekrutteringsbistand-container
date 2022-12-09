@@ -3,11 +3,7 @@ import express from 'express';
 import compression from 'compression';
 
 import { initializeAzureAd, responderMedBrukerinfo } from './azureAd';
-import {
-    opprettCookieFraAuthorizationHeader,
-    redirectIfUnauthorized,
-    respondUnauthorizedIfNotLoggedIn,
-} from './middlewares';
+import { redirectIfUnauthorized, respondUnauthorizedIfNotLoggedIn } from './middlewares';
 import {
     responderOmBrukerErAutorisertForKandidatmatch,
     validerAtBrukerErAutorisertForKandidatmatch,
@@ -92,14 +88,9 @@ const startServer = () => {
         OPEN_SEARCH_PASSWORD
     );
 
-    app.get(
-        pathsForServingApp,
-        redirectIfUnauthorized,
-        opprettCookieFraAuthorizationHeader,
-        (_, res) => {
-            res.sendFile(`${buildPath}/index.html`);
-        }
-    );
+    app.get(pathsForServingApp, redirectIfUnauthorized, (_, res) => {
+        res.sendFile(`${buildPath}/index.html`);
+    });
 
     app.listen(port, () => {
         logger.info('Server kjører på port', port);

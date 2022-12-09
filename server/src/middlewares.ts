@@ -21,25 +21,6 @@ export const respondUnauthorizedIfNotLoggedIn: RequestHandler = async (req, res,
     }
 };
 
-export const opprettCookieFraAuthorizationHeader: RequestHandler = (req, res, next) => {
-    const token = retrieveToken(req.headers);
-
-    if (token) {
-        // Alltid sett domene til "intern.nav.no", dette fungerer også i dev
-        // fordi "intern.nav.no" er en substring av "dev.intern.nav.no"
-        const cookieDomain = cluster === 'prod-gcp' ? 'intern.nav.no' : 'intern.nav.no';
-
-        res.header(
-            'Set-Cookie',
-            `isso-idtoken=${token}; Domain=${cookieDomain}; Path=/; Secure; HttpOnly; SameSite=Lax;`
-        );
-
-        next();
-    } else {
-        res.status(500).send('Klarte ikke å opprette isso-idtoken-cookie');
-    }
-};
-
 export const setOnBehalfOfToken =
     (scope: string) => async (req: Request, res: Response, next: NextFunction) => {
         const accessToken = retrieveToken(req.headers);

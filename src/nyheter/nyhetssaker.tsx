@@ -15,11 +15,11 @@ const nyhetssaker: Nyhet[] = [
                     mentortilskudd og sommerjobb registreres nå automatisk.
                 </p>
                 <p>
-                    Derfor er det ikke lenger nødvendig å registrere egne «formidlingsstillinger»,
-                    og stillingskategorien er fjernet.
+                    Det er ikke lenger nødvendig å opprette egne «formidlingsstillinger», og denne
+                    stillingskategorien er derfor fjernet.
                 </p>
                 <p>
-                    På landingssiden til Rekrutteringsbistand får du nå full oversikt over den nye
+                    På landingssiden til Rekrutteringsbistand får du full oversikt over den nye
                     tiltaksstatistikken.
                 </p>
             </>

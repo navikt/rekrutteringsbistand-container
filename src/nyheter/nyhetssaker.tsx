@@ -6,6 +6,26 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(16, 12, 2022),
+        tittel: '«Formidlingsstillinger» er historie',
+        innhold: (
+            <>
+                <p>
+                    Statistikk for arbeidstrening, lønnstilskudd, inkluderingstilskudd,
+                    mentortilskudd og sommerjobb registreres nå automatisk.
+                </p>
+                <p>
+                    Det er ikke lenger nødvendig å opprette egne «formidlingsstillinger», og denne
+                    stillingskategorien er derfor fjernet.
+                </p>
+                <p>
+                    På landingssiden til Rekrutteringsbistand får du full oversikt over den nye
+                    tiltaksstatistikken.
+                </p>
+            </>
+        ),
+    },
+    {
         dato: tilDato(21, 9, 2022),
         tittel: 'Nytt design på kandidatsøket',
         innhold: 'I sammenheng med en teknisk oppgradering har kandidatsøket fått nytt design.',

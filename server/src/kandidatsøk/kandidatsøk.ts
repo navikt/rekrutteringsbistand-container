@@ -36,8 +36,8 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     }
 
     try {
-        const { harTilgang } = await sjekkTilgang(brukerensAccessToken);
-        const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}, som brukeren ikke har.`;
+        const { harTilgang, brukerensAdGrupper } = await sjekkTilgang(brukerensAccessToken);
+        const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}. Brukeren er i følgende AD-grupper: ${brukerensAdGrupper}`; // TODO Are: Pass på at jeg ikke logger hemmelige ting her. https://trello.com/c/5iLuw5iN
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);

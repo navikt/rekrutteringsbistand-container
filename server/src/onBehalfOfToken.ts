@@ -36,7 +36,6 @@ export async function hentOnBehalfOfToken(accessToken: string, scope: string) {
             expires,
         };
 
-        logger.info('scope=' + scope + ', nyttOboToken=' + nyttOboToken); // TODO Are: Slett etter https://trello.com/c/5iLuw5iN
         return nyttOboToken;
     }
 }

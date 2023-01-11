@@ -17,6 +17,7 @@ const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
+export const miljøErProd = cluster === 'prod-gcp' || cluster === 'prod-fss';
 
 const scopes = {
     modiaContextHolder: `api://${clusterOnPrem}.personoversikt.modiacontextholder${

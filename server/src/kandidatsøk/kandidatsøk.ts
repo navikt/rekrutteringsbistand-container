@@ -4,6 +4,7 @@ import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
+import { miljøErProd } from '../server';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
@@ -37,7 +38,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     try {
         const { harTilgang, brukerensAdGrupper } = await sjekkTilgang(brukerensAccessToken);
-        const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}. Brukeren er i følgende AD-grupper: ${brukerensAdGrupper}`; // TODO Are: Pass på at jeg ikke logger hemmelige ting her. https://trello.com/c/5iLuw5iN
+        const forklaring = `Kandidatsøket krever medlemskap i en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}.`;
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
@@ -46,6 +47,17 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
             next();
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
+
+            const navidentFeilsoking = 'D121228'; // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
+            if (!miljøErProd || navIdent === navidentFeilsoking) {
+                logger.info(
+                    ' Bruker ' +
+                        navidentFeilsoking +
+                        ' er medlem i AD-gruppene ' +
+                        brukerensAdGrupper.toString() +
+                        '.'
+                );
+            }
 
             response
                 .status(403)

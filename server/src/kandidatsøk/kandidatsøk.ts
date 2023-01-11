@@ -4,6 +4,7 @@ import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
+import { miljøErProd } from '../server';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
@@ -47,9 +48,8 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
 
-            // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
-            const navidentFeilsoking = 'D121228';
-            if (navIdent == navidentFeilsoking) {
+            const navidentFeilsoking = 'D121228'; // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
+            if (!miljøErProd || navIdent === navidentFeilsoking) {
                 logger.info(
                     ' Bruker ' +
                         navidentFeilsoking +

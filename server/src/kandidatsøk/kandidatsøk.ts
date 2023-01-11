@@ -50,7 +50,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
             // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
             const navidentFeilsoking = 'D121228';
-            if (navIdent == navidentFeilsoking || erIkkeProd()) {
+            if (navIdent == navidentFeilsoking) {
                 logger.info(
                     ' Bruker ' +
                         navidentFeilsoking +

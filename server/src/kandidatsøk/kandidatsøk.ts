@@ -4,6 +4,7 @@ import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
+import { getMiljø, Miljø } from '../../../src/miljø';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
@@ -36,8 +37,8 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     }
 
     try {
-        const { harTilgang } = await sjekkTilgang(brukerensAccessToken);
-        const forklaring = `Kandidatsøket krever en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}, som brukeren ikke har.`;
+        const { harTilgang, brukerensAdGrupper } = await sjekkTilgang(brukerensAccessToken);
+        const forklaring = `Kandidatsøket krever medlemskap i en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}.`;
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
@@ -46,6 +47,18 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
             next();
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
+
+            // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
+            const navidentFeilsoking = 'D121228';
+            if (navIdent == navidentFeilsoking || getMiljø() == Miljø.DevGcp) {
+                logger.info(
+                    ' Bruker ' +
+                        navidentFeilsoking +
+                        ' er medlem i AD-gruppene ' +
+                        brukerensAdGrupper.toString() +
+                        '.'
+                );
+            }
 
             response
                 .status(403)

@@ -4,7 +4,7 @@ import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
-import { getMiljø, Miljø } from '../../../src/miljø';
+import { erIkkeProd } from '../../../src/miljø';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
@@ -50,7 +50,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
             // TODO Slettes etter feilsøking, se https://trello.com/c/AqHTbFeW og https://jira.adeo.no/browse/FAGSYSTEM-258473
             const navidentFeilsoking = 'D121228';
-            if (navIdent == navidentFeilsoking || getMiljø() == Miljø.DevGcp) {
+            if (navIdent == navidentFeilsoking || erIkkeProd()) {
                 logger.info(
                     ' Bruker ' +
                         navidentFeilsoking +

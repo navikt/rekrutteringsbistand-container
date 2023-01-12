@@ -38,7 +38,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     try {
         const { harTilgang, brukerensAdGrupper } = await sjekkTilgang(brukerensAccessToken);
-        const forklaring = `Kandidatsøket krever medlemskap i en av følgened AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}.`;
+        const forklaring = `Kandidatsøket krever medlemskap i en av følgende AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}.`;
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);

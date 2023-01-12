@@ -3,7 +3,7 @@ import { hentOnBehalfOfToken } from './onBehalfOfToken';
 import { logger } from './logger';
 
 const apiScope = "https://graph.microsoft.com/.default";
-const memberOfApiUrl = "https://graph.microsoft.com/v1.0/me/memberOf/microsoft.graph.group?$filter=startswith(displayName, '0000-GA')";
+const memberOfApiUrl = "https://graph.microsoft.com/v1.0/me/memberOf/?$count=true&$orderby=displayName&$filter=startswith(displayName, '0000-GA')";
 
 export enum AdGruppe {
     ModiaGenerellTilgang = '0000-GA-BD06_ModiaGenerellTilgang',
@@ -24,6 +24,7 @@ export const hentBrukerensAdGrupper = async (accessToken: string): Promise<AdGru
         const adGrupperResponse = await fetch(memberOfApiUrl, {
             headers: {
                 Authorization: `Bearer ${oboToken.access_token}`,
+                ConsistencyLevel: "eventual"
             },
         });
 

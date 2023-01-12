@@ -2,8 +2,8 @@ import fetch from 'node-fetch';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
 import { logger } from './logger';
 
-const apiScope = 'https://graph.microsoft.com/.default';
-const memberOfApiUrl = ' https://graph.microsoft.com/v1.0/me/memberOf';
+const apiScope = "https://graph.microsoft.com/.default";
+const memberOfApiUrl = "https://graph.microsoft.com/v1.0/me/memberOf?$filter=startswith(displayName, '0000-GA')";
 
 export enum AdGruppe {
     ModiaGenerellTilgang = '0000-GA-BD06_ModiaGenerellTilgang',

@@ -6,6 +6,23 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(16, 1, 2023),
+        tittel: 'Sortering på flest kriterier',
+        innhold: (
+            <>
+                <p>
+                    I kandidatsøket er det nå mulig å sortere på kandidatene som oppfyller flest av
+                    de valgte kriteriene. Dette vil gjøre det enklere å finne passende kandidater,
+                    spesielt ved filtrering på flere yrker og kompetanser.
+                </p>
+                <p>
+                    Hvis du ikke velger den nye sorteringen vil søket fungere som før, der
+                    kandidatene som er oppdatert sist, havner øverst i listen.
+                </p>
+            </>
+        ),
+    },
+    {
         dato: tilDato(21, 9, 2022),
         tittel: 'Nytt design på kandidatsøket',
         innhold: 'I sammenheng med en teknisk oppgradering har kandidatsøket fått nytt design.',

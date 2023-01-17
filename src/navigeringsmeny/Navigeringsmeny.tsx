@@ -34,6 +34,7 @@ const Navigeringsmeny: FunctionComponent = () => {
 
     return (
         <div className={css.navigeringsmeny}>
+            <div />
             <div className={css.inner}>
                 <nav className={css.tabs}>
                     <Forsidelenke href={`${appPrefiks}/`} erAktiv={pathname === `${appPrefiks}/`} />
@@ -50,6 +51,12 @@ const Navigeringsmeny: FunctionComponent = () => {
                     <Nyheter />
                 </div>
             </div>
+            <a
+                className={css.loggUt + ' navds-button navds-button--secondary'}
+                href="/oauth2/logout"
+            >
+                Logg ut
+            </a>
         </div>
     );
 };

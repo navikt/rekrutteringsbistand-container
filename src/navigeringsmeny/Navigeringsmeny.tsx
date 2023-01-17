@@ -53,7 +53,7 @@ const Navigeringsmeny: FunctionComponent = () => {
             </div>
             <a
                 className={css.loggUt + ' navds-button navds-button--secondary'}
-                href="/oauth2/logout"
+                href="/oauth2/logout/local"
             >
                 Logg ut
             </a>

@@ -35,7 +35,14 @@ export const setOnBehalfOfToken =
                 next();
             } catch (e) {
                 const respons = e as Response;
-                res.status(respons.status).send(respons.statusText);
+
+                // 400 Bad request under OBO-veksling betyr at bruker
+                // ikke tilhører gruppene som kreves for å kalle appen.
+                if (respons.status === 400) {
+                    res.status(403).send(`${respons.statusText}: ${respons.body}`);
+                } else {
+                    res.status(respons.status).send(respons.statusText);
+                }
             }
         }
     };

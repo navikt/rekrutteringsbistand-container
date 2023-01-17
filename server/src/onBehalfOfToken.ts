@@ -61,17 +61,16 @@ async function hentNyttOnBehalfOfToken(accessToken: string, scope: string): Prom
             },
         });
 
-        const body = await response.json();
-
         if (response.ok) {
-            return body as OboToken;
+            const token = await response.json();
+            return token as OboToken;
         } else {
             logger.error(
                 `Klarte ikke å hente on behalf of token for scope "${scope}", fikk status ${response.status} (${response.statusText}) årsak: `,
-                body
+                response.body
             );
 
-            throw new Error(response.statusText);
+            throw response;
         }
     } catch (e) {
         throw e;

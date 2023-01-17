@@ -1,5 +1,6 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response as ExpressResponse } from 'express';
 import { IncomingHttpHeaders } from 'http';
+import { Response } from 'node-fetch';
 import { tokenIsValid } from './azureAd';
 import { hentOnBehalfOfToken } from './onBehalfOfToken';
 
@@ -22,7 +23,7 @@ export const respondUnauthorizedIfNotLoggedIn: RequestHandler = async (req, res,
 };
 
 export const setOnBehalfOfToken =
-    (scope: string) => async (req: Request, res: Response, next: NextFunction) => {
+    (scope: string) => async (req: Request, res: ExpressResponse, next: NextFunction) => {
         const accessToken = retrieveToken(req.headers);
 
         if (!accessToken) {
@@ -33,7 +34,8 @@ export const setOnBehalfOfToken =
                 req.headers.authorization = `Bearer ${token.access_token}`;
                 next();
             } catch (e) {
-                res.status(500).send('Feil ved henting av OBO-token: ' + e);
+                const respons = e as Response;
+                res.status(respons.status).send(respons.statusText);
             }
         }
     };

@@ -39,7 +39,7 @@ export const setOnBehalfOfToken =
                 // 400 Bad request under OBO-veksling betyr at bruker
                 // ikke tilhører gruppene som kreves for å kalle appen.
                 if (respons.status === 400) {
-                    res.status(403).send(`${respons.statusText}: ${respons.body}`);
+                    res.status(403).send(`Bruker har ikke tilgang til scope ${scope}`);
                 } else {
                     res.status(respons.status).send(respons.statusText);
                 }

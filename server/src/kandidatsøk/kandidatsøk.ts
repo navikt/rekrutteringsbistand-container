@@ -4,7 +4,6 @@ import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
-import { miljøErProd } from '../server';
 
 const adGrupperMedTilgangTilKandidatsøket = [
     AdGruppe.ModiaGenerellTilgang,
@@ -47,16 +46,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
             next();
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
-
-            if (!miljøErProd) {
-                logger.info(
-                    ' Bruker ' +
-                        navIdent +
-                        ' er medlem i AD-gruppene ' +
-                        brukerensAdGrupper.toString() +
-                        '.'
-                );
-            }
 
             response
                 .status(403)

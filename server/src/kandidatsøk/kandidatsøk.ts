@@ -1,23 +1,25 @@
 import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
-import { AdGruppe, hentBrukerensAdGrupper } from '../microsoftGraphApi';
+import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
 
-const adGrupperMedTilgangTilKandidatsøket = [
-    AdGruppe.ModiaGenerellTilgang,
-    AdGruppe.ModiaOppfølging,
-].map((a) => a.toLowerCase());
+export const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
+
+export const adGrupperMedTilgangTilKandidatsøket = [
+    AD_GRUPPE_MODIA_GENERELL_TILGANG,
+    AD_GRUPPE_MODIA_OPPFOLGING,
+];
 
 export const cache = new TilgangCache();
 
 const sjekkTilgang = async (
     accessToken: string
-): Promise<{ harTilgang: boolean; brukerensAdGrupper: AdGruppe[] }> => {
+): Promise<{ harTilgang: boolean; brukerensAdGrupper: string[] }> => {
     const brukerensAdGrupper = await hentBrukerensAdGrupper(accessToken);
     const harTilgang = brukerensAdGrupper.some((adGruppeBrukerErMedlemAv) =>
-        adGrupperMedTilgangTilKandidatsøket.includes(adGruppeBrukerErMedlemAv.toLowerCase())
+        adGrupperMedTilgangTilKandidatsøket.includes(adGruppeBrukerErMedlemAv)
     );
 
     return {
@@ -36,7 +38,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     }
 
     try {
-        const { harTilgang, brukerensAdGrupper } = await sjekkTilgang(brukerensAccessToken);
+        const { harTilgang } = await sjekkTilgang(brukerensAccessToken);
         const forklaring = `Kandidatsøket krever medlemskap i en av følgende AD-grupper: ${adGrupperMedTilgangTilKandidatsøket}.`;
 
         if (harTilgang) {

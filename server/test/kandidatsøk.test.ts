@@ -29,7 +29,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     test('En bruker med ModiaGenerellTilgang skal få tilgang til kandidatsøket', async () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            microsoftGraphApi.AdGruppe.ModiaGenerellTilgang,
+            kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
         ]);
 
         await kandidatsøk.harTilgangTilKandidatsøk(
@@ -44,37 +44,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     test('En bruker med ModiaOppfølging skal få tilgang til kandidatsøket', async () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            microsoftGraphApi.AdGruppe.ModiaOppfølging,
-        ]);
-
-        await kandidatsøk.harTilgangTilKandidatsøk(
-            mockRequest as Request,
-            mockResponse as Response,
-            nextFunction
-        );
-
-        expect(nextFunction).toBeCalled();
-    });
-
-    test('En bruker med ModiaOppfølging i uppercase skal få tilgang til kandidatsøket', async () => {
-        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
-        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            microsoftGraphApi.AdGruppe.ModiaOppfølging.toUpperCase() as microsoftGraphApi.AdGruppe,
-        ]);
-
-        await kandidatsøk.harTilgangTilKandidatsøk(
-            mockRequest as Request,
-            mockResponse as Response,
-            nextFunction
-        );
-
-        expect(nextFunction).toBeCalled();
-    });
-
-    test('En bruker med ModiaOppfølging i lowercase skal få tilgang til kandidatsøket', async () => {
-        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
-        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            microsoftGraphApi.AdGruppe.ModiaOppfølging.toUpperCase() as microsoftGraphApi.AdGruppe,
+            kandidatsøk.AD_GRUPPE_MODIA_OPPFOLGING!,
         ]);
 
         await kandidatsøk.harTilgangTilKandidatsøk(
@@ -89,7 +59,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     test('En bruker der tilgang er cachet skal få tilgang til kandidatsøket', async () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            microsoftGraphApi.AdGruppe.ModiaOppfølging,
+            kandidatsøk.AD_GRUPPE_MODIA_OPPFOLGING!,
         ]);
 
         await kandidatsøk.harTilgangTilKandidatsøk(
@@ -112,7 +82,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     });
 
     test('En bruker med andre tilganger skal ikke få tilgang til kandidatsøket', async () => {
-        const andreTilganger = ['en-annen-tilgang' as microsoftGraphApi.AdGruppe];
+        const andreTilganger = ['en-annen-tilgang'];
 
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue(andreTilganger);

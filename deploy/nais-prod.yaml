@@ -45,6 +45,11 @@ spec:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
 
+        - name: AD_GRUPPE_MODIA_GENERELL_TILGANG
+          value: ea34edea-1e80-4759-a1d2-fbe696cf1709
+        - name: AD_GRUPPE_MODIA_OPPFOLGING
+          value: b9bc6348-d25c-450d-85c2-044c0955fbe3
+
         - name: STATISTIKK_API_URL
           value: https://rekrutteringsbistand-statistikk-api.prod-fss-pub.nais.io/rekrutteringsbistand-statistikk-api
         - name: STILLINGSSOK_PROXY_URL

@@ -5,9 +5,9 @@ import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
 
-const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
+export const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
 
-const adGrupperMedTilgangTilKandidatsøket = [
+export const adGrupperMedTilgangTilKandidatsøket = [
     AD_GRUPPE_MODIA_GENERELL_TILGANG,
     AD_GRUPPE_MODIA_OPPFOLGING,
 ];

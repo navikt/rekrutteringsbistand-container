@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { AsyncNavspa } from '@navikt/navspa';
 
-import assetManifestParser from './assetManifestUtils';
+import { craAssetManifestParser, viteAssetManifestParser } from './assetManifestUtils';
 import css from './microfrontends.module.css';
 import { History } from 'history';
 
@@ -20,35 +20,35 @@ const LasterInn: FunctionComponent = () => (
 const kandidatConfig = {
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,
 };
 
 const kandidatsøkConfig = {
     appName: 'rekrutteringsbistand-kandidatsok',
     appBaseUrl: '/rekrutteringsbistand-kandidatsok',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: viteAssetManifestParser('rekrutteringsbistand-kandidatsok'),
     loader: <LasterInn />,
 };
 
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,
 };
 
 const stillingssøkConfig = {
     appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: `/rekrutteringsbistand-stillingssok`,
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,
 };
 
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser: assetManifestParser(),
+    assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,
 };
 

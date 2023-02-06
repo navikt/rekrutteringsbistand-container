@@ -11,6 +11,8 @@ module.exports = (app) => {
         );
     };
 
+    setupProxy('/kandidatsok-proxy', 'http://localhost:3005/kandidatsok-proxy');
+
     setupProxy('/rekrutteringsbistand-statistikk', 'http://localhost:3001');
     setupProxy('/rekrutteringsbistand-stilling', 'http://localhost:3002');
     setupProxy('/rekrutteringsbistand-kandidat', 'http://localhost:3003');

@@ -6,6 +6,16 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(15, 3, 2023),
+        tittel: 'Endring i opprettelse av kandidatliste',
+        innhold: (
+            <p>
+                For en ny direktemeldt stilling vil den tilhørende kandidatlista nå opprettes
+                først når man trykker på "Publiser"-knappen på stillingen.
+            </p>
+        ),
+    },
+    {
         dato: tilDato(16, 1, 2023),
         tittel: 'Sortering på flest kriterier',
         innhold: (

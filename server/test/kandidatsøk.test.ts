@@ -4,6 +4,7 @@ import * as kandidatsøk from '../src/kandidatsøk/kandidatsøk';
 import * as microsoftGraphApi from '../src/microsoftGraphApi';
 import * as middlewares from '../src/middlewares';
 import * as azureAd from '../src/azureAd';
+import { SearchQuery } from '../src/kandidatsøk/elasticSearchTyper';
 
 describe('Tilgangskontroll for kandidatsøket', () => {
     let mockRequest: Partial<Request>;
@@ -110,5 +111,98 @@ describe('Tilgangskontroll for kandidatsøket', () => {
 
         expect(nextFunction).toBeCalledTimes(0);
         expect(mockResponse.status).toBeCalledWith(403);
+    });
+});
+
+describe('ES body for søk', () => {
+    let queryMock = (bool?: object): SearchQuery => {
+        return {
+            query: {
+                bool: {
+                    must: [
+                        {
+                            bool: bool,
+                        },
+                        {
+                            terms: {
+                                kvalifiseringsgruppekode: ['BATT', 'BFORM', 'IKVAL', 'VARIG'],
+                            },
+                        },
+                    ],
+                },
+            },
+            size: 25,
+            from: 0,
+            track_total_hits: true,
+            sort: {
+                tidsstempel: {
+                    order: 'desc',
+                },
+            },
+            _source: [
+                'fodselsnummer',
+                'fornavn',
+                'etternavn',
+                'arenaKandidatnr',
+                'kvalifiseringsgruppekode',
+                'yrkeJobbonskerObj',
+                'geografiJobbonsker',
+            ],
+        };
+    };
+
+    test('Er ES body med søk på fødselsnummer og aktørId', () => {
+        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+            queryMock({
+                should: [
+                    {
+                        term: {
+                            aktorId: '21909899211',
+                        },
+                    },
+                    {
+                        term: {
+                            fodselsnummer: '21909899211',
+                        },
+                    },
+                ],
+            })
+        );
+        expect(resultat).toBeTruthy();
+    });
+
+    test('Er ES body med søk på fødselsnummer', () => {
+        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+            queryMock({
+                should: [
+                    {
+                        term: {
+                            fodselsnummer: '21909899211',
+                        },
+                    },
+                ],
+            })
+        );
+        expect(resultat).toBeTruthy();
+    });
+
+    test('Er ES body med søk på aktørId', () => {
+        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+            queryMock({
+                should: [
+                    {
+                        term: {
+                            aktorId: '21909899211',
+                        },
+                    },
+                ],
+            })
+        );
+        expect(resultat).toBeTruthy();
+    });
+
+    test('Er ES body uten søk på fødselsnummer eller aktørId', () => {
+        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(queryMock());
+        expect(resultat).toBeFalsy();
     });
 });

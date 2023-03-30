@@ -4,6 +4,7 @@ import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
 import { logger } from '../logger';
 import TilgangCache from './cache';
+import { SearchQuery } from './elasticSearchTyper';
 
 export const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
 
@@ -71,3 +72,18 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
         next();
     };
+
+export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
+    if (erESBodyForSøkPåFnrEllerAktørId(request.body)) {
+        console.log('Her skal det legges til auditlogging');
+    }
+};
+
+export const erESBodyForSøkPåFnrEllerAktørId = (query: SearchQuery): boolean => {
+    return query.query.bool
+        ? query.query.bool['must'].some((obj) => JSON.stringify(obj).indexOf('aktorId') > -1) ||
+              query.query.bool['must'].some(
+                  (obj) => JSON.stringify(obj).indexOf('fodselsnummer') > -1
+              )
+        : false;
+};

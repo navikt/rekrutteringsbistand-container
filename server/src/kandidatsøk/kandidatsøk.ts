@@ -75,6 +75,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
     if (erESBodyForSøkPåFnrEllerAktørId(request.body)) {
+        // TODO legg til auditlogging
         console.log('Her skal det legges til auditlogging');
     }
 };

@@ -39,6 +39,7 @@ spec:
       outbound:
         rules:
           - application: rekrutteringsbistand-stilling-api
+          - application: rekrutteringsbistand-stillingssok-proxy
         external:
           - host: rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io
     envFrom:
@@ -55,7 +56,7 @@ spec:
         - name: STATISTIKK_API_URL
           value: https://rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io/rekrutteringsbistand-statistikk-api
         - name: STILLINGSSOK_PROXY_URL
-          value: https://rekrutteringsbistand-stillingssok-proxy.dev.intern.nav.no
+          value: http://rekrutteringsbistand-stillingssok-proxy
         - name: STILLING_API_URL
           value: http://rekrutteringsbistand-stilling-api
         - name: KANDIDAT_API_URL

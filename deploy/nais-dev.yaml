@@ -40,8 +40,13 @@ spec:
         rules:
           - application: rekrutteringsbistand-stilling-api
           - application: rekrutteringsbistand-stillingssok-proxy
+          - application: toi-synlighetsmotor
         external:
-          - host: rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io
+          - host: https://rekrutteringsbistand-statistikk-api.dev-fss-pub.nais.io
+          - host: https://rekrutteringsbistand-kandidat-api.dev-fss-pub.nais.io
+          - host: https://rekrutteringsbistand-sms.dev-fss-pub.nais.io
+          - host: https://foresporsel-om-deling-av-cv-api.dev-fss-pub.nais.io
+          - host: https://modiacontextholder-q0.dev-fss-pub.nais.io
     envFrom:
         - secret: rekrutteringsbistand-kandidatmatch-autoriserte-brukere
     env:
@@ -66,7 +71,7 @@ spec:
         - name: FORESPORSEL_OM_DELING_AV_CV_API
           value: https://foresporsel-om-deling-av-cv-api.dev-fss-pub.nais.io
         - name: SYNLIGHETSMOTOR_API
-          value: https://toi-synlighetsmotor.dev.intern.nav.no
+          value: http://toi-synlighetsmotor
         - name: KANDIDATMATCH_API
           value: https://aimatch.dev.intern.nav.no
         - name: MODIA_CONTEXT_HOLDER_API

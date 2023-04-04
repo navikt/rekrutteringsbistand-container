@@ -57,9 +57,9 @@ spec:
         - name: STATISTIKK_API_URL
           value: https://rekrutteringsbistand-statistikk-api.prod-fss-pub.nais.io/rekrutteringsbistand-statistikk-api
         - name: STILLINGSSOK_PROXY_URL
-          value: http://rekrutteringsbistand-stillingssok-proxy
+          value: http://rekrutteringsbistand-stillingssok-proxy.toi
         - name: STILLING_API_URL
-          value: http://rekrutteringsbistand-stilling-api
+          value: http://rekrutteringsbistand-stilling-api.toi
         - name: KANDIDAT_API_URL
           value: https://rekrutteringsbistand-kandidat-api.prod-fss-pub.nais.io/rekrutteringsbistand-kandidat-api/rest
         - name: SMS_API

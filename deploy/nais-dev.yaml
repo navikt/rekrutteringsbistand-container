@@ -35,6 +35,8 @@ spec:
     openSearch:
       access: read
       instance: kandidat
+    secureLogs:
+      enabled: true
     accessPolicy:
       outbound:
         rules:

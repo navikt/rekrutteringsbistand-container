@@ -15,7 +15,3 @@ export const getMiljø = (): string => {
         return Miljø.Lokalt;
     }
 };
-
-export const erDev = (): boolean => {
-    return getMiljø() === Miljø.DevGcp
-}

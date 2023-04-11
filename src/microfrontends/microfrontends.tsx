@@ -5,7 +5,6 @@ import { AsyncNavspa } from '@navikt/navspa';
 import { craAssetManifestParser, viteAssetManifestParser } from './assetManifestUtils';
 import css from './microfrontends.module.css';
 import { History } from 'history';
-import { erDev } from '../miljø';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;

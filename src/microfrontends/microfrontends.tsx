@@ -5,6 +5,7 @@ import { AsyncNavspa } from '@navikt/navspa';
 import { craAssetManifestParser, viteAssetManifestParser } from './assetManifestUtils';
 import css from './microfrontends.module.css';
 import { History } from 'history';
+import { erDev } from '../miljø';
 
 type FellesMicrofrontendProps = {
     navKontor: string | null;
@@ -43,6 +44,9 @@ const stillingssøkConfig = {
     appBaseUrl: `/rekrutteringsbistand-stillingssok`,
     assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,
+    absolutePath: erDev()
+        ? 'https://rekrutteringsbistand.intern.dev.nav.no/rekrutteringsbistand-stillingssok'
+        : undefined,
 };
 
 const stillingConfig = {

@@ -40,9 +40,7 @@ const statistikkConfig = {
 };
 
 const stillingssøkConfig = {
-    appName: erDev()
-        ? 'https://rekrutteringsbistand.intern.dev.nav.no/rekrutteringsbistand-stillingssok'
-        : 'rekrutteringsbistand-stillingssok', // fjern ternary når også container er på intern.dev.nav.no
+    appName: 'rekrutteringsbistand-stillingssok',
     appBaseUrl: `/rekrutteringsbistand-stillingssok`,
     assetManifestParser: craAssetManifestParser,
     loader: <LasterInn />,

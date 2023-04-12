@@ -16,33 +16,40 @@ export const secureLog = winston.createLogger({
     transports: new winston.transports.File({ filename: secureLogPath(), maxsize: 5242880 }),
 });
 
-Log4js.configure({
-    appenders: {
-        auditLogger: {
-            type: 'tcp',
-            host: 'audit.nais',
-            port: 6514,
-            layout: {
-                type: 'pattern',
-                pattern: '%d %h %x{app_name}: %m',
-                tokens: {
-                    app_name: function () {
-                        return process.env.NAIS_APP_NAME;
+export class AuditLogg {
+    auditLogger: Log4js.Logger;
+
+    constructor() {
+        this.auditLogger = this.setup();
+    }
+    setup() {
+        Log4js.configure({
+            appenders: {
+                auditLogger: {
+                    type: 'tcp',
+                    host: 'audit.nais',
+                    port: 6514,
+                    layout: {
+                        type: 'pattern',
+                        pattern: '%d %h %x{app_name}: %m',
+                        tokens: {
+                            app_name: function () {
+                                return process.env.NAIS_APP_NAME;
+                            },
+                        },
                     },
+                    endMsg: '\n',
                 },
             },
-            endMsg: '\n',
-        },
-    },
-    categories: {
-        default: { appenders: ['auditLogger'], level: 'info' },
-    },
-});
+            categories: {
+                default: { appenders: ['auditLogger'], level: 'info' },
+            },
+        });
 
-const auditLogger = Log4js.getLogger('auditLogger');
+        return Log4js.getLogger('auditLogger');
+    }
 
-export class AuditLogg {
-    static loggSpesifisertKandidatsøk = (aktørIdEllerFnr: string, navIdent: string) => {
+    loggSpesifisertKandidatsøk = (aktørIdEllerFnr: string, navIdent: string) => {
         const header = `CEF:0|${process.env.NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO|`;
         const msg = `${header}flexString1=Permit\
             msg=NAV-ansatt har gjort spesifikt kandidatsøk på brukeren\
@@ -51,6 +58,6 @@ export class AuditLogg {
             end=${Date.now()}\
             suid=${navIdent}\
         `.replace(/\s+/g, ' ');
-        auditLogger.info(msg);
+        this.auditLogger.info(msg);
     };
 }

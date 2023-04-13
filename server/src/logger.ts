@@ -49,11 +49,11 @@ export class AuditLogg {
         return Log4js.getLogger('auditLogger');
     }
 
-    loggSpesifisertKandidatsøk = (aktørIdEllerFnr: string, navIdent: string) => {
+    loggSpesifisertKandidatsøk = (fnrEllerAktørId: string, navIdent: string) => {
         const header = `CEF:0|${process.env.NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO|`;
         const msg = `${header}flexString1=Permit\
             msg=NAV-ansatt har gjort spesifikt kandidatsøk på brukeren\
-            duid=${aktørIdEllerFnr}
+            duid=${fnrEllerAktørId}
             flexString1Label=Decision\
             end=${Date.now()}\
             suid=${navIdent}\

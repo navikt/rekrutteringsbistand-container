@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { logger } from '../logger';
+import { AuditLogg, logger } from '../logger';
 import TilgangCache from './cache';
 import { SearchQuery } from './elasticSearchTyper';
 
@@ -75,9 +75,29 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
     if (erESBodyForSøkPåFnrEllerAktørId(request.body)) {
-        // TODO legg til auditlogging
-        console.log('Her skal det legges til auditlogging');
+        const brukerensAccessToken = retrieveToken(request.headers);
+        const navIdent = hentNavIdent(brukerensAccessToken);
+        const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+        new AuditLogg().loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
     }
+};
+
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string => {
+    let fnrEllerAktørId = '';
+
+    query.query.bool['must'].some((obj) => {
+        if (require('util').inspect(obj, false, null).includes('bool')) {
+            obj['bool']['should'].some((obj) => {
+                if (require('util').inspect(obj, false, null).includes('fodselsnummer')) {
+                    fnrEllerAktørId = obj['term']['fodselsnummer'];
+                } else {
+                    fnrEllerAktørId = obj['term']['aktorId'];
+                }
+            });
+        }
+    });
+
+    return fnrEllerAktørId;
 };
 
 export const erESBodyForSøkPåFnrEllerAktørId = (query: SearchQuery): boolean => {

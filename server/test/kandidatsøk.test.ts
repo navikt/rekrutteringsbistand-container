@@ -205,4 +205,39 @@ describe('ES body for søk', () => {
         const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(queryMock());
         expect(resultat).toBeFalsy();
     });
+
+    test('Henter fnr fra ES body når det finnes', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
+            queryMock({
+                should: [
+                    {
+                        term: {
+                            aktorId: '21909899211',
+                        },
+                    },
+                    {
+                        term: {
+                            fodselsnummer: '10108000398',
+                        },
+                    },
+                ],
+            })
+        );
+        expect(resultat).toBe('10108000398');
+    });
+
+    test('Henter aktørid fra ES body når fnr ikke finnes', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
+            queryMock({
+                should: [
+                    {
+                        term: {
+                            aktorId: '21909899211',
+                        },
+                    },
+                ],
+            })
+        );
+        expect(resultat).toBe('21909899211');
+    });
 });

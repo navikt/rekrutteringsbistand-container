@@ -20,6 +20,7 @@ export class AuditLogg {
     auditLogger: Log4js.Logger;
 
     constructor() {
+        logger.info('Er inni konstruktøren til AuditLogg');
         this.auditLogger = this.setup();
     }
     setup() {

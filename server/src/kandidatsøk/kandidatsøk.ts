@@ -85,6 +85,7 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
         auditLogg.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
     }
+    new AuditLogg().loggSpesifisertKandidatsøk('1010', '22');
 
     logger.info('skal gå videre fra loggSøkPåFnrEllerAktørId');
 

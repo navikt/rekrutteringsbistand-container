@@ -8,6 +8,7 @@ import {
 import { app } from './server';
 import { logger } from './logger';
 import { RequestHandler } from 'express';
+import winston from 'winston';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
@@ -16,7 +17,6 @@ export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
-        logProvider: () => logger,
     });
 
 export const proxyMedOboToken = (

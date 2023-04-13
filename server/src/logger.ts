@@ -2,19 +2,76 @@ import winston from 'winston';
 import fs from 'fs';
 import Log4js from 'log4js';
 
+//const winston = require('winston');
+
+require('winston-papertrail').Papertrail;
+
 const secureLogPath = () =>
     fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
 
-export const logger = winston.createLogger({
-    format: winston.format.json(),
-    transports: new winston.transports.Console(),
+const mittFormat = winston.format.printf(({ level, message, timestamp }) => {
+    return `${timestamp} ${level}: ${message}`;
 });
 
-export const secureLog = winston.createLogger({
+const loggFormat = winston.format.combine(
+    winston.format.timestamp({
+        format: new Date().toISOString(),
+    }),
+    winston.format.json()
+);
+
+const transports = {
+    console: new winston.transports.Console({
+        format: winston.format.json(),
+    }),
+    secureLog: new winston.transports.File({
+        filename: secureLogPath(),
+        maxsize: 5242880,
+        format: winston.format.json(),
+    }),
+    /*auditLog: new winston.transports.Papertrail({
+        level: 'info',
+        host: 'audit.nais',
+        port: 6514,
+        hostname: process.env.NAIS_APP_NAME,
+        logFormat: (message: string) => {
+            return datoForLogging + ' ' +
+        },
+        timestamp: () => {
+
+        },
+        layout: {
+            type: 'pattern',
+            pattern: '%d %h %x{app_name}: %m',
+            tokens: {
+                app_name: function() {
+                    return process.env.NAIS_APP_NAME;
+                },
+            },
+        },
+    }),*/
+};
+
+winston.loggers.add('logger', {
+    levels: winston.config.syslog.levels,
+    format: winston.format.json(),
+    transports: [new winston.transports.Console()],
+});
+
+winston.loggers.add('secureLog', {
     level: 'info',
     format: winston.format.json(),
-    transports: new winston.transports.File({ filename: secureLogPath(), maxsize: 5242880 }),
+    transports: [
+        new winston.transports.File({
+            filename: secureLogPath(),
+            maxsize: 5242880,
+            format: winston.format.json(),
+        }),
+    ],
 });
+
+export const logger = winston.loggers.get('logger');
+export const secureLog = winston.loggers.get('secureLog');
 
 export class AuditLogg {
     auditLogger: Log4js.Logger;
@@ -23,6 +80,7 @@ export class AuditLogg {
         logger.info('Er inni konstruktøren til AuditLogg');
         this.auditLogger = this.setup();
     }
+
     setup() {
         if (process.env.NAIS_APP_NAME) {
             Log4js.configure({

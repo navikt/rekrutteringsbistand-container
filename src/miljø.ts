@@ -7,15 +7,11 @@ export enum Miljø {
 export const getMiljø = (): string => {
     const { hostname } = window.location;
 
-    if (hostname.includes('dev.intern.nav.no')) {
+    if (hostname.includes('intern.dev.nav.no')) {
         return Miljø.DevGcp;
     } else if (hostname.includes('intern.nav.no')) {
         return Miljø.ProdGcp;
     } else {
         return Miljø.Lokalt;
     }
-};
-
-export const erIkkeProd = (): boolean => {
-    return getMiljø() !== Miljø.ProdGcp;
 };

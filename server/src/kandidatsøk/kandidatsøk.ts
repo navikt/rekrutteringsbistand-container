@@ -76,6 +76,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
+    logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (identifikator) {
@@ -84,6 +85,8 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
         auditLogg.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
     }
+
+    logger.info('skal gå videre fra loggSøkPåFnrEllerAktørId');
 
     next();
 };

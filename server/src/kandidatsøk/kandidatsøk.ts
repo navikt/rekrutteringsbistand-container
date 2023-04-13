@@ -15,7 +15,7 @@ export const adGrupperMedTilgangTilKandidatsøket = [
 
 export const cache = new TilgangCache();
 
-const auditLog = new AuditLogg();
+const auditLogg = new AuditLogg();
 
 const sjekkTilgang = async (
     accessToken: string
@@ -82,7 +82,7 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const brukerensAccessToken = retrieveToken(request.headers);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-        auditLog.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
+        auditLogg.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
     }
 
     next();

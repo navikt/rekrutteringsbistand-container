@@ -23,28 +23,30 @@ export class AuditLogg {
         this.auditLogger = this.setup();
     }
     setup() {
-        Log4js.configure({
-            appenders: {
-                auditLogger: {
-                    type: 'tcp',
-                    host: 'audit.nais',
-                    port: 6514,
-                    layout: {
-                        type: 'pattern',
-                        pattern: '%d %h %x{app_name}: %m',
-                        tokens: {
-                            app_name: function () {
-                                return process.env.NAIS_APP_NAME;
+        if (process.env.NAIS_APP_NAME) {
+            Log4js.configure({
+                appenders: {
+                    auditLogger: {
+                        type: 'tcp',
+                        host: 'audit.nais',
+                        port: 6514,
+                        layout: {
+                            type: 'pattern',
+                            pattern: '%d %h %x{app_name}: %m',
+                            tokens: {
+                                app_name: function () {
+                                    return process.env.NAIS_APP_NAME;
+                                },
                             },
                         },
+                        endMsg: '\n',
                     },
-                    endMsg: '\n',
                 },
-            },
-            categories: {
-                default: { appenders: ['auditLogger'], level: 'info' },
-            },
-        });
+                categories: {
+                    default: { appenders: ['auditLogger'], level: 'info' },
+                },
+            });
+        }
 
         return Log4js.getLogger('auditLogger');
     }
@@ -62,3 +64,5 @@ export class AuditLogg {
         secureLog.info(msg);
     };
 }
+
+export const auditLogg = new AuditLogg();

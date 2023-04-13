@@ -69,7 +69,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 export const leggTilAuthorizationForKandidatsøkEs =
     (brukernavn: string, passord: string): RequestHandler =>
     (request, _, next) => {
-        logger.info('legger til auth for kandidatsøkEs');
         const encodedAuth = Buffer.from(`${brukernavn}:${passord}`).toString('base64');
         request.headers.authorization = `Basic ${encodedAuth}`;
 

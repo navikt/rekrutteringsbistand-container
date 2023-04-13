@@ -53,6 +53,7 @@ export class AuditLogg {
     }
 
     loggSpesifisertKandidatsøk = (fnrEllerAktørId: string, navIdent: string) => {
+        logger.info('er inni loggSpesifisertKanddiatsøk');
         const header = `CEF:0|${process.env.NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO|`;
         const msg = `${header}flexString1=Permit\
             msg=NAV-ansatt har gjort spesifikt kandidatsøk på brukeren\

@@ -59,5 +59,6 @@ export class AuditLogg {
             suid=${navIdent}\
         `.replace(/\s+/g, ' ');
         this.auditLogger.info(msg);
+        secureLog.info(msg);
     };
 }

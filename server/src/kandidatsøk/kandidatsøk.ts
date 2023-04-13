@@ -15,6 +15,8 @@ export const adGrupperMedTilgangTilKandidatsøket = [
 
 export const cache = new TilgangCache();
 
+const auditLog = new AuditLogg();
+
 const sjekkTilgang = async (
     accessToken: string
 ): Promise<{ harTilgang: boolean; brukerensAdGrupper: string[] }> => {
@@ -74,37 +76,28 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
-    if (erESBodyForSøkPåFnrEllerAktørId(request.body)) {
+    const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
+
+    if (identifikator) {
         const brukerensAccessToken = retrieveToken(request.headers);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-        new AuditLogg().loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
+        auditLog.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
     }
+
+    next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string => {
-    let fnrEllerAktørId = '';
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
+    let fnrEllerAktørId = null;
 
-    query.query.bool['must'].some((obj) => {
-        if (require('util').inspect(obj, false, null).includes('bool')) {
-            obj['bool']['should'].some((obj) => {
-                if (require('util').inspect(obj, false, null).includes('fodselsnummer')) {
-                    fnrEllerAktørId = obj['term']['fodselsnummer'];
-                } else {
-                    fnrEllerAktørId = obj['term']['aktorId'];
-                }
-            });
-        }
-    });
+    query.query.bool?.must?.forEach((must) =>
+        must.bool?.should?.forEach((should) => {
+            if (should.term.fodselsnummer || should.term.aktorId) {
+                fnrEllerAktørId = should.term.fodselsnummer || should.term.aktorId;
+            }
+        })
+    );
 
     return fnrEllerAktørId;
-};
-
-export const erESBodyForSøkPåFnrEllerAktørId = (query: SearchQuery): boolean => {
-    return query.query.bool
-        ? query.query.bool['must'].some((obj) => JSON.stringify(obj).indexOf('aktorId') > -1) ||
-              query.query.bool['must'].some(
-                  (obj) => JSON.stringify(obj).indexOf('fodselsnummer') > -1
-              )
-        : false;
 };

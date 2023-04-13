@@ -123,36 +123,14 @@ describe('ES body for søk', () => {
                         {
                             bool: bool,
                         },
-                        {
-                            terms: {
-                                kvalifiseringsgruppekode: ['BATT', 'BFORM', 'IKVAL', 'VARIG'],
-                            },
-                        },
                     ],
                 },
             },
-            size: 25,
-            from: 0,
-            track_total_hits: true,
-            sort: {
-                tidsstempel: {
-                    order: 'desc',
-                },
-            },
-            _source: [
-                'fodselsnummer',
-                'fornavn',
-                'etternavn',
-                'arenaKandidatnr',
-                'kvalifiseringsgruppekode',
-                'yrkeJobbonskerObj',
-                'geografiJobbonsker',
-            ],
         };
     };
 
     test('Er ES body med søk på fødselsnummer og aktørId', () => {
-        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -172,7 +150,7 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body med søk på fødselsnummer', () => {
-        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -187,7 +165,7 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body med søk på aktørId', () => {
-        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -202,7 +180,7 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body uten søk på fødselsnummer eller aktørId', () => {
-        const resultat = kandidatsøk.erESBodyForSøkPåFnrEllerAktørId(queryMock());
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(queryMock());
         expect(resultat).toBeFalsy();
     });
 

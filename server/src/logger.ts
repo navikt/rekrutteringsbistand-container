@@ -45,7 +45,8 @@ winston.loggers.add('auditLog', {
         new winston.transports.Syslog({
             host: 'audit.nais',
             port: 6514,
-            app_name: process.env.NAIS_APP_NAME,
+            appName: process.env.NAIS_APP_NAME,
+            protocol: 'tcp',
             maxsize: 5242880,
         }),
     ],

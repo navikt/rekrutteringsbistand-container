@@ -5,7 +5,7 @@ import * as microsoftGraphApi from '../src/microsoftGraphApi';
 import * as middlewares from '../src/middlewares';
 import * as azureAd from '../src/azureAd';
 import { SearchQuery } from '../src/kandidatsøk/elasticSearchTyper';
-import { logger } from '../src/logger';
+import { logger, loggSpesifisertKandidatsøkTilAuditLog } from '../src/logger';
 
 describe('Tilgangskontroll for kandidatsøket', () => {
     let mockRequest: Partial<Request>;
@@ -202,6 +202,7 @@ describe('ES body for søk', () => {
                 ],
             })
         );
+        loggSpesifisertKandidatsøkTilAuditLog('1010', '22');
         logger.info('logger noe her');
         expect(resultat).toBe('10108000398');
     });

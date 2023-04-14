@@ -60,7 +60,7 @@ export const auditLog = winston.loggers.get('auditLog');
 export const loggSpesifisertKandidatsøkTilAuditLog = (
     fnrEllerAktørId: string,
     navIdent: string
-) => {
+): string => {
     logger.info('er inni loggSpesifisertKanddiatsøk');
     const header = `CEF:0|${process.env.NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO|`;
     const msg = `${header}flexString1=Permit\
@@ -70,8 +70,7 @@ export const loggSpesifisertKandidatsøkTilAuditLog = (
             end=${Date.now()}\
             suid=${navIdent}\
         `.replace(/\s+/g, ' ');
-    auditLog.info(msg);
-    secureLog.info(msg);
+    return msg;
 };
 
 /*export class AuditLogg {

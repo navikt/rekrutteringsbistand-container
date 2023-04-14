@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { AuditLogg, logger } from '../logger';
+import { logger, loggSpesifisertKandidatsøkTilAuditLog } from '../logger';
 import TilgangCache from './cache';
 import { SearchQuery } from './elasticSearchTyper';
 
@@ -14,8 +14,6 @@ export const adGrupperMedTilgangTilKandidatsøket = [
 ];
 
 export const cache = new TilgangCache();
-
-const auditLogg = new AuditLogg();
 
 const sjekkTilgang = async (
     accessToken: string
@@ -83,9 +81,8 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const brukerensAccessToken = retrieveToken(request.headers);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-        auditLogg.loggSpesifisertKandidatsøk(fnrEllerAktørId, navIdent);
+        loggSpesifisertKandidatsøkTilAuditLog(fnrEllerAktørId, navIdent);
     }
-    new AuditLogg().loggSpesifisertKandidatsøk('1010', '22');
 
     logger.info('skal gå videre fra loggSøkPåFnrEllerAktørId');
 

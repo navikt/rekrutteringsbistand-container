@@ -9,7 +9,7 @@ import {
     validerAtBrukerErAutorisertForKandidatmatch,
 } from './featureToggle';
 import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
-import { logger, secureLog } from './logger';
+import { logger } from './logger';
 
 export const app = express();
 
@@ -96,7 +96,6 @@ const startServer = () => {
     });
 
     app.listen(port, () => {
-        secureLog.info('Securelog: Server kjører på port', port);
         logger.info('Server kjører på port', port);
     });
 };

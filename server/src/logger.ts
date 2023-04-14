@@ -43,7 +43,6 @@ winston.loggers.add('auditLog', {
     format: loggFormat,
     transports: [
         new winston.transports.Syslog({
-            level: 'info',
             host: 'audit.nais',
             port: 6514,
             app_name: process.env.NAIS_APP_NAME,

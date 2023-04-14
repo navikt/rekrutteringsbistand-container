@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { auditLog, logger, spesifisertKandidatsøkCEFLoggformat, secureLog } from '../logger';
+import { logger, spesifisertKandidatsøkCEFLoggformat, secureLog } from '../logger';
 import TilgangCache from './cache';
 import { SearchQuery } from './elasticSearchTyper';
 
@@ -73,7 +73,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, next) => {
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
 

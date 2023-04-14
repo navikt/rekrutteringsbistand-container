@@ -73,8 +73,10 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
+    secureLog.log(`request: ${request}`);
+    secureLog.log(`response: ${response}`);
     const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (identifikator) {

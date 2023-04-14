@@ -47,7 +47,6 @@ winston.loggers.add('auditLog', {
             port: 6514,
             appName: process.env.NAIS_APP_NAME,
             protocol: 'tcp',
-            maxsize: 5242880,
         }),
     ],
 });

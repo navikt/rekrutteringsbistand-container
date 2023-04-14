@@ -202,7 +202,6 @@ describe('ES body for søk', () => {
                 ],
             })
         );
-        spesifisertKandidatsøkCEFLoggformat('1010', '22');
         logger.info('logger noe her');
         expect(resultat).toBe('10108000398');
     });

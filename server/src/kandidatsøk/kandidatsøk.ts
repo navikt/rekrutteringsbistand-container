@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { auditLog, logger, loggSpesifisertKandidatsøkTilAuditLog, secureLog } from '../logger';
+import { auditLog, logger, spesifisertKandidatsøkCEFLoggformat, secureLog } from '../logger';
 import TilgangCache from './cache';
 import { SearchQuery } from './elasticSearchTyper';
 
@@ -81,7 +81,7 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const brukerensAccessToken = retrieveToken(request.headers);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-        const msg = loggSpesifisertKandidatsøkTilAuditLog(fnrEllerAktørId, navIdent);
+        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         auditLog.info(msg);
         secureLog.info(msg);
     }

@@ -57,7 +57,7 @@ export const secureLog = winston.loggers.get('secureLog');
 
 export const auditLog = winston.loggers.get('auditLog');
 
-export const loggSpesifisertKandidatsøkTilAuditLog = (
+export const spesifisertKandidatsøkCEFLoggformat = (
     fnrEllerAktørId: string,
     navIdent: string
 ): string => {

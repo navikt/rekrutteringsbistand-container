@@ -9,9 +9,9 @@ const localhost = require('os').hostname();
 
 const secureLogPath = () =>
     fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
-
-const mittFormat = winston.format.printf(({ level, message, timestamp }) => {
-    return `${timestamp} ${level}: ${message}`;
+//%d %h %x{app_name}: %m
+const mittFormat = winston.format.printf(({ message, timestamp }) => {
+    return `${timestamp} ${process.env.NAIS_APP_NAME}: ${message}`;
 });
 
 const loggFormat = winston.format.combine(
@@ -40,7 +40,7 @@ winston.loggers.add('secureLog', {
 
 winston.loggers.add('auditLog', {
     levels: winston.config.syslog.levels,
-    //format: winston.format.json(),
+    format: loggFormat,
     transports: [
         new winston.transports.Syslog({
             level: 'info',

@@ -38,23 +38,23 @@ winston.loggers.add('secureLog', {
     ],
 });
 
-winston.loggers.add('auditLog', {
+/*winston.loggers.add('auditLog', {
     levels: winston.config.syslog.levels,
     format: loggFormat,
     transports: [
         new winston.transports.Syslog({
             host: 'audit.nais',
             port: 6514,
-            appName: process.env.NAIS_APP_NAME,
+            app_name: process.env.NAIS_APP_NAME,
             protocol: 'tcp',
         }),
     ],
-});
+});*/
 
 export const logger = winston.loggers.get('logger');
 export const secureLog = winston.loggers.get('secureLog');
 
-export const auditLog = winston.loggers.get('auditLog');
+//export const auditLog = winston.loggers.get('auditLog');
 
 export const spesifisertKandidatsøkCEFLoggformat = (
     fnrEllerAktørId: string,

@@ -82,7 +82,7 @@ export const loggSøkPåFnrEllerAktørId = (): RequestHandler => (request, _, ne
         const navIdent = hentNavIdent(brukerensAccessToken);
         const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-        auditLog.info(msg);
+        //auditLog.info(msg);
         secureLog.info(msg);
     }
 

@@ -94,6 +94,8 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
 export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
+    secureLog.info(query);
+
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {
             if (should.term.fodselsnummer || should.term.aktorId) {

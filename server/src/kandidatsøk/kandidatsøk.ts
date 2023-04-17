@@ -35,7 +35,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
-        loggSøkPåFnrEllerAktørIdNy(request.body, navIdent);
 
         return next();
     }
@@ -46,7 +45,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
-            loggSøkPåFnrEllerAktørIdNy(request.body, navIdent);
             cache.lagreTilgang(navIdent);
             next();
         } else {

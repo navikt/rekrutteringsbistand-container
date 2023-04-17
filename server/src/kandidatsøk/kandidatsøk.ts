@@ -83,7 +83,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
         secureLog.info(msg);
-        next();
+        return next();
     }
 
     next();

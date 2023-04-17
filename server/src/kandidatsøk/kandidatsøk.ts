@@ -85,7 +85,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         secureLog.info(msg);
     }
 
-    next();
+    return next();
 };
 
 export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {

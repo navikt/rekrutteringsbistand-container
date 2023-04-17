@@ -74,8 +74,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
+    const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -88,12 +88,11 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, n
     next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {
-            secureLog.info(`should: ${JSON.stringify(should)}`);
             if (should.term.fodselsnummer || should.term.aktorId) {
                 fnrEllerAktørId = should.term.fodselsnummer || should.term.aktorId;
             }

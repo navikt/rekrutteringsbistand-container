@@ -20,7 +20,7 @@ const LasterInn: FunctionComponent = () => (
 const kandidatConfig = {
     appName: 'rekrutteringsbistand-kandidat',
     appBaseUrl: '/rekrutteringsbistand-kandidat',
-    assetManifestParser: craAssetManifestParser,
+    assetManifestParser: viteAssetManifestParser('rekrutteringsbistand-kandidat'),
     loader: <LasterInn />,
 };
 

@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { RequestHandler, response } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
@@ -46,17 +46,11 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
-            secureLog.info(
-                `request-body inni try-blokk inni if i harTilgang: ${request.body.query}`
-            );
 
             cache.lagreTilgang(navIdent);
             next();
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
-            secureLog.info(
-                `request-body inni try-blokk inni else i harTilgang og ikke har tilgang: ${request.body.query}`
-            );
 
             response
                 .status(403)
@@ -68,9 +62,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     } catch (e) {
         const feilmelding = 'Klarte ikke å sjekke brukerens tilgang til kandidatsøket:';
         logger.error(feilmelding + ': ' + e);
-        secureLog.info(
-            `request-body inni try-blokk inni catch i harTilgang: ${request.body.query}`
-        );
+
         response.status(500).send(feilmelding);
     }
 };
@@ -84,22 +76,29 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
+    try {
+        const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
 
-    if (fnrEllerAktørId) {
-        const brukerensAccessToken = retrieveToken(request.headers);
-        const navIdent = hentNavIdent(brukerensAccessToken);
-        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-        //auditLog.info(msg);
-        secureLog.info(msg);
-        return next();
+        if (fnrEllerAktørId) {
+            const brukerensAccessToken = retrieveToken(request.headers);
+            const navIdent = hentNavIdent(brukerensAccessToken);
+            const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
+            //auditLog.info(msg);
+            secureLog.info(msg);
+            return next();
+        }
+        next();
+    } catch (e) {
+        const feilmelding = 'Klarte ikke å logge søk på fnr eller aktørId';
+        logger.error(feilmelding + ': ' + e);
+        response.status(500).send(feilmelding);
     }
 
     next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>

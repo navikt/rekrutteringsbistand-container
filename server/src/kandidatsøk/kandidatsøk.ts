@@ -35,7 +35,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
-        secureLog.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
         return next();
     }
 
@@ -45,7 +44,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
-            secureLog.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
             cache.lagreTilgang(navIdent);
             next();
         } else {
@@ -74,16 +72,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-const loggSøkPåFnrEllerAktørIdNy = (query: SearchQuery, navIdent: string) => {
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(query);
-    if (fnrEllerAktørId) {
-        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-        secureLog.info(msg);
-    }
-};
-
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(JSON.parse(request.body));
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);

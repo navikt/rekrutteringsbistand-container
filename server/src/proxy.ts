@@ -42,8 +42,8 @@ export const proxyTilKandidatsøkEs = (
         path,
         respondUnauthorizedIfNotLoggedIn,
         harTilgangTilKandidatsøk,
-        leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         loggSøkPåFnrEllerAktørId,
+        leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')
     );
 };

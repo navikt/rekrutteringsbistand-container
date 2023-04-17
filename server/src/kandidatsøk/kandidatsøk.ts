@@ -109,5 +109,5 @@ export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise
         })
     );
 
-    return fnrEllerAktørId;
+    return Promise.resolve(fnrEllerAktørId);
 };

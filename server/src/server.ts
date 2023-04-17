@@ -11,7 +11,7 @@ import {
 import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
 import { logger } from './logger';
 
-export const app = express();
+export const app = express().use(express.json());
 
 const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');
@@ -50,7 +50,7 @@ const {
 
 const startServer = () => {
     app.use(compression());
-    app.use(express.json());
+    //app.use(express.json());
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];

@@ -6,9 +6,7 @@ import {
     loggSøkPåFnrEllerAktørId,
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
-import { logger } from './logger';
 import { RequestHandler } from 'express';
-import winston from 'winston';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>

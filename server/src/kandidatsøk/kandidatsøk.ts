@@ -76,14 +76,18 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
-    secureLog.info(`request.res.json: ${request.res.json}`);
-    secureLog.info(`requst: ${simpleStringify(request)}`);
-    secureLog.info(`request query: ${JSON.stringify(request.query)}`);
-    secureLog.info(`request body: ${simpleStringify(request.body)}`);
-    secureLog.info(`request body ikke stringify: ${request.body}`);
-    secureLog.info(`response: ${simpleStringify(response)}`);
-    secureLog.info(`response json: ${simpleStringify(response.json)}`);
-    secureLog.info(`response ikke stringify: ${response.json}`);
+
+    let data = '';
+    request.on('data', (chunk) => {
+        data += chunk;
+        secureLog.info(`data inni loggSøkPå...: ${data}`);
+    });
+    request.on('end', () => {
+        request.body = data;
+        let json = JSON.parse(request.body);
+        secureLog.info(`json inni loggSøkPå...: ${json}`);
+    });
+
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {

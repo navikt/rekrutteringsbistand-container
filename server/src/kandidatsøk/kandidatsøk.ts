@@ -98,7 +98,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, respo
     next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
+export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>

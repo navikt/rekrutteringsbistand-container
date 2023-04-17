@@ -76,13 +76,6 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
-    const key = Object.keys(request.body)[0];
-    //const p = JSON.parse(key);
-    secureLog.info(
-        `request-body-key: ${key} \n request-body-value: ${request.body[key]} \n request-body: ${request.body}`
-    );
-    secureLog.info(`response.json(request.body): ${response.json(request.body)}`);
-
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
@@ -98,36 +91,12 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, n
     next();
 };
 
-export const simpleStringify = (object) => {
-    // stringify an object, avoiding circular structures
-    // https://stackoverflow.com/a/31557814
-    var simpleObject = {};
-    for (var prop in object) {
-        if (!object.hasOwnProperty(prop)) {
-            continue;
-        }
-        if (typeof object[prop] == 'object') {
-            continue;
-        }
-        if (typeof object[prop] == 'function') {
-            continue;
-        }
-        simpleObject[prop] = object[prop];
-    }
-    return JSON.stringify(simpleObject); // returns cleaned up JSON
-};
-
 export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
-    secureLog.info(
-        `query inni hentFnrEllerAktørIdFraESBody som ikke er strinigfyed: ${query.query}`
-    );
-
-    secureLog.info(`query inni hentFnrEllerAktørIdFraEsBody: ${JSON.stringify(query.query)}`);
-
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {
+            secureLog.info(`should: ${should}`);
             if (should.term.fodselsnummer || should.term.aktorId) {
                 fnrEllerAktørId = should.term.fodselsnummer || should.term.aktorId;
             }

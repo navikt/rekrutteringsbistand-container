@@ -73,8 +73,9 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
-    secureLog.info(`request-body: ${request.body}`);
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+    const req = JSON.parse(JSON.stringify(request));
+    secureLog.info(`request-body: ${req.body}`);
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(req.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);

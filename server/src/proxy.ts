@@ -6,7 +6,6 @@ import {
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
 import { RequestHandler } from 'express';
-import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>

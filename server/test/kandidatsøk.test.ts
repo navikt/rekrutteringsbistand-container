@@ -21,6 +21,7 @@ describe('Tilgangskontroll for kandidatsøket', () => {
             headers: {
                 authorization: '',
             },
+            body: {},
         };
 
         nextFunction = jest.fn();

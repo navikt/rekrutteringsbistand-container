@@ -51,8 +51,8 @@ export const viteAssetManifestParser =
     (manifestObject: ViteAssetManifest): Asset[] => {
         const { file, css } = manifestObject['index.html'];
 
-        const script = { type: 'module', path: `${appBaseUrl}/${file}` };
-        const styles = css.map((path) => ({ path: `${appBaseUrl}/${path}` }));
+        const script = { type: 'module', path: `/${appBaseUrl}/${file}` };
+        const styles = css.map((path) => ({ path: `/${appBaseUrl}/${path}` }));
 
         console.log(
             `Parset app ${appBaseUrl}, fant følgende ressurser: ${JSON.stringify([

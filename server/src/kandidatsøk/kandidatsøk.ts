@@ -77,7 +77,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-    secureLog.info(`request-headers: ${request.headers}`);
+    secureLog.info(`request-headers: ${JSON.stringify(request.headers)}`);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -104,6 +104,7 @@ export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null
             }
         })
     );
+    secureLog.info(`fnrEllerAktørId: ${fnrEllerAktørId}`);
 
     return fnrEllerAktørId;
 };

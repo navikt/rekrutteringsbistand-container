@@ -54,7 +54,12 @@ export const viteAssetManifestParser =
         const script = { type: 'module', path: `${appBaseUrl}/${file}` };
         const styles = css.map((path) => ({ path: `${appBaseUrl}/${path}` }));
 
-        console.log(`Parset app ${appBaseUrl}, fant følgende ressurser: ${[script, ...styles]}`);
+        console.log(
+            `Parset app ${appBaseUrl}, fant følgende ressurser: ${JSON.stringify([
+                script,
+                ...styles,
+            ])}`
+        );
 
         return [script, ...styles];
     };

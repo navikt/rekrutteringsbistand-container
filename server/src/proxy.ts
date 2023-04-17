@@ -6,6 +6,7 @@ import {
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
 import { RequestHandler } from 'express';
+import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
@@ -14,6 +15,7 @@ export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
+        logProvider: () => logger,
     });
 
 export const proxyMedOboToken = (

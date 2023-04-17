@@ -117,6 +117,8 @@ export const simpleStringify = (object) => {
 export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
+    secureLog.info(`query inni hentFnrEllerAktørIdFraESBody som ikke er strinigfyed: ${query}`);
+
     secureLog.info(`query inni hentFnrEllerAktørIdFraEsBody: ${simpleStringify(query)}`);
 
     query.query.bool?.must?.forEach((must) =>

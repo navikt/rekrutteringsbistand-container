@@ -77,9 +77,11 @@ export const leggTilAuthorizationForKandidatsøkEs =
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+    secureLog.info(`request-headers: ${request.headers}`);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
+        secureLog.info(`brukerensAccessToken: ${brukerensAccessToken}`);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
@@ -96,7 +98,7 @@ export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null
 
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {
-            secureLog.info(`should: ${should}`);
+            secureLog.info(`should: ${JSON.stringify(should)}`);
             if (should.term.fodselsnummer || should.term.aktorId) {
                 fnrEllerAktørId = should.term.fodselsnummer || should.term.aktorId;
             }

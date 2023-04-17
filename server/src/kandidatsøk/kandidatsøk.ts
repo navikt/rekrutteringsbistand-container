@@ -74,7 +74,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {

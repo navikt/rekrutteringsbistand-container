@@ -124,7 +124,7 @@ export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null
         `query inni hentFnrEllerAktørIdFraESBody som ikke er strinigfyed: ${query.query}`
     );
 
-    secureLog.info(`query inni hentFnrEllerAktørIdFraEsBody: ${simpleStringify(query.query)}`);
+    secureLog.info(`query inni hentFnrEllerAktørIdFraEsBody: ${JSON.stringify(query.query)}`);
 
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {

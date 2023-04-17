@@ -50,6 +50,7 @@ const {
 
 const startServer = () => {
     app.use(compression());
+    app.use(express.json());
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
     const pathsForServingApp = ['/', '/*'];

@@ -80,12 +80,11 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, respo
     secureLog.info(`request body: ${simpleStringify(request.body)}`);
     secureLog.info(`response: ${simpleStringify(response)}`);
     secureLog.info(`response json: ${simpleStringify(response.json)}`);
-    const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
+    const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
 
-    if (identifikator) {
+    if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
         const navIdent = hentNavIdent(brukerensAccessToken);
-        const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
         secureLog.info(msg);
@@ -115,10 +114,10 @@ export const simpleStringify = (object) => {
     return JSON.stringify(simpleObject); // returns cleaned up JSON
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
-    secureLog.info(query);
+    secureLog.info(`query inni hentFnrEllerAktørIdFraEsBody: ${query}`);
 
     query.query.bool?.must?.forEach((must) =>
         must.bool?.should?.forEach((should) => {

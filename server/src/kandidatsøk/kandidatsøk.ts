@@ -75,27 +75,21 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
-    try {
-        const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
-        if (fnrEllerAktørId) {
-            const brukerensAccessToken = retrieveToken(request.headers);
-            const navIdent = hentNavIdent(brukerensAccessToken);
-            const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-            //auditLog.info(msg);
-            secureLog.info(msg);
-            return next();
-        }
-        next();
-    } catch (e) {
-        const feilmelding = 'Klarte ikke å logge søk på fnr eller aktørId';
-        logger.error(feilmelding + ': ' + e);
-        response.status(500).send(feilmelding);
+    if (fnrEllerAktørId) {
+        const brukerensAccessToken = retrieveToken(request.headers);
+        const navIdent = hentNavIdent(brukerensAccessToken);
+        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
+        //auditLog.info(msg);
+        secureLog.info(msg);
+        return next();
     }
+    next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise<string | null> => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>
@@ -106,5 +100,5 @@ export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise
         })
     );
 
-    return Promise.resolve(fnrEllerAktørId);
+    return fnrEllerAktørId;
 };

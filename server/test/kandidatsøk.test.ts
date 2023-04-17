@@ -147,13 +147,13 @@ describe('Logging av søk på fnr eller aktørid', () => {
         kandidatsøk.cache.clear();
     });
 
-    test('Skal gå videre til neste funskjon når request.body.query ikke inneholder fnr eller aktørId', async () => {
+    test('Skal gå videre til neste funskjon når request.body.query ikke inneholder fnr eller aktørId', () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
             kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
         ]);
 
-        await kandidatsøk.loggSøkPåFnrEllerAktørId(
+        kandidatsøk.loggSøkPåFnrEllerAktørId(
             mockRequest as Request,
             mockResponse as Response,
             nextFunction
@@ -162,7 +162,7 @@ describe('Logging av søk på fnr eller aktørid', () => {
         expect(nextFunction).toBeCalled();
     });
 
-    test('Skal gå videre til neste funskjon når request.body.query inneholder fnr og aktørId', async () => {
+    test('Skal gå videre til neste funskjon når request.body.query inneholder fnr og aktørId', () => {
         jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
         jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
             kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
@@ -194,7 +194,7 @@ describe('Logging av søk på fnr eller aktørid', () => {
             },
         };
 
-        await kandidatsøk.loggSøkPåFnrEllerAktørId(
+        kandidatsøk.loggSøkPåFnrEllerAktørId(
             nyMockRequest as Request,
             mockResponse as Response,
             nextFunction
@@ -219,8 +219,8 @@ describe('ES body for søk', () => {
         };
     };
 
-    test('Er ES body med søk på fødselsnummer og aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+    test('Er ES body med søk på fødselsnummer og aktørId', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -239,8 +239,8 @@ describe('ES body for søk', () => {
         expect(resultat).toBeTruthy();
     });
 
-    test('Er ES body med søk på fødselsnummer', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+    test('Er ES body med søk på fødselsnummer', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -254,8 +254,8 @@ describe('ES body for søk', () => {
         expect(resultat).toBeTruthy();
     });
 
-    test('Er ES body med søk på aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+    test('Er ES body med søk på aktørId', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -269,13 +269,13 @@ describe('ES body for søk', () => {
         expect(resultat).toBeTruthy();
     });
 
-    test('Er ES body uten søk på fødselsnummer eller aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(queryMock());
+    test('Er ES body uten søk på fødselsnummer eller aktørId', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(queryMock());
         expect(resultat).toBeFalsy();
     });
 
-    test('Henter fnr fra ES body når det finnes', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+    test('Henter fnr fra ES body når det finnes', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -295,8 +295,8 @@ describe('ES body for søk', () => {
         expect(resultat).toBe('10108000398');
     });
 
-    test('Henter aktørid fra ES body når fnr ikke finnes', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+    test('Henter aktørid fra ES body når fnr ikke finnes', () => {
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {

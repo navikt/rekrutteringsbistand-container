@@ -94,8 +94,6 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, respo
         logger.error(feilmelding + ': ' + e);
         response.status(500).send(feilmelding);
     }
-
-    next();
 };
 
 export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise<string | null> => {

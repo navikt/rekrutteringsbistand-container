@@ -75,8 +75,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
-    secureLog.info(`requst: ${request}`);
-    secureLog.info(`request body: ${request.body}`);
+    secureLog.info(`requst: ${JSON.stringify(request)}`);
+    secureLog.info(`request body: ${JSON.stringify(request.body)}`);
     const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (identifikator) {

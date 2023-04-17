@@ -74,9 +74,9 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
-    const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -91,7 +91,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, respo
     next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>

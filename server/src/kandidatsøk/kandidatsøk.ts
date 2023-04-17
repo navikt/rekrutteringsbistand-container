@@ -79,9 +79,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, n
     const key = Object.keys(request.body)[0];
     //const p = JSON.parse(key);
     secureLog.info(
-        `request-body-key: ${key} \n request-body-value: ${Object.values(key)} \n request-body: ${
-            request.body
-        }`
+        `request-body-key: ${key} \n request-body-value: ${request.body[key]} \n request-body: ${request.body}`
     );
     secureLog.info(`response.json(request.body): ${response.json(request.body)}`);
 

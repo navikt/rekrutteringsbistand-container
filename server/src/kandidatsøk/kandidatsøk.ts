@@ -75,8 +75,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
-    secureLog.info(`requst: ${JSON.stringify(request)}`);
-    secureLog.info(`request body: ${JSON.stringify(request.body)}`);
+    secureLog.info(`requst: ${simpleStringify(request)}`);
+    secureLog.info(`request body: ${simpleStringify(request.body)}`);
     const identifikator = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (identifikator) {
@@ -91,6 +91,25 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
     logger.info('skal gå videre fra loggSøkPåFnrEllerAktørId');
 
     next();
+};
+
+export const simpleStringify = (object) => {
+    // stringify an object, avoiding circular structures
+    // https://stackoverflow.com/a/31557814
+    var simpleObject = {};
+    for (var prop in object) {
+        if (!object.hasOwnProperty(prop)) {
+            continue;
+        }
+        if (typeof object[prop] == 'object') {
+            continue;
+        }
+        if (typeof object[prop] == 'function') {
+            continue;
+        }
+        simpleObject[prop] = object[prop];
+    }
+    return JSON.stringify(simpleObject); // returns cleaned up JSON
 };
 
 export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {

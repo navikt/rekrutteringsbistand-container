@@ -11,7 +11,7 @@ import {
 import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
 import { logger } from './logger';
 
-export const app = express().use(express.json());
+export const app = express();
 
 const port = process.env.PORT || 8080;
 const buildPath = path.join(__dirname, '../build');

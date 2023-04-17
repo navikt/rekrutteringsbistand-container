@@ -75,20 +75,15 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
-    logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
-    secureLog.info(`request-headers: ${JSON.stringify(request.headers)}`);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
-        secureLog.info(`brukerensAccessToken: ${brukerensAccessToken}`);
         const navIdent = hentNavIdent(brukerensAccessToken);
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
         secureLog.info(msg);
     }
-
-    logger.info('skal gå videre fra loggSøkPåFnrEllerAktørId');
 
     next();
 };
@@ -104,7 +99,6 @@ export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null
             }
         })
     );
-    secureLog.info(`fnrEllerAktørId: ${fnrEllerAktørId}`);
 
     return fnrEllerAktørId;
 };

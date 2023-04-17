@@ -35,6 +35,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
+        loggSøkPåFnrEllerAktørIdNy(request.body, navIdent);
 
         return next();
     }
@@ -45,7 +46,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
-
+            loggSøkPåFnrEllerAktørIdNy(request.body, navIdent);
             cache.lagreTilgang(navIdent);
             next();
         } else {
@@ -69,12 +70,19 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 export const leggTilAuthorizationForKandidatsøkEs =
     (brukernavn: string, passord: string): RequestHandler =>
     (request, _, next) => {
-        logger.info('Er inne i leggTilAuthorization');
         const encodedAuth = Buffer.from(`${brukernavn}:${passord}`).toString('base64');
         request.headers.authorization = `Basic ${encodedAuth}`;
 
         next();
     };
+
+const loggSøkPåFnrEllerAktørIdNy = (query: SearchQuery, navIdent: string) => {
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(query);
+    if (fnrEllerAktørId) {
+        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
+        secureLog.info(msg);
+    }
+};
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);

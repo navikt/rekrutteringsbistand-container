@@ -5,7 +5,6 @@ import * as microsoftGraphApi from '../src/microsoftGraphApi';
 import * as middlewares from '../src/middlewares';
 import * as azureAd from '../src/azureAd';
 import { SearchQuery } from '../src/kandidatsøk/elasticSearchTyper';
-import { logger, spesifisertKandidatsøkCEFLoggformat } from '../src/logger';
 
 describe('Tilgangskontroll for kandidatsøket', () => {
     let mockRequest: Partial<Request>;
@@ -115,95 +114,6 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     });
 });
 
-describe('Logging av søk på fnr eller aktørid', () => {
-    let mockRequest: Partial<Request>;
-    let mockResponse: Partial<Response>;
-    let nextFunction: NextFunction = jest.fn();
-
-    beforeEach(() => {
-        mockResponse = {
-            status: jest.fn(() => mockResponse),
-            send: jest.fn(),
-        } as Partial<Response>;
-
-        mockRequest = {
-            headers: {
-                authorization: '',
-            },
-            body: {
-                query: {
-                    bool: {
-                        must: [
-                            {
-                                bool: {},
-                            },
-                        ],
-                    },
-                },
-            },
-        };
-
-        nextFunction = jest.fn();
-        kandidatsøk.cache.clear();
-    });
-
-    test('Skal gå videre til neste funskjon når request.body.query ikke inneholder fnr eller aktørId', () => {
-        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
-        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
-        ]);
-
-        kandidatsøk.loggSøkPåFnrEllerAktørId(
-            mockRequest as Request,
-            mockResponse as Response,
-            nextFunction
-        );
-
-        expect(nextFunction).toBeCalled();
-    });
-
-    test('Skal gå videre til neste funskjon når request.body.query inneholder fnr og aktørId', () => {
-        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
-        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
-        ]);
-
-        const nyMockRequest = mockRequest;
-        nyMockRequest.body = {
-            query: {
-                bool: {
-                    must: [
-                        {
-                            bool: {
-                                should: [
-                                    {
-                                        term: {
-                                            aktorId: '21909899211',
-                                        },
-                                    },
-                                    {
-                                        term: {
-                                            fodselsnummer: '21909899211',
-                                        },
-                                    },
-                                ],
-                            },
-                        },
-                    ],
-                },
-            },
-        };
-
-        kandidatsøk.loggSøkPåFnrEllerAktørId(
-            nyMockRequest as Request,
-            mockResponse as Response,
-            nextFunction
-        );
-
-        expect(nextFunction).toBeCalled();
-    });
-});
-
 describe('ES body for søk', () => {
     let queryMock = (bool?: object): SearchQuery => {
         return {
@@ -291,7 +201,6 @@ describe('ES body for søk', () => {
                 ],
             })
         );
-        logger.info('logger noe her');
         expect(resultat).toBe('10108000398');
     });
 

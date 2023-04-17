@@ -73,14 +73,14 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, next) => {
     logger.info('er inni middleware loggSøkPåFnrEllerAktørId');
     secureLog.info(`requst: ${simpleStringify(request)}`);
     secureLog.info(`request query: ${JSON.stringify(request.query)}`);
     secureLog.info(`request body: ${simpleStringify(request.body)}`);
     secureLog.info(`response: ${simpleStringify(response)}`);
     secureLog.info(`response json: ${simpleStringify(response.json)}`);
-    const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -114,7 +114,7 @@ export const simpleStringify = (object) => {
     return JSON.stringify(simpleObject); // returns cleaned up JSON
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
     secureLog.info(`query inni hentFnrEllerAktørIdFraESBody som ikke er strinigfyed: ${query}`);

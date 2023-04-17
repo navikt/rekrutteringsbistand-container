@@ -74,8 +74,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
-    const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -83,12 +83,13 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
         secureLog.info(msg);
+        next();
     }
 
-    return next();
+    next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): Promise<string | null> => {
+export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
     let fnrEllerAktørId = null;
 
     query.query.bool?.must?.forEach((must) =>

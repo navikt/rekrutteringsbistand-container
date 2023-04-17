@@ -6,7 +6,7 @@ import {
     loggSøkPåFnrEllerAktørId,
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
-import express, { RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
@@ -40,7 +40,6 @@ export const proxyTilKandidatsøkEs = (
     brukernavn: string,
     passord: string
 ) => {
-    app.use(express.json());
     app.use(
         path,
         respondUnauthorizedIfNotLoggedIn,

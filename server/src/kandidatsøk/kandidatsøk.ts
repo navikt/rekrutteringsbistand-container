@@ -35,7 +35,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
-        secureLog.info(`request-body inni if i harTilgang: ${request.body}`);
 
         return next();
     }

@@ -35,6 +35,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
+        secureLog.info(`request-body inni if i harTilgang: ${request.body}`);
 
         return next();
     }
@@ -45,11 +46,15 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
+            secureLog.info(`request-body inni try-blokk inni if i harTilgang: ${request.body}`);
 
             cache.lagreTilgang(navIdent);
             next();
         } else {
             logger.info(`Bruker ${navIdent} har ikke tilgang til kandidatsøket.\n${forklaring}`);
+            secureLog.info(
+                `request-body inni try-blokk inni else i harTilgang og ikke har tilgang: ${request.body}`
+            );
 
             response
                 .status(403)
@@ -61,6 +66,7 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     } catch (e) {
         const feilmelding = 'Klarte ikke å sjekke brukerens tilgang til kandidatsøket:';
         logger.error(feilmelding + ': ' + e);
+        secureLog.info(`request-body inni try-blokk inni catch i harTilgang: ${request.body}`);
         response.status(500).send(feilmelding);
     }
 };

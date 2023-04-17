@@ -60,7 +60,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
     } catch (e) {
         const feilmelding = 'Klarte ikke å sjekke brukerens tilgang til kandidatsøket:';
         logger.error(feilmelding + ': ' + e);
-
         response.status(500).send(feilmelding);
     }
 };

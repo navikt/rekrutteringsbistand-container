@@ -81,6 +81,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, response, n
     secureLog.info(`request body ikke stringify: ${request.body}`);
     secureLog.info(`response: ${simpleStringify(response)}`);
     secureLog.info(`response json: ${simpleStringify(response.json)}`);
+    secureLog.info(`response ikke stringify: ${response.json}`);
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {

@@ -1,4 +1,4 @@
-import { RequestHandler, response } from 'express';
+import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
@@ -84,17 +84,6 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         //auditLog.info(msg);
         secureLog.info(msg);
     }
-    //remove listeners set by express.json()
-    request.removeAllListeners('data');
-    request.removeAllListeners('end');
-
-    //add new listeners for the proxy to use
-    process.nextTick(function () {
-        if (request.body) {
-            request.emit('data', JSON.stringify(request.body));
-        }
-        request.emit('end');
-    });
     logger.info('Etter if i loggSøkPåFnrEllerAktørId');
     next();
 };

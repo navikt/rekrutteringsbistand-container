@@ -97,6 +97,11 @@ const startServer = () => {
         res.sendFile(`${buildPath}/index.html`);
     });
 
+    app.use((err, req, res, next) => {
+        logger.error('Got an error!', err);
+        res.end();
+    });
+
     app.listen(port, () => {
         logger.info('Server kjører på port', port);
     });

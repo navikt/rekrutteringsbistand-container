@@ -24,17 +24,13 @@ const loggFormat = winston.format.combine(
 
 winston.loggers.add('logger', {
     levels: winston.config.syslog.levels,
-    format: winston.format.combine(
-        winston.format.json(),
-        winston.format.splat(),
-        winston.format.simple()
-    ),
+    format: winston.format.json(),
     transports: [new winston.transports.Console()],
 });
 
 winston.loggers.add('secureLog', {
     levels: winston.config.syslog.levels,
-    format: winston.format.json(),
+    format: loggFormat,
     transports: [
         new winston.transports.File({
             filename: secureLogPath(),

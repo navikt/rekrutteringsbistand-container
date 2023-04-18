@@ -73,22 +73,33 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
-    secureLog.info(`request-body: ${request.body}`);
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
+    const brukerensAccessToken = retrieveToken(request.headers);
+    const navIdent = hentNavIdent(brukerensAccessToken);
 
-    if (fnrEllerAktørId) {
-        const brukerensAccessToken = retrieveToken(request.headers);
-        const navIdent = hentNavIdent(brukerensAccessToken);
-        const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-        //auditLog.info(msg);
-        secureLog.info(msg);
+    if (!request.body) {
+        logger.info('request-body er undefined');
+        return next();
     }
-    logger.info('Etter if i loggSøkPåFnrEllerAktørId');
-    next();
+
+    try {
+        const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+
+        if (fnrEllerAktørId) {
+            const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
+            //auditLog.info(msg);
+            secureLog.info(msg);
+        }
+        logger.info('Etter if i loggSøkPåFnrEllerAktørId');
+        next();
+    } catch (e) {
+        const feilmelding = 'Klarte ikke å logge søk på fnr eller aktørId:';
+        logger.error(feilmelding + ': ' + e);
+        response.status(500).send(feilmelding);
+    }
 };
 
-export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null => {
+export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise<string | null> => {
     let fnrEllerAktørId = null;
 
     query.query?.bool?.must?.forEach((must) =>
@@ -99,5 +110,5 @@ export const hentFnrEllerAktørIdFraESBody = (query: SearchQuery): string | null
         })
     );
 
-    return fnrEllerAktørId;
+    return Promise.resolve(fnrEllerAktørId);
 };

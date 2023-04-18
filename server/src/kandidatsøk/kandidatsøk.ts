@@ -32,6 +32,7 @@ const sjekkTilgang = async (
 export const harTilgangTilKandidatsøk: RequestHandler = async (request, response, next) => {
     const brukerensAccessToken = retrieveToken(request.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
+    logger.info(`request.url i harTilgang..: ${request.url}`);
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
@@ -76,6 +77,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
     const brukerensAccessToken = retrieveToken(request.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
+    logger.info(`request.url i loggSøk: ${request.url}`);
 
     if (!request.body) {
         logger.info('request-body er undefined');

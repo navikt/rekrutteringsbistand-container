@@ -73,9 +73,8 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
-    const req = JSON.parse(JSON.stringify(request));
-    secureLog.info(`request-body: ${req.body}`);
-    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(req.body);
+    secureLog.info(`request-body: ${request.body}`);
+    const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
         const brukerensAccessToken = retrieveToken(request.headers);
@@ -83,8 +82,8 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
         //auditLog.info(msg);
         secureLog.info(msg);
-        return next();
     }
+
     next();
 };
 

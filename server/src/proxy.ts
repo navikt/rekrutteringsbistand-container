@@ -6,7 +6,7 @@ import {
     loggSøkPåFnrEllerAktørId,
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
-import { RequestHandler } from 'express';
+import express, { RequestHandler } from 'express';
 import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
@@ -44,6 +44,7 @@ export const proxyTilKandidatsøkEs = (
         path,
         respondUnauthorizedIfNotLoggedIn,
         harTilgangTilKandidatsøk,
+        express.json(),
         loggSøkPåFnrEllerAktørId,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')

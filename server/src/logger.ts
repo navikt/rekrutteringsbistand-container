@@ -11,13 +11,38 @@ const secureLogPath = () =>
     fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
 //%d %h %x{app_name}: %m
 const mittFormat = winston.format.printf(({ message, timestamp }) => {
-    console.log(`hele dato-objektet: ${new Date()}`);
     return `${timestamp} ${process.env.NAIS_APP_NAME}: ${message}`;
 });
 
+const toISOString = (dato: Date) => {
+    const tzo = Math.abs(dato.getTimezoneOffset());
+    const dif = tzo >= 0 ? '+' : '-';
+    const pad = (num) => {
+        return (num < 10 ? '0' : '') + num;
+    };
+
+    return (
+        dato.getFullYear() +
+        '-' +
+        pad(dato.getMonth() + 1) +
+        '-' +
+        pad(dato.getDate()) +
+        'T' +
+        pad(dato.getHours()) +
+        ':' +
+        pad(dato.getMinutes()) +
+        ':' +
+        pad(dato.getSeconds()) +
+        dif +
+        pad(Math.floor(Math.abs(tzo) / 60)) +
+        ':' +
+        pad(Math.abs(tzo) % 60)
+    );
+};
+
 const loggFormat = winston.format.combine(
     winston.format.timestamp({
-        format: new Date().toISOString(),
+        format: toISOString(new Date()),
     }),
     winston.format.splat(),
     mittFormat

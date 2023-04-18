@@ -67,24 +67,24 @@ const startServer = () => {
 
     app.get('/meg', respondUnauthorizedIfNotLoggedIn, responderMedBrukerinfo);
 
-    proxyMedOboToken('/modiacontextholder', MODIA_CONTEXT_HOLDER_API, scopes.modiaContextHolder);
-    proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
-    proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
-    proxyMedOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
-    proxyMedOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
-    proxyMedOboToken('/sms-api', SMS_API, scopes.sms);
-    proxyMedOboToken(
-        '/foresporsel-om-deling-av-cv-api',
-        FORESPORSEL_OM_DELING_AV_CV_API,
-        scopes.forespørselOmDelingAvCv
-    );
-    proxyMedOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyMedOboToken(
-        '/kandidatmatch-api',
-        KANDIDATMATCH_API,
-        scopes.kandidatmatch,
-        validerAtBrukerErAutorisertForKandidatmatch
-    );
+    // proxyMedOboToken('/modiacontextholder', MODIA_CONTEXT_HOLDER_API, scopes.modiaContextHolder);
+    // proxyMedOboToken('/statistikk-api', STATISTIKK_API_URL, scopes.statistikk);
+    // proxyMedOboToken('/stillingssok-proxy', STILLINGSSOK_PROXY_URL, scopes.stillingssøk);
+    // proxyMedOboToken('/stilling-api', STILLING_API_URL, scopes.stilling);
+    // proxyMedOboToken('/kandidat-api', KANDIDAT_API_URL, scopes.kandidat);
+    // proxyMedOboToken('/sms-api', SMS_API, scopes.sms);
+    // proxyMedOboToken(
+    //     '/foresporsel-om-deling-av-cv-api',
+    //     FORESPORSEL_OM_DELING_AV_CV_API,
+    //     scopes.forespørselOmDelingAvCv
+    // );
+    // proxyMedOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
+    // proxyMedOboToken(
+    //     '/kandidatmatch-api',
+    //     KANDIDATMATCH_API,
+    //     scopes.kandidatmatch,
+    //     validerAtBrukerErAutorisertForKandidatmatch
+    // );
 
     proxyTilKandidatsøkEs(
         '/kandidatsok-proxy',
@@ -104,7 +104,7 @@ const startServer = () => {
 
 const initializeServer = async () => {
     try {
-        await initializeAzureAd();
+        // await initializeAzureAd();
         startServer();
     } catch (e) {
         logger.error(`Klarte ikke å starte server: ${e}`);

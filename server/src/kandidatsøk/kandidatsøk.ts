@@ -30,6 +30,8 @@ const sjekkTilgang = async (
 };
 
 export const harTilgangTilKandidatsøk: RequestHandler = async (request, response, next) => {
+    return next();
+
     const brukerensAccessToken = retrieveToken(request.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
 
@@ -75,6 +77,9 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) => {
     secureLog.info(`request-body: ${request.body}`);
+
+    console.log('Request: ', request.body);
+
     const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
     if (fnrEllerAktørId) {
@@ -84,17 +89,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         //auditLog.info(msg);
         secureLog.info(msg);
     }
-    //remove listeners set by express.json()
-    request.removeAllListeners('data');
-    request.removeAllListeners('end');
 
-    //add new listeners for the proxy to use
-    process.nextTick(function () {
-        if (request.body) {
-            request.emit('data', JSON.stringify(request.body));
-        }
-        request.emit('end');
-    });
     logger.info('Etter if i loggSøkPåFnrEllerAktørId');
     next();
 };

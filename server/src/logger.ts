@@ -18,12 +18,17 @@ const loggFormat = winston.format.combine(
     winston.format.timestamp({
         format: new Date().toISOString(),
     }),
+    winston.format.splat(),
     mittFormat
 );
 
 winston.loggers.add('logger', {
     levels: winston.config.syslog.levels,
-    format: winston.format.json(),
+    format: winston.format.combine(
+        winston.format.json(),
+        winston.format.splat(),
+        winston.format.simple()
+    ),
     transports: [new winston.transports.Console()],
 });
 

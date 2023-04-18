@@ -12,6 +12,7 @@ import { logger } from './logger';
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
     createProxyMiddleware({
+        pathFilter: fraPath,
         target: tilTarget,
         changeOrigin: true,
         secure: true,

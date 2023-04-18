@@ -9,7 +9,6 @@ const autoriserteBrukereForKandidatmatch = (
 
 export const validerAtBrukerErAutorisertForKandidatmatch: RequestHandler = (req, res, next) => {
     const { autorisert, navIdent } = erAutorisertForKandidatmatch(req);
-    logger.info(`req.url i validerAtbruker...: ${req.url}`);
 
     if (autorisert) {
         logger.info(`Bruker "${navIdent}" bruker kandidatmatch`);
@@ -31,7 +30,6 @@ const erAutorisertForKandidatmatch = (
 } => {
     const brukerensAccessToken = retrieveToken(req.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
-    logger.info(`req.url i erAutorisertForKandidatmatch: ${req.url}`);
 
     return {
         autorisert: autoriserteBrukereForKandidatmatch.includes(navIdent),

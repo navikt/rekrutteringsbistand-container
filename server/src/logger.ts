@@ -11,12 +11,13 @@ const secureLogPath = () =>
     fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
 //%d %h %x{app_name}: %m
 const mittFormat = winston.format.printf(({ message, timestamp }) => {
+    console.log(`hele dato-objektet: ${new Date()}`);
     return `${timestamp} ${process.env.NAIS_APP_NAME}: ${message}`;
 });
 
 const loggFormat = winston.format.combine(
     winston.format.timestamp({
-        format: new Date(Date.now()).toISOString(),
+        format: new Date().toISOString(),
     }),
     winston.format.splat(),
     mittFormat

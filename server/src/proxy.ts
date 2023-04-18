@@ -13,10 +13,18 @@ import { logger } from './logger';
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
     createProxyMiddleware({
         target: tilTarget,
-        pathFilter: fraPath,
         changeOrigin: true,
         secure: true,
-        pathRewrite: (path) => path.replace(fraPath, ''),
+        pathRewrite: (path) => {
+            console.log(
+                `Proxyer kall fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(
+                    fraPath,
+                    ''
+                )}`
+            );
+
+            return path.replace(fraPath, '');
+        },
         logger,
     });
 
@@ -45,7 +53,6 @@ export const proxyTilKandidatsøkEs = (
         path,
         respondUnauthorizedIfNotLoggedIn,
         harTilgangTilKandidatsøk,
-        express.json(),
         loggSøkPåFnrEllerAktørId,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')

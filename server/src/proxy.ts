@@ -17,7 +17,7 @@ export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =
         secure: true,
         pathRewrite: (path) => {
             console.log(
-                `Proxyer kall fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(
+                `Proxyer kall til path ${path} fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(
                     fraPath,
                     ''
                 )}`

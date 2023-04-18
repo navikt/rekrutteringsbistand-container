@@ -11,12 +11,13 @@ import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
-    createProxyMiddleware(fraPath, {
+    createProxyMiddleware({
         target: tilTarget,
+        pathFilter: fraPath,
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
-        logProvider: () => logger,
+        logger,
     });
 
 export const proxyMedOboToken = (

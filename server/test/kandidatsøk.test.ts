@@ -115,6 +115,67 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     });
 });
 
+describe('Logg på søk på fnr og/eller aktørid i kandidatsøk', () => {
+    let mockRequest: Partial<Request>;
+    let mockResponse: Partial<Response>;
+    let nextFunction: NextFunction = jest.fn();
+
+    beforeEach(() => {
+        mockResponse = {
+            status: jest.fn(() => mockResponse),
+            send: jest.fn(),
+        } as Partial<Response>;
+
+        mockRequest = {
+            headers: {
+                authorization: '',
+            },
+            body: {
+                query: {
+                    bool: {
+                        must: [
+                            {
+                                bool: {
+                                    should: [
+                                        {
+                                            term: {
+                                                aktorId: '21909899211',
+                                            },
+                                        },
+                                        {
+                                            term: {
+                                                fodselsnummer: '21909899211',
+                                            },
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+        };
+
+        nextFunction = jest.fn();
+        kandidatsøk.cache.clear();
+    });
+
+    test('Går videre til neste funksjon etter loggSøkPåFnrEllerAktørId', () => {
+        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
+        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
+            kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
+        ]);
+
+        kandidatsøk.loggSøkPåFnrEllerAktørId(
+            mockRequest as Request,
+            mockResponse as Response,
+            nextFunction
+        );
+
+        expect(nextFunction).toBeCalled();
+    });
+});
+
 describe('ES body for søk', () => {
     let queryMock = (bool?: object): SearchQuery => {
         return {

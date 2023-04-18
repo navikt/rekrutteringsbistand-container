@@ -14,6 +14,11 @@ const mittFormat = winston.format.printf(({ message, timestamp }) => {
     return `${timestamp} ${process.env.NAIS_APP_NAME}: ${message}`;
 });
 
+const getLocalISOTime = () => {
+    const tzoffset = new Date().getTimezoneOffset() * 6000;
+    return new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
+};
+
 const loggFormat = winston.format.combine(
     winston.format.timestamp({
         format: new Date().toISOString(),
@@ -24,7 +29,7 @@ const loggFormat = winston.format.combine(
 
 winston.loggers.add('logger', {
     levels: winston.config.syslog.levels,
-    format: winston.format.json(),
+    format: loggFormat,
     transports: [new winston.transports.Console()],
 });
 

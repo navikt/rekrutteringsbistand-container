@@ -1,4 +1,4 @@
-import { legacyCreateProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
 import {
     harTilgangTilKandidatsøk,
@@ -11,23 +11,20 @@ import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
-    legacyCreateProxyMiddleware(fraPath, {
+    createProxyMiddleware({
         target: tilTarget,
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => {
             console.log(
-                'Proxy:' +
-                    JSON.stringify({
-                        path,
-                        fraPath,
-                        tilTarget,
-                        replacetPath: path.replace(fraPath, ''),
-                    })
+                `Proxyer kall fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(
+                    fraPath,
+                    ''
+                )}`
             );
             return path.replace(fraPath, '');
         },
-        logProvider: () => logger,
+        logger,
     });
 
 export const proxyMedOboToken = (

@@ -68,6 +68,7 @@ export const leggTilAuthorizationForKandidatsøkEs =
     (request, _, next) => {
         const encodedAuth = Buffer.from(`${brukernavn}:${passord}`).toString('base64');
         request.headers.authorization = `Basic ${encodedAuth}`;
+        logger.info('inni leggTilAuthorizationForKandidatsøkES');
 
         next();
     };
@@ -83,7 +84,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = (request, _, next) =>
         //auditLog.info(msg);
         secureLog.info(msg);
     }
-
+    logger.info('Etter if i loggSøkPåFnrEllerAktørId');
     next();
 };
 

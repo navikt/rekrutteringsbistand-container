@@ -4,7 +4,7 @@ export type SearchQuery = {
             must?: Array<{
                 bool?: {
                     should?: Array<{
-                        term: {
+                        term?: {
                             [felt: string]: string;
                         };
                     }>;

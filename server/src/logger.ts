@@ -1,101 +1,54 @@
 import fs from 'fs';
-import Log4js from 'log4js';
+import winston from 'winston';
+import winstonSyslog from 'winston-syslog';
 
-const winston = require('winston');
+const { NAIS_APP_NAME } = process.env;
 
-require('winston-syslog');
-
-const localhost = require('os').hostname();
-
-const secureLogPath = () =>
-    fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
-//%d %h %x{app_name}: %m
-const mittFormat = winston.format.printf(({ message, timestamp }) => {
-    return `${timestamp} ${process.env.NAIS_APP_NAME}: ${message}`;
-});
-
-const toISOString = (dato: Date) => {
-    const tzo = Math.abs(dato.getTimezoneOffset());
-    const dif = tzo >= 0 ? '+' : '-';
-    const pad = (num) => {
-        return (num < 10 ? '0' : '') + num;
-    };
-
-    return (
-        dato.getFullYear() +
-        '-' +
-        pad(dato.getMonth() + 1) +
-        '-' +
-        pad(dato.getDate()) +
-        'T' +
-        pad(dato.getHours()) +
-        ':' +
-        pad(dato.getMinutes()) +
-        ':' +
-        pad(dato.getSeconds()) +
-        dif +
-        pad(Math.floor(Math.abs(tzo) / 60)) +
-        ':' +
-        pad(Math.abs(tzo) % 60)
-    );
-};
-
-const loggFormat = winston.format.combine(
-    winston.format.timestamp({
-        format: toISOString(new Date()),
-    }),
-    winston.format.splat(),
-    mittFormat
-);
-
-winston.loggers.add('logger', {
-    levels: winston.config.syslog.levels,
+export const logger = winston.createLogger({
     format: winston.format.json(),
     transports: [new winston.transports.Console()],
 });
 
-winston.loggers.add('secureLog', {
-    levels: winston.config.syslog.levels,
-    format: loggFormat,
+const secureLogPath = () =>
+    fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
+
+export const secureLog = winston.createLogger({
+    format: winston.format.json(),
     transports: [
         new winston.transports.File({
             filename: secureLogPath(),
-            maxsize: 5242880,
+            maxsize: 50000000,
         }),
     ],
 });
 
-/*winston.loggers.add('auditLog', {
+export const auditLog = winston.createLogger({
     levels: winston.config.syslog.levels,
-    format: loggFormat,
+    format: winston.format.printf(({ message }) => message),
     transports: [
-        new winston.transports.Syslog({
+        new winstonSyslog.Syslog({
             host: 'audit.nais',
             port: 6514,
-            app_name: process.env.NAIS_APP_NAME,
+            app_name: NAIS_APP_NAME,
             protocol: 'tcp',
         }),
     ],
-});*/
+});
 
-export const logger = winston.loggers.get('logger');
-export const secureLog = winston.loggers.get('secureLog');
-
-//export const auditLog = winston.loggers.get('auditLog');
-
-export const spesifisertKandidatsøkCEFLoggformat = (
+export const opprettLoggmeldingForAuditlogg = (
+    melding: string,
     fnrEllerAktørId: string,
     navIdent: string
 ): string => {
-    const header = `CEF:0|${process.env.NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO|`;
-    const msg = `${header}flexString1=Permit\
-            msg=NAV-ansatt har gjort spesifikt kandidatsøk på brukeren\
+    const header = `CEF:0|${NAIS_APP_NAME}|AuditLogger|1.0|audit:access|Sporingslogg|INFO`;
+    const extension = `flexString1=Permit\
+            msg=${melding}\
             duid=${fnrEllerAktørId}
             flexString1Label=Decision\
             end=${Date.now()}\
-            suid=${navIdent}\
-        `.replace(/\s+/g, ' ');
-    return msg;
+            suid=${navIdent}`.replace(/\s+/g, ' ');
+
+    return `${header}|${extension}`;
 };
 
 /*export class AuditLogg {

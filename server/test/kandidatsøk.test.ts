@@ -115,67 +115,6 @@ describe('Tilgangskontroll for kandidatsøket', () => {
     });
 });
 
-describe('Logg på søk på fnr og/eller aktørid i kandidatsøk', () => {
-    let mockRequest: Partial<Request>;
-    let mockResponse: Partial<Response>;
-    let nextFunction: NextFunction = jest.fn();
-
-    beforeEach(() => {
-        mockResponse = {
-            status: jest.fn(() => mockResponse),
-            send: jest.fn(),
-        } as Partial<Response>;
-
-        mockRequest = {
-            headers: {
-                authorization: '',
-            },
-            body: {
-                query: {
-                    bool: {
-                        must: [
-                            {
-                                bool: {
-                                    should: [
-                                        {
-                                            term: {
-                                                aktorId: '21909899211',
-                                            },
-                                        },
-                                        {
-                                            term: {
-                                                fodselsnummer: '21909899211',
-                                            },
-                                        },
-                                    ],
-                                },
-                            },
-                        ],
-                    },
-                },
-            },
-        };
-
-        nextFunction = jest.fn();
-        kandidatsøk.cache.clear();
-    });
-
-    test('Går videre til neste funksjon etter loggSøkPåFnrEllerAktørId', async () => {
-        jest.spyOn(azureAd, 'hentNavIdent').mockReturnValue('A123456');
-        jest.spyOn(microsoftGraphApi, 'hentBrukerensAdGrupper').mockResolvedValue([
-            kandidatsøk.AD_GRUPPE_MODIA_GENERELL_TILGANG!,
-        ]);
-
-        await kandidatsøk.loggSøkPåFnrEllerAktørId(
-            mockRequest as Request,
-            mockResponse as Response,
-            nextFunction
-        );
-
-        expect(nextFunction).toBeCalled();
-    });
-});
-
 describe('ES body for søk', () => {
     let queryMock = (bool?: object): SearchQuery => {
         return {
@@ -192,7 +131,7 @@ describe('ES body for søk', () => {
     };
 
     test('Er ES body med søk på fødselsnummer og aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -212,7 +151,7 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body med søk på fødselsnummer', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -227,7 +166,7 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body med søk på aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -242,12 +181,12 @@ describe('ES body for søk', () => {
     });
 
     test('Er ES body uten søk på fødselsnummer eller aktørId', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(queryMock());
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(queryMock());
         expect(resultat).toBeFalsy();
     });
 
     test('Henter fnr fra ES body når det finnes', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {
@@ -267,7 +206,7 @@ describe('ES body for søk', () => {
     });
 
     test('Henter aktørid fra ES body når fnr ikke finnes', async () => {
-        const resultat = await kandidatsøk.hentFnrEllerAktørIdFraESBody(
+        const resultat = kandidatsøk.hentFnrEllerAktørIdFraESBody(
             queryMock({
                 should: [
                     {

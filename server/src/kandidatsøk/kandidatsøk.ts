@@ -2,9 +2,9 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { logger, spesifisertKandidatsøkCEFLoggformat, secureLog } from '../logger';
-import TilgangCache from './cache';
+import { auditLog, logger, opprettLoggmeldingForAuditlogg, secureLog } from '../logger';
 import { SearchQuery } from './elasticSearchTyper';
+import TilgangCache from './cache';
 
 export const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
 
@@ -32,7 +32,6 @@ const sjekkTilgang = async (
 export const harTilgangTilKandidatsøk: RequestHandler = async (request, response, next) => {
     const brukerensAccessToken = retrieveToken(request.headers);
     const navIdent = hentNavIdent(brukerensAccessToken);
-    logger.info(`request.url i harTilgang..: ${request.url}`);
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
@@ -69,48 +68,44 @@ export const leggTilAuthorizationForKandidatsøkEs =
     (request, _, next) => {
         const encodedAuth = Buffer.from(`${brukernavn}:${passord}`).toString('base64');
         request.headers.authorization = `Basic ${encodedAuth}`;
-        logger.info('inni leggTilAuthorizationForKandidatsøkES');
 
         next();
     };
 
-export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, response, next) => {
-    const brukerensAccessToken = retrieveToken(request.headers);
-    const navIdent = hentNavIdent(brukerensAccessToken);
-    logger.info(`request.url i loggSøk: ${request.url}`);
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
+    if (request.body) {
+        try {
+            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
-    if (!request.body) {
-        logger.info('request-body er undefined');
-        return next();
-    }
+            if (fnrEllerAktørId) {
+                const brukerensAccessToken = retrieveToken(request.headers);
+                const navIdent = hentNavIdent(brukerensAccessToken);
 
-    try {
-        const fnrEllerAktørId = await hentFnrEllerAktørIdFraESBody(request.body);
+                const melding = opprettLoggmeldingForAuditlogg(
+                    'NAV-ansatt har gjort spesifikt kandidatsøk på brukeren',
+                    fnrEllerAktørId,
+                    navIdent
+                );
 
-        if (fnrEllerAktørId) {
-            const msg = spesifisertKandidatsøkCEFLoggformat(fnrEllerAktørId, navIdent);
-            //auditLog.info(msg);
-            secureLog.info(msg);
+                auditLog.info(melding);
+                secureLog.info(melding);
+            }
+        } catch (e) {
+            logger.error('Klarte ikke å logge søk på fnr eller aktørId:', e);
         }
-        logger.info('Etter if i loggSøkPåFnrEllerAktørId');
-        next();
-    } catch (e) {
-        const feilmelding = 'Klarte ikke å logge søk på fnr eller aktørId:';
-        logger.error(feilmelding + ': ' + e);
-        response.status(500).send(feilmelding);
     }
+
+    next();
 };
 
-export const hentFnrEllerAktørIdFraESBody = async (query: SearchQuery): Promise<string | null> => {
-    let fnrEllerAktørId = null;
-
-    query.query?.bool?.must?.forEach((must) =>
-        must.bool?.should?.forEach((should) => {
-            if (should.term.fodselsnummer || should.term.aktorId) {
-                fnrEllerAktørId = should.term.fodselsnummer || should.term.aktorId;
+export const hentFnrEllerAktørIdFraESBody = (request: SearchQuery): string | null => {
+    request.query?.bool?.must?.forEach((mustQuery) =>
+        mustQuery.bool?.should?.forEach((shouldQuery) => {
+            if (shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId) {
+                return shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId;
             }
         })
     );
 
-    return Promise.resolve(fnrEllerAktørId);
+    return null;
 };

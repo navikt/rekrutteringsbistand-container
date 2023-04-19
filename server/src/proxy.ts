@@ -15,19 +15,12 @@ export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =
         target: tilTarget,
         changeOrigin: true,
         secure: true,
+        pathRewrite: (path) => path.replace(fraPath, ''),
+        logger,
         on: {
+            // Fikser proxien ved bruk sammen med express.json()-middleware i server.ts
             proxyReq: fixRequestBody,
         },
-        pathRewrite: (path) => {
-            console.log(
-                `Proxyer kall fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(
-                    fraPath,
-                    ''
-                )}`
-            );
-            return path.replace(fraPath, '');
-        },
-        logger,
     });
 
 export const proxyMedOboToken = (

@@ -1,4 +1,4 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
 import {
     harTilgangTilKandidatsøk,
@@ -15,6 +15,9 @@ export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =
         target: tilTarget,
         changeOrigin: true,
         secure: true,
+        on: {
+            proxyReq: fixRequestBody,
+        },
         pathRewrite: (path) => {
             console.log(
                 `Proxyer kall fra ${fraPath} til target ${tilTarget}. Requesten sendes til ${path.replace(

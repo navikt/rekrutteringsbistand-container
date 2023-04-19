@@ -31,7 +31,7 @@ export const auditLog = winston.createLogger({
             port: 6514,
             app_name: NAIS_APP_NAME,
             protocol: 'tcp',
-            eol: '\n',
+            eol: '\n', // Trengs for å kunne logge til rsyslog server
         }),
     ],
 });

@@ -3,7 +3,6 @@ import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } f
 import {
     harTilgangTilKandidatsøk,
     leggTilAuthorizationForKandidatsøkEs,
-    loggSøkPåFnrEllerAktørId,
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
 import { RequestHandler } from 'express';
@@ -52,7 +51,7 @@ export const proxyTilKandidatsøkEs = (
         path,
         respondUnauthorizedIfNotLoggedIn,
         harTilgangTilKandidatsøk,
-        loggSøkPåFnrEllerAktørId,
+        // loggSøkPåFnrEllerAktørId,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')
     );

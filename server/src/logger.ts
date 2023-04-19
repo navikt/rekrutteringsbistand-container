@@ -31,6 +31,7 @@ export const auditLog = winston.createLogger({
             port: 6514,
             app_name: NAIS_APP_NAME,
             protocol: 'tcp',
+            eol: '\n',
         }),
     ],
 });

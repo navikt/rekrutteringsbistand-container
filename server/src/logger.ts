@@ -19,7 +19,6 @@ export const secureLog = winston.createLogger({
             filename: secureLogPath(),
             maxsize: 50000000,
         }),
-        new winston.transports.Console(),
     ],
 });
 

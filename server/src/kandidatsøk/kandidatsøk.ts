@@ -99,13 +99,15 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
 };
 
 export const hentFnrEllerAktørIdFraESBody = (request: SearchQuery): string | null => {
+    let fnrEllerAktørId = null;
+
     request.query?.bool?.must?.forEach((mustQuery) =>
         mustQuery.bool?.should?.forEach((shouldQuery) => {
             if (shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId) {
-                return shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId;
+                fnrEllerAktørId = shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId;
             }
         })
     );
 
-    return null;
+    return fnrEllerAktørId;
 };

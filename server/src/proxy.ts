@@ -1,21 +1,26 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { respondUnauthorizedIfNotLoggedIn, tomMiddleware, setOnBehalfOfToken } from './middlewares';
 import {
     harTilgangTilKandidatsøk,
     leggTilAuthorizationForKandidatsøkEs,
+    loggSøkPåFnrEllerAktørId,
 } from './kandidatsøk/kandidatsøk';
 import { app } from './server';
-import { logger } from './logger';
 import { RequestHandler } from 'express';
+import { logger } from './logger';
 
 // Krever ekstra miljøvariabler, se nais.yaml
 export const setupProxy = (fraPath: string, tilTarget: string): RequestHandler =>
-    createProxyMiddleware(fraPath, {
+    createProxyMiddleware({
         target: tilTarget,
         changeOrigin: true,
         secure: true,
         pathRewrite: (path) => path.replace(fraPath, ''),
-        logProvider: () => logger,
+        logger,
+        on: {
+            // Fikser proxien ved bruk sammen med express.json()-middleware i server.ts
+            proxyReq: fixRequestBody,
+        },
     });
 
 export const proxyMedOboToken = (
@@ -43,6 +48,7 @@ export const proxyTilKandidatsøkEs = (
         path,
         respondUnauthorizedIfNotLoggedIn,
         harTilgangTilKandidatsøk,
+        loggSøkPåFnrEllerAktørId,
         leggTilAuthorizationForKandidatsøkEs(brukernavn, passord),
         setupProxy(path, proxyUrl + '/veilederkandidat_current/_search')
     );

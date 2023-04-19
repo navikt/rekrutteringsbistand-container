@@ -2,7 +2,8 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { logger } from '../logger';
+import { auditLog, logger, opprettLoggmeldingForAuditlogg, secureLog } from '../logger';
+import { SearchQuery } from './elasticSearchTyper';
 import TilgangCache from './cache';
 
 export const { AD_GRUPPE_MODIA_GENERELL_TILGANG, AD_GRUPPE_MODIA_OPPFOLGING } = process.env;
@@ -34,7 +35,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
     if (cache.hentTilgang(navIdent)) {
         logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket, tilgang er cachet`);
-
         return next();
     }
 
@@ -44,7 +44,6 @@ export const harTilgangTilKandidatsøk: RequestHandler = async (request, respons
 
         if (harTilgang) {
             logger.info(`Bruker ${navIdent} fikk tilgang til kandidatsøket.\n${forklaring}`);
-
             cache.lagreTilgang(navIdent);
             next();
         } else {
@@ -72,3 +71,43 @@ export const leggTilAuthorizationForKandidatsøkEs =
 
         next();
     };
+
+export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
+    if (request.body) {
+        try {
+            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+
+            if (fnrEllerAktørId) {
+                const brukerensAccessToken = retrieveToken(request.headers);
+                const navIdent = hentNavIdent(brukerensAccessToken);
+
+                const melding = opprettLoggmeldingForAuditlogg(
+                    'NAV-ansatt har gjort spesifikt kandidatsøk på brukeren',
+                    fnrEllerAktørId,
+                    navIdent
+                );
+
+                auditLog.info(melding);
+                secureLog.info(melding);
+            }
+        } catch (e) {
+            logger.error('Klarte ikke å logge søk på fnr eller aktørId:', e);
+        }
+    }
+
+    next();
+};
+
+export const hentFnrEllerAktørIdFraESBody = (request: SearchQuery): string | null => {
+    let fnrEllerAktørId = null;
+
+    request.query?.bool?.must?.forEach((mustQuery) =>
+        mustQuery.bool?.should?.forEach((shouldQuery) => {
+            if (shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId) {
+                fnrEllerAktørId = shouldQuery.term?.fodselsnummer || shouldQuery.term?.aktorId;
+            }
+        })
+    );
+
+    return fnrEllerAktørId;
+};

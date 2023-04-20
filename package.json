@@ -6,7 +6,7 @@
     "scripts": {
         "start": "cross-env VITE_MOCK=true vite",
         "build": "vite build",
-        "test": "jest",
+        "test": "jest src",
         "prepare": "husky install"
     },
     "dependencies": {
@@ -27,8 +27,10 @@
         "vite-plugin-svgr": "^2.4.0"
     },
     "devDependencies": {
+        "@jest/globals": "^29.5.0",
         "@types/amplitude-js": "^8.16.2",
         "@types/express": "^4.17.14",
+        "@types/jest": "^29.5.1",
         "@types/loadjs": "^4.0.0",
         "@types/react": "^18.0.24",
         "@types/react-dom": "^18.0.8",

@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals';
 import { generaliserPath } from './path';
 
 test('generaliserPath erstatter kandidatnumre med en placeholder', () => {

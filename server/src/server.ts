@@ -14,7 +14,7 @@ import { logger } from './logger';
 export const app = express();
 
 const port = process.env.PORT || 8080;
-const buildPath = path.join(__dirname, '../build');
+const buildPath = path.join(__dirname, '../dist');
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 export const miljøErProd = cluster === 'prod-gcp' || cluster === 'prod-fss';
@@ -56,8 +56,8 @@ const startServer = () => {
 
     const pathsForServingApp = ['/', '/*'];
 
-    app.use('/static/js', express.static(`${buildPath}/static/js`));
-    app.use('/static/css', express.static(`${buildPath}/static/css`));
+    app.use('/assets/js', express.static(`${buildPath}/assets/js`));
+    app.use('/assets/css', express.static(`${buildPath}/assets/css`));
 
     app.get(
         '/feature-toggle/kandidatmatch',

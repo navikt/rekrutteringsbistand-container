@@ -61,7 +61,7 @@ const Modiadekoratør: FunctionComponent<Props> = ({ navKontor, onNavKontorChang
         }
     }, []);
 
-    const className = process.env.REACT_APP_MOCK ? css.mocket : undefined;
+    const className = import.meta.env.VITE_MOCK ? css.mocket : undefined;
 
     if (status === Status.LasterNed) {
         return <div className={css.placeholder} />;

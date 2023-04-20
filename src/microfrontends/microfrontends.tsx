@@ -34,7 +34,7 @@ const kandidatsøkConfig = {
 const statistikkConfig = {
     appName: 'rekrutteringsbistand-statistikk',
     appBaseUrl: '/rekrutteringsbistand-statistikk',
-    assetManifestParser: craAssetManifestParser,
+    assetManifestParser: viteAssetManifestParser('rekrutteringsbistand-statistikk'),
     loader: <LasterInn />,
 };
 

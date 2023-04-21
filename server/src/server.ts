@@ -54,11 +54,6 @@ const startServer = () => {
 
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
-    const pathsForServingApp = ['/', '/*'];
-
-    app.use('/assets/js', express.static(`${buildPath}/assets/js`));
-    app.use('/assets/css', express.static(`${buildPath}/assets/css`));
-
     app.get(
         '/feature-toggle/kandidatmatch',
         respondUnauthorizedIfNotLoggedIn,
@@ -93,7 +88,8 @@ const startServer = () => {
         OPEN_SEARCH_PASSWORD
     );
 
-    app.get(pathsForServingApp, redirectIfUnauthorized, (_, res) => {
+    app.use(`/assets`, express.static(`${buildPath}/assets`));
+    app.get(['/', '/*'], redirectIfUnauthorized, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 

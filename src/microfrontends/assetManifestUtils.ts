@@ -10,6 +10,7 @@ export type ViteAssetManifest = Record<
     {
         file: string;
         css: string[];
+        assets?: string[];
     }
 >;
 
@@ -49,10 +50,11 @@ export const craAssetManifestParser = (manifestObject: ManifestObject): Asset[] 
 export const viteAssetManifestParser =
     (appBaseUrl: string = '') =>
     (manifestObject: ViteAssetManifest): Asset[] => {
-        const { file, css } = manifestObject['index.html'];
+        const { file, css, assets } = manifestObject['index.html'];
 
         const script = { type: 'module', path: `/${appBaseUrl}/${file}` };
         const styles = css.map((path) => ({ path: `/${appBaseUrl}/${path}` }));
+        const otherAssets = (assets ?? []).map((path) => ({ path: `/${appBaseUrl}/${path}` }));
 
-        return [script, ...styles];
+        return [script, ...styles, ...otherAssets];
     };

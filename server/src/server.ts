@@ -14,7 +14,7 @@ import { logger } from './logger';
 export const app = express();
 
 const port = process.env.PORT || 8080;
-const buildPath = path.join(__dirname, '../build');
+const buildPath = path.join(__dirname, '../dist');
 const cluster = process.env.NAIS_CLUSTER_NAME;
 const clusterOnPrem = cluster === 'prod-gcp' ? 'prod-fss' : 'dev-fss';
 export const miljøErProd = cluster === 'prod-gcp' || cluster === 'prod-fss';
@@ -54,11 +54,6 @@ const startServer = () => {
 
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 
-    const pathsForServingApp = ['/', '/*'];
-
-    app.use('/static/js', express.static(`${buildPath}/static/js`));
-    app.use('/static/css', express.static(`${buildPath}/static/css`));
-
     app.get(
         '/feature-toggle/kandidatmatch',
         respondUnauthorizedIfNotLoggedIn,
@@ -93,7 +88,8 @@ const startServer = () => {
         OPEN_SEARCH_PASSWORD
     );
 
-    app.get(pathsForServingApp, redirectIfUnauthorized, (_, res) => {
+    app.use(`/assets`, express.static(`${buildPath}/assets`));
+    app.get(['/', '/*'], redirectIfUnauthorized, (_, res) => {
         res.sendFile(`${buildPath}/index.html`);
     });
 

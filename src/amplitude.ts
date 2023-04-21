@@ -44,10 +44,12 @@ export const sendGenerellEvent = (
 
 const client: AmplitudeClient = amplitudeJs.getInstance();
 
-client.init(getApiKey(), '', {
-    apiEndpoint: 'amplitude.nav.no/collect',
-    saveEvents: false,
-    includeUtm: true,
-    batchEvents: false,
-    includeReferrer: false,
-});
+if (import.meta.env.PROD) {
+    client.init(getApiKey(), '', {
+        apiEndpoint: 'amplitude.nav.no/collect',
+        saveEvents: false,
+        includeUtm: true,
+        batchEvents: false,
+        includeReferrer: false,
+    });
+}

@@ -4,10 +4,6 @@ import compression from 'compression';
 
 import { initializeAzureAd, responderMedBrukerinfo } from './azureAd';
 import { redirectIfUnauthorized, respondUnauthorizedIfNotLoggedIn } from './middlewares';
-import {
-    responderOmBrukerErAutorisertForKandidatmatch,
-    validerAtBrukerErAutorisertForKandidatmatch,
-} from './featureToggle';
 import { proxyTilKandidatsøkEs, proxyMedOboToken } from './proxy';
 import { logger } from './logger';
 
@@ -30,7 +26,6 @@ const scopes = {
     sms: `api://${clusterOnPrem}.toi.rekrutteringsbistand-sms/.default`,
     forespørselOmDelingAvCv: `api://${clusterOnPrem}.arbeidsgiver-inkludering.foresporsel-om-deling-av-cv-api/.default`,
     synlighetsmotor: `api://${cluster}.toi.toi-synlighetsmotor/.default`,
-    kandidatmatch: `api://${cluster}.team-ai.team-ai-match/.default`,
 };
 
 const {
@@ -41,7 +36,6 @@ const {
     SMS_API,
     FORESPORSEL_OM_DELING_AV_CV_API,
     SYNLIGHETSMOTOR_API,
-    KANDIDATMATCH_API,
     OPEN_SEARCH_URI,
     OPEN_SEARCH_USERNAME,
     OPEN_SEARCH_PASSWORD,
@@ -53,12 +47,6 @@ const startServer = () => {
     app.use(express.json());
 
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
-
-    app.get(
-        '/feature-toggle/kandidatmatch',
-        respondUnauthorizedIfNotLoggedIn,
-        responderOmBrukerErAutorisertForKandidatmatch
-    );
 
     app.get('/meg', respondUnauthorizedIfNotLoggedIn, responderMedBrukerinfo);
 
@@ -74,12 +62,6 @@ const startServer = () => {
         scopes.forespørselOmDelingAvCv
     );
     proxyMedOboToken('/synlighet-api', SYNLIGHETSMOTOR_API, scopes.synlighetsmotor);
-    proxyMedOboToken(
-        '/kandidatmatch-api',
-        KANDIDATMATCH_API,
-        scopes.kandidatmatch,
-        validerAtBrukerErAutorisertForKandidatmatch
-    );
 
     proxyTilKandidatsøkEs(
         '/kandidatsok-proxy',

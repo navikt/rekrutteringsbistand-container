@@ -49,8 +49,6 @@ spec:
           - host: https://rekrutteringsbistand-sms.dev-fss-pub.nais.io
           - host: https://foresporsel-om-deling-av-cv-api.dev-fss-pub.nais.io
           - host: https://modiacontextholder-q0.dev-fss-pub.nais.io
-    envFrom:
-        - secret: rekrutteringsbistand-kandidatmatch-autoriserte-brukere
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem
@@ -74,7 +72,5 @@ spec:
           value: https://foresporsel-om-deling-av-cv-api.dev-fss-pub.nais.io
         - name: SYNLIGHETSMOTOR_API
           value: http://toi-synlighetsmotor
-        - name: KANDIDATMATCH_API
-          value: https://aimatch.dev.intern.nav.no
         - name: MODIA_CONTEXT_HOLDER_API
           value: https://modiacontextholder-q0.dev-fss-pub.nais.io/modiacontextholder

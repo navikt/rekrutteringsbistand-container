@@ -44,7 +44,7 @@ const {
 
 const startServer = () => {
     app.use(compression());
-    app.use(express.json());
+    app.use(express.json({ strict: false }));
 
     app.get([`/internal/isAlive`, `/internal/isReady`], (_, res) => res.sendStatus(200));
 

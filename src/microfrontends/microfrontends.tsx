@@ -48,7 +48,7 @@ const stillingssøkConfig = {
 const stillingConfig = {
     appName: 'rekrutteringsbistand-stilling',
     appBaseUrl: '/rekrutteringsbistand-stilling',
-    assetManifestParser: craAssetManifestParser,
+    assetManifestParser: viteAssetManifestParser('rekrutteringsbistand-stilling'),
     loader: <LasterInn />,
 };
 

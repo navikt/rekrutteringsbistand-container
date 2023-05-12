@@ -10,6 +10,11 @@
         <noscript>Du må skru på JavaScript for å kunne bruke Rekrutteringsbistand.</noscript>
         <div id="rekrutteringsbistand-container"></div>
 
+        <script>
+            // draft-js forventer å finne "global" på window, som ikke støttes i Vite.
+            // Denne linja kan fjernes hvis man migrerer seg bort fra avhengigheten.
+            window.global ||= window;
+        </script>
         <script type="module" src="/src/index.tsx"></script>
     </body>
 </html>

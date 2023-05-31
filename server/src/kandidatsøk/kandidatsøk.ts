@@ -73,6 +73,26 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
+    request.body.then((_) => {
+        try {
+            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+
+            if (fnrEllerAktørId) {
+                const brukerensAccessToken = retrieveToken(request.headers);
+                const navIdent = hentNavIdent(brukerensAccessToken);
+
+                const melding = opprettLoggmeldingForAuditlogg(
+                    'NAV-ansatt har gjort spesifikt kandidatsøk på brukeren (nye metoden)',
+                    fnrEllerAktørId,
+                    navIdent
+                );
+                secureLog.info(melding);
+                //auditLog.info(melding);
+            }
+        } catch (e) {
+            logger.error('Klarte ikke å logge søk på fnr eller aktørId i den nye metoden:', e);
+        }
+    });
     if (request.body) {
         try {
             const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);

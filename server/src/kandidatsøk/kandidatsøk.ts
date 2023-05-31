@@ -83,6 +83,8 @@ export const throttle = (callback, time) => {
 };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
+    console.log('loggSøkPåFnrEllerAktørId');
+
     if (request.body) {
         try {
             const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
@@ -96,7 +98,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
-                throttle(secureLog.info(melding + ' inni throttle'), 1);
+                //throttle(secureLog.info(melding + ' inni throttle'), 1);
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

@@ -2,7 +2,13 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { auditLog, logger, opprettLoggmeldingForAuditlogg, secureLog } from '../logger';
+import {
+    auditLog,
+    logger,
+    opprettLoggmeldingForAuditlogg,
+    secureLog,
+    securelogAsync,
+} from '../logger';
 import { SearchQuery } from './elasticSearchTyper';
 import TilgangCache from './cache';
 
@@ -86,6 +92,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
+                await securelogAsync(melding + ' ny metode');
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

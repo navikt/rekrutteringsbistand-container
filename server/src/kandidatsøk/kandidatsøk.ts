@@ -72,6 +72,16 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
+let throttleTimer;
+export const throttle = (callback, time) => {
+    if (throttleTimer) return;
+    throttleTimer = true;
+    setTimeout(() => {
+        callback();
+        throttleTimer = false;
+    }, time);
+};
+
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     if (request.body) {
         try {
@@ -86,6 +96,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
+                throttle(secureLog.info(melding + ' inni throttle'), 1000);
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

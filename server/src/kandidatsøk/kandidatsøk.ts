@@ -96,7 +96,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
-                throttle(secureLog.info(melding + ' inni throttle'), 1000);
+                throttle(secureLog.info(melding + ' inni throttle'), 1);
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

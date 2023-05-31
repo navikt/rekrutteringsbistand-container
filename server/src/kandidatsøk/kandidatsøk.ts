@@ -75,11 +75,10 @@ export const leggTilAuthorizationForKandidatsøkEs =
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     if (request.body) {
         try {
-            const req = await request;
-            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(req.body);
+            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
             if (fnrEllerAktørId) {
-                const brukerensAccessToken = retrieveToken(req.headers);
+                const brukerensAccessToken = retrieveToken(request.headers);
                 const navIdent = hentNavIdent(brukerensAccessToken);
 
                 const melding = opprettLoggmeldingForAuditlogg(

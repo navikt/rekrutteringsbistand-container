@@ -22,10 +22,6 @@ export const secureLog = winston.createLogger({
     ],
 });
 
-export const securelogAsync = async (message: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 0)).then(() => secureLog.info(message));
-};
-
 export const auditLog = winston.createLogger({
     levels: winston.config.syslog.levels,
     format: winston.format.printf(({ message }) => message),

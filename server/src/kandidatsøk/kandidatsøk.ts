@@ -81,10 +81,11 @@ export const leggTilAuthorizationForKandidatsøkEs =
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
     if (request.body) {
         try {
-            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
+            const req = await request;
+            const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(req.body);
 
             if (fnrEllerAktørId) {
-                const brukerensAccessToken = retrieveToken(request.headers);
+                const brukerensAccessToken = retrieveToken(req.headers);
                 const navIdent = hentNavIdent(brukerensAccessToken);
 
                 const melding = opprettLoggmeldingForAuditlogg(
@@ -92,7 +93,6 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
-                await securelogAsync(melding + ' ny metode');
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

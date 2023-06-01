@@ -72,22 +72,11 @@ export const leggTilAuthorizationForKandidatsøkEs =
         next();
     };
 
-let throttleTimer;
-export const throttle = (callback, time) => {
-    if (throttleTimer) return;
-    throttleTimer = true;
-    setTimeout(() => {
-        callback();
-        throttleTimer = false;
-    }, time);
-};
-
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
-    console.log('loggSøkPåFnrEllerAktørId');
+    const erSøkPåKandidater = request.body && request.body._source !== false;
 
-    if (request.body) {
+    if (erSøkPåKandidater) {
         try {
-            console.log('loggSøkPåFnrEllerAktørId inni try');
             const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
             if (fnrEllerAktørId) {
@@ -99,7 +88,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
-                //throttle(secureLog.info(melding + ' inni throttle'), 1);
+
                 secureLog.info(melding);
                 auditLog.info(melding);
             }

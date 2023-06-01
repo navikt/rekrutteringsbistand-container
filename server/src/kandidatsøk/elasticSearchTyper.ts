@@ -12,4 +12,5 @@ export type SearchQuery = {
             }>;
         };
     };
+    _source: boolean | string[];
 };

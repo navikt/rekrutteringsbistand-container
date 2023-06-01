@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { hentNavIdent } from '../azureAd';
 import { hentBrukerensAdGrupper } from '../microsoftGraphApi';
 import { retrieveToken } from '../middlewares';
-import { auditLog, logger, opprettLoggmeldingForAuditlogg, secureLog } from '../logger';
+import { auditLog, logger, opprettLoggmeldingForAuditlogg } from '../logger';
 import { SearchQuery } from './elasticSearchTyper';
 import TilgangCache from './cache';
 
@@ -73,7 +73,9 @@ export const leggTilAuthorizationForKandidatsøkEs =
     };
 
 export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, next) => {
-    if (request.body) {
+    const erSøkPåKandidater = request.body && request.body._source !== false;
+
+    if (erSøkPåKandidater) {
         try {
             const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
@@ -86,7 +88,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     fnrEllerAktørId,
                     navIdent
                 );
-                secureLog.info(melding);
+
                 auditLog.info(melding);
             }
         } catch (e) {

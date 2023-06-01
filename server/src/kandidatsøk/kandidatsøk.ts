@@ -89,6 +89,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
                     navIdent
                 );
 
+                secureLog.info(melding);
                 auditLog.info(melding);
             }
         } catch (e) {

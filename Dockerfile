@@ -10,3 +10,5 @@ WORKDIR /var/server
 
 EXPOSE 8080
 ENTRYPOINT ["node", "server.js"]
+
+ENV TZ=CET

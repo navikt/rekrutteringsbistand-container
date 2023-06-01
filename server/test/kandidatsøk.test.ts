@@ -127,6 +127,15 @@ describe('ES body for søk', () => {
                     ],
                 },
             },
+            _source: [
+                'fodselsnummer',
+                'fornavn',
+                'etternavn',
+                'arenaKandidatnr',
+                'kvalifiseringsgruppekode',
+                'yrkeJobbonskerObj',
+                'geografiJobbonsker',
+            ],
         };
     };
 

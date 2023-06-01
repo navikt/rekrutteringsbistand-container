@@ -87,6 +87,7 @@ export const loggSøkPåFnrEllerAktørId: RequestHandler = async (request, _, ne
 
     if (request.body) {
         try {
+            console.log('loggSøkPåFnrEllerAktørId inni try');
             const fnrEllerAktørId = hentFnrEllerAktørIdFraESBody(request.body);
 
             if (fnrEllerAktørId) {

@@ -45,10 +45,10 @@ spec:
           - application: toi-synlighetsmotor
         external:
           - host: rekrutteringsbistand-statistikk-api.prod-fss-pub.nais.io
-          - host: https://rekrutteringsbistand-kandidat-api.prod-fss-pub.nais.io
-          - host: https://rekrutteringsbistand-sms.prod-fss-pub.nais.io
-          - host: https://foresporsel-om-deling-av-cv-api.prod-fss-pub.nais.io
-          - host: https://modiacontextholder.prod-fss-pub.nais.io
+          - host: rekrutteringsbistand-kandidat-api.prod-fss-pub.nais.io
+          - host: rekrutteringsbistand-sms.prod-fss-pub.nais.io
+          - host: foresporsel-om-deling-av-cv-api.prod-fss-pub.nais.io
+          - host: modiacontextholder.prod-fss-pub.nais.io
     env:
         - name: NODE_EXTRA_CA_CERTS
           value: /etc/ssl/ca-bundle.pem

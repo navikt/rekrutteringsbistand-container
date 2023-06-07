@@ -75,7 +75,7 @@ const App: FunctionComponent<Props> = ({ history }) => {
                     element={<Stilling navKontor={navKontor} history={history} />}
                 />
                 <Route
-                    path="stillingssok"
+                    path="stillingssok/*"
                     element={<Stillingssøk navKontor={navKontor} history={history} />}
                 />
                 <Route

@@ -69,24 +69,18 @@ const App: FunctionComponent<Props> = ({ history }) => {
                 }
             >
                 <Route index element={<Statistikk navKontor={navKontor} history={history} />} />
-
                 <Route
                     path="stillinger/*"
                     element={<Stilling navKontor={navKontor} history={history} />}
                 />
                 <Route
-                    path="stillingssok"
+                    path="stillingssok/*"
                     element={<Stillingssøk navKontor={navKontor} history={history} />}
                 />
                 <Route
                     path="kandidater/*"
                     element={<Kandidat navKontor={navKontor} history={history} />}
                 />
-                <Route
-                    path="prototype/*"
-                    element={<Kandidat navKontor={navKontor} history={history} />}
-                />
-
                 <Route
                     path="kandidatsok/*"
                     element={<Kandidatsøk navKontor={navKontor} history={history} />}

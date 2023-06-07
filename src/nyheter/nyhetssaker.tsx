@@ -6,12 +6,36 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(7, 6, 2023),
+        tittel: '«Mine stillinger» er blitt raskere',
+        innhold: (
+            <p>
+                Vi har lenge vært klar over at det har tatt lang tid å laste inn stillingene i fanen
+                «Mine stillinger». Dette skal nå være mye raskere enn før. Når det gjelder
+                nyopprettede stillinger, kan det ta noen sekunder før disse er klare i listen.
+            </p>
+        ),
+    },
+    {
+        dato: tilDato(7, 6, 2023),
+        tittel: 'Forbedret e-post til arbeidsgiver',
+        innhold: (
+            <p>
+                Vi har nylig oppdatert e-posten som sendes til arbeidsgivere ved utsending av CV-er.
+                Den nye e-posten inneholder en beskrivelse av hvordan man kommer inn på den nye
+                løsningen for kandidatlister, etter at denne ble flyttet fra arbeidsplassen til «Min
+                side arbeidsgiver» på nav.no. E-posten inneholder også en beskrivelse for hvordan
+                kan bruke Altinn til gi andre tilgang til løsningen.
+            </p>
+        ),
+    },
+    {
         dato: tilDato(15, 3, 2023),
         tittel: 'Endring i opprettelse av kandidatliste',
         innhold: (
             <p>
-                For en ny direktemeldt stilling vil den tilhørende kandidatlista nå opprettes
-                først når man trykker på "Publiser"-knappen på stillingen.
+                For en ny direktemeldt stilling vil den tilhørende kandidatlista nå opprettes først
+                når man trykker på "Publiser"-knappen på stillingen.
             </p>
         ),
     },

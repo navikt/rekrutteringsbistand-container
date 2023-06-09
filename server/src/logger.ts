@@ -1,7 +1,7 @@
 import fs from 'fs';
 import winston from 'winston';
 import winstonSyslog from 'winston-syslog';
-import * as os from 'os';
+import os from 'os';
 
 // Sett tidssonen eksplisitt for å sikre riktig timestamp i logging til archsight
 process.env.TZ = 'Europe/Oslo';

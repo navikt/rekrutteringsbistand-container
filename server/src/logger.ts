@@ -1,6 +1,10 @@
 import fs from 'fs';
 import winston from 'winston';
 import winstonSyslog from 'winston-syslog';
+import os from 'os';
+
+// Sett tidssonen eksplisitt for å sikre riktig timestamp i logging til archsight
+process.env.TZ = 'Europe/Oslo';
 
 const { NAIS_APP_NAME } = process.env;
 
@@ -31,6 +35,7 @@ export const auditLog = winston.createLogger({
             port: 6514,
             app_name: NAIS_APP_NAME,
             protocol: 'tcp',
+            localhost: os.hostname(),
             eol: '\n', // Trengs for å kunne logge til rsyslog server
         }),
     ],

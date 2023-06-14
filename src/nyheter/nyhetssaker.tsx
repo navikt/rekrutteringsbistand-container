@@ -6,6 +6,27 @@ const tilDato = (dag: number, måned: number, år: number, timer: number = 0, mi
 
 const nyhetssaker: Nyhet[] = [
     {
+        dato: tilDato(14, 6, 2023),
+        tittel: 'Aktive filtre i toppen av stillingssøket',
+        innhold: (
+            <>
+                <p>
+                    Vi har mange filtre i søkene våre, og vi vet at flere syns det er slitsomt å få
+                    oversikt over hvilke filtre som er valgt.
+                </p>
+                <p>
+                    På grunn av det har lagt inn knapper som viser aktive filtre over resultatene i
+                    listen. Filtrering fungerer som før, men nå kan du forhåpentligvis enklere se
+                    hva du søker i uten å scrolle langt ned på siden.
+                </p>
+                <p>
+                    Vi vurderer å gjøre det samme i kandidatsøket. Prøv det ut, og send oss gjerne
+                    en melding på yammer om hva du tenker.
+                </p>
+            </>
+        ),
+    },
+    {
         dato: tilDato(7, 6, 2023),
         tittel: '«Mine stillinger» er blitt raskere',
         innhold: (

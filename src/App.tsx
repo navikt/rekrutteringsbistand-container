@@ -18,6 +18,8 @@ import {
 import { generaliserPath } from './utils/path';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { History } from 'history';
+import Test from './Test';
+import Banner from './Banner';
 
 type Props = {
     history: History;
@@ -84,6 +86,12 @@ const App: FunctionComponent<Props> = ({ history }) => {
                 <Route
                     path="kandidatsok/*"
                     element={<Kandidatsøk navKontor={navKontor} history={history} />}
+                />
+                <Route
+                    path="test/*"
+                    element={
+                        <Test navKontor={navKontor} history={history} komponenter={{ Banner }} />
+                    }
                 />
             </Route>
         </Routes>

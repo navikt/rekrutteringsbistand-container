@@ -1,10 +1,18 @@
 import { initializeFaro } from '@grafana/faro-web-sdk';
-import nais from './nais';
+import { Miljø, getMiljø } from './miljø';
 
 const setupObservability = () => {
+    const miljø = getMiljø();
+
     initializeFaro({
-        url: nais.telemetryCollectorURL,
-        app: nais.app,
+        url:
+            miljø === Miljø.ProdGcp
+                ? 'https://telemetry.nav.no/collect'
+                : 'https://telemetry.ekstern.dev.nav.no/collect',
+        app: {
+            name: 'rekrutteringsbistand-container',
+            version: miljø,
+        },
     });
 };
 

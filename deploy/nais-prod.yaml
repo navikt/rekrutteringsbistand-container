@@ -37,6 +37,9 @@ spec:
       instance: kandidat
     secureLogs:
       enabled: true
+    frontend:
+      generatedConfig:
+        mountPath: /var/dist/assets/nais.js
     accessPolicy:
       outbound:
         rules:

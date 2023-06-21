@@ -10,6 +10,8 @@
         "prepare": "husky install"
     },
     "dependencies": {
+        "@grafana/faro-web-sdk": "^1.1.0",
+        "@grafana/faro-web-tracing": "^1.1.0",
         "@navikt/ds-css": "^1.4.0",
         "@navikt/ds-react": "^1.4.0",
         "@navikt/navspa": "^6.0.1",

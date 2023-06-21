@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import ContainerRouter from './ContainerRouter';
 import App from './App';
 import './index.css';
+import setupObservability from './observability';
 
 const container = document.getElementById('rekrutteringsbistand-container');
 const root = createRoot(container!);
@@ -16,6 +17,10 @@ const setupMock = async () => {
 
 if (import.meta.env.VITE_MOCK) {
     setupMock();
+}
+
+if (import.meta.env.PROD) {
+    setupObservability();
 }
 
 root.render(

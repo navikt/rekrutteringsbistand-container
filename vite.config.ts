@@ -5,6 +5,12 @@ import svgrPlugin from 'vite-plugin-svgr';
 export default defineConfig(({ mode }) => {
     return {
         plugins: [react(), svgrPlugin()],
+        build: {
+            manifest: true,
+            rollupOptions: {
+                external: ['./nais.js'],
+            },
+        },
         server: {
             port: 3000,
             proxy: {

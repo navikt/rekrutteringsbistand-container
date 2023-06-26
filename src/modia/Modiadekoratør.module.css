@@ -5,5 +5,5 @@
 .placeholder {
     height: 4.35rem;
     width: 100%;
-    background-color: var(--navds-semantic-color-text);
+    background-color: var(--a-text-default);
 }

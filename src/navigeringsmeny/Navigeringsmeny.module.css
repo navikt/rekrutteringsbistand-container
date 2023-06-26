@@ -36,7 +36,7 @@
 .tab {
     display: inline-block;
     text-decoration: none;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     letter-spacing: 0.3px;
 }
 
@@ -51,7 +51,7 @@
 .forsidelenkeAktiv,
 .tab:hover,
 .forsidelenke:hover {
-    border-bottom-color: var(--navds-semantic-color-interaction-primary-selected);
+    border-bottom-color: var(--a-surface-action-selected);
 }
 
 .tab:not(.tabAktiv):hover,
@@ -61,7 +61,7 @@
 
 .tab:focus {
     outline: none;
-    box-shadow: 0 0 0 3px var(--navds-semantic-color-interaction-primary-selected);
+    box-shadow: 0 0 0 3px var(--a-surface-action-selected);
 }
 
 .tabFremhevet {

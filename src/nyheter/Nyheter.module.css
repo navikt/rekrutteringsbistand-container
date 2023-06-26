@@ -1,5 +1,5 @@
 :root {
-    --nav-fokus: 0 0 0 3px var(--navds-semantic-color-canvas-background-inverted);
+    --nav-fokus: 0 0 0 3px var(--a-gray-800);
 }
 
 .nyheter :global(.navds-popover) {
@@ -14,7 +14,7 @@
 
 .nyheter :global(.navds-popover__arrow) {
     border: none;
-    background-color: var(--navds-semantic-color-canvas-background-inverted);
+    background-color: var(--a-gray-800);
 }
 
 .knapp {
@@ -57,7 +57,7 @@
 .tittel {
     color: white;
     text-align: center;
-    background-color: var(--navds-semantic-color-canvas-background-inverted);
+    background-color: var(--a-gray-800);
     border-radius: 0.5rem 0.5rem 0 0;
     padding: 1rem 1.5rem;
     font-size: 1.1rem;

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Navspa from '@navikt/navspa';
 import loadjs from 'loadjs';
 import DekoratørProps, { EnhetDisplay } from './DekoratørProps';

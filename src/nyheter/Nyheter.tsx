@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, useState, useEffect, useRef } from 'react';
+import { FunctionComponent, ReactNode, useState, useEffect, useRef } from 'react';
 import { Heading, Popover } from '@navikt/ds-react';
 
 import Artikkel from './Artikkel';

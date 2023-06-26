@@ -1,4 +1,3 @@
-import React from 'react';
 import { Nyhet } from './Nyheter';
 
 const tilDato = (dag: number, måned: number, år: number, timer: number = 0, minutter: number = 0) =>

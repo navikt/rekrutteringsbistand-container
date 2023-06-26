@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { AsyncNavspa } from '@navikt/navspa';
 
-import { craAssetManifestParser, viteAssetManifestParser } from './assetManifestUtils';
+import { viteAssetManifestParser } from './assetManifestUtils';
 import { History } from 'history';
 import css from './microfrontends.module.css';
 

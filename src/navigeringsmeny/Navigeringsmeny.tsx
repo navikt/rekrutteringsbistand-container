@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Tab, { TabConfig } from './Tab';

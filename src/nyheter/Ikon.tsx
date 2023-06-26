@@ -1,4 +1,3 @@
-import React from 'react';
 import nyheterCss from './Nyheter.module.css';
 
 const Ikon = () => (

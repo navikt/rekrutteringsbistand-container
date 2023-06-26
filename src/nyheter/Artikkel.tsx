@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { Detail, Heading } from '@navikt/ds-react';
 import { Nyhet } from './Nyheter';
 import css from './Artikkel.module.css';

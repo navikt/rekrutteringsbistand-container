@@ -2,6 +2,10 @@
 
 Container-app for Rekrutteringsbistand, en microfrontend-basert app for veiledere.
 
+## Deprecated ⚠️
+
+Rekrutteringsbistand har nå flyttet til nytt repo på http://github.com/navikt/rekrutteringsbistand.
+
 ## Installasjon
 
 ```
